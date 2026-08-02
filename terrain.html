@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4 · Sur le terrain — Le Programmatique | Amazon Ads</title>
+<meta name="description" content="Les interlocuteurs chez l'agence, les deux modèles d'achat, un cas déroulé, la structure de coûts, les cinq objections courantes et les cinq erreurs de setup.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23232F3E'/%3E%3Cpath d='M6 19c5 4 15 4 20-1' stroke='%23FF9900' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 14l5 3.4-5 2.6z' fill='%23FF9900'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/modules.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="amazon ads — Le Programmatique, support de formation">
+      <span class="amz-lockup amz-lockup--nav" aria-hidden="true">
+        <span class="amz-lockup__t">amazon ads</span>
+        <svg class="amz-lockup__s" viewBox="0 0 100 15" fill="none" aria-hidden="true">
+          <path d="M2.5 5.2C17 13.6 57 15.4 79 6.4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M72.2 1.9c2.3-1 7.6-2 9.6-.7 1.9 1.2.2 5.9-.9 7.9-.3.6-.9.3-.7-.3.7-2 1.9-5.4.4-6.3-1.6-.9-5.7 0-7.7.5-.6.1-.9-.9-.7-1.1z" fill="currentColor"/>
+        </svg>      </span>
+      <span class="brand__sep" aria-hidden="true"></span>
+      <span class="brand__txt">
+        <span class="brand__t1">Le Programmatique</span>
+        <span class="brand__t2">Support de formation</span>
+      </span>
+    </a>
+    <nav class="nav__links" aria-label="Navigation principale">
+      <a class="nav__link" href="fondamentaux.html">Fondamentaux</a>
+      <a class="nav__link" href="campagne.html">La campagne</a>
+      <a class="nav__link" href="marche.html">Le marché</a>
+      <a class="nav__link" href="terrain.html" aria-current="page">Sur le terrain</a>
+      <a class="nav__link" href="glossaire.html">Glossaire</a>
+      <button class="nav__search" data-palette-open aria-label="Rechercher">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/></svg>
+        Rechercher <kbd>⌘K</kbd>
+      </button>
+      <a class="nav__cta" href="quiz.html">Quiz</a>
+    </nav>
+    <button class="fmt-chip" data-fmt-open aria-label="Changer le format de la session">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+      <span class="fmt-chip__txt">Format</span> <b data-fmt-chip>90 min</b>
+    </button>
+    <button class="burger" aria-expanded="false" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="progress"></div>
+
+<nav class="mobile-menu" aria-label="Menu">
+  <a href="quiz.html"><small>00</small> Quiz d'entrée</a>
+  <a href="fondamentaux.html"><small>01</small> Les fondamentaux</a>
+  <a href="campagne.html"><small>02</small> Vis ma vie d'une campagne</a>
+  <a href="marche.html"><small>03</small> Un marché qui évolue</a>
+  <a href="terrain.html"><small>04</small> Sur le terrain</a>
+  <a href="glossaire.html"><small>05</small> Glossaire</a>
+  <button class="btn btn--ghost mt-l" data-fmt-open style="width:max-content">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+    Format de la session · <b data-fmt-chip>90 min</b>
+  </button>
+  <button class="btn btn--ghost mt-s" data-palette-open style="width:max-content">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/></svg>
+    Rechercher dans le support
+  </button>
+</nav>
+
+<main id="main">
+
+<section class="hero hero--chapter">
+  <div class="hero__bg" data-parallax="0.07"></div>
+  <div class="hero__grid"></div>
+  <canvas class="hero__canvas" aria-hidden="true"></canvas>
+  <div class="hero__fade"></div>
+  <div class="wrap hero__content">
+    <div class="kicker" data-reveal>Chapitre 04</div>
+    <h1 data-split>Sur le terrain</h1>
+    <p class="lead mt-m" data-reveal style="max-width:660px;--d:200ms">
+      On sort de la théorie : à qui parler chez l'agence, à quoi ressemble une campagne réelle,
+      où passe l'argent, quoi répondre aux objections.
+    </p>
+    <div class="chip-row mt-m" data-reveal style="--d:320ms">
+      <span class="chip"><span class="chip__dot"></span><span data-txt-e="2 sections" data-txt-s="5 sections" data-txt-c="6 sections">6 sections</span></span>
+      <span class="chip">Cas déroulé interactif</span>
+      <span class="chip" data-txt-e="&#8776; 7 minutes" data-txt-s="&#8776; 10 minutes" data-txt-c="&#8776; 15 minutes">&#8776; 15 minutes</span>
+    </div>
+  </div>
+</section>
+
+<div class="subnav">
+  <div class="subnav__inner">
+    <a href="#interlocuteurs" data-level="standard">4.1 Les interlocuteurs</a>
+    <a href="#modeles" data-level="full">4.2 Les modèles d'achat</a>
+    <a href="#cas" data-level="core">4.3 Un cas déroulé</a>
+    <a href="#couts" data-level="standard">4.4 La structure de coûts</a>
+    <a href="#objections" data-level="core">4.5 Les objections</a>
+    <a href="#erreurs" data-level="standard">4.6 Les erreurs de setup</a>
+    <a href="#retenir">5. Ce qu'il faut retenir</a>
+  </div>
+</div>
+
+<div class="fmt-bar" data-fmt-bar hidden>
+  <div class="fmt-bar__in">
+    <span class="fmt-bar__t">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+      <span>Format <b data-fmt-name>Complet</b> &mdash; <span data-fmt-bar-count></span></span>
+    </span>
+    <span class="fmt-bar__act">
+      <button class="chip" data-fmt-open>Changer de format</button>
+      <button class="chip chip--on" data-fmt-all>Afficher tout le plan</button>
+    </span>
+  </div>
+</div>
+<!-- ===== 4.1 INTERLOCUTEURS ===== -->
+<section class="section rel" id="interlocuteurs" data-level="standard">
+  <span class="ghost-num" aria-hidden="true">4.1</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>4.1 — Les interlocuteurs</div>
+      <h2 data-split>Qui fait quoi, et quand entrer</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Quatre rôles à identifier chez l'agence — exemple pris sur une organisation de type Dentsu.
+        Le moment d'entrée compte autant que l'argumentaire.
+      </p>
+    </div>
+
+    <div class="who" data-stagger="100">
+      <div class="who__c" style="--c:var(--orange)" data-reveal>
+        <span class="who__av">CS</span>
+        <div class="who__r">Conseil et stratégie</div>
+        <p class="who__d">Cadre la recommandation et arbitre les budgets entre leviers.</p>
+        <div class="who__tip">→ C'est là qu'il faut entrer, avant que le plan soit figé.</div>
+      </div>
+      <div class="who__c" style="--c:var(--supply)" data-reveal>
+        <span class="who__av">AD</span>
+        <div class="who__r">Acheteur display / multi</div>
+        <p class="who__d">Négocie et achète, en gré à gré comme en programmatique.</p>
+        <div class="who__tip">→ C'est lui qui décide d'ouvrir une ligne Amazon DSP dans le plan.</div>
+      </div>
+      <div class="who__c" style="--c:var(--data)" data-reveal>
+        <span class="who__av">TD</span>
+        <div class="who__r">Trading desk</div>
+        <p class="who__d">Les traders paramètrent, pilotent et optimisent dans la plateforme.</p>
+        <div class="who__tip">→ Interlocuteur technique, et premier relais de la certification.</div>
+      </div>
+      <div class="who__c" style="--c:var(--measure)" data-reveal>
+        <span class="who__av">AO</span>
+        <div class="who__r">AdOps et studio</div>
+        <p class="who__d">Trafficking, créations, tags et tracking.</p>
+        <div class="who__tip">→ À embarquer tôt : c'est le point de blocage classique d'un go live.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4.2 MODÈLES D'ACHAT ===== -->
+<section class="section section--alt rel" id="modeles" data-level="full">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>4.2 — Les deux modèles d'achat</div>
+      <h2 data-split>Même dispositif, deux discours</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Il faut savoir dans quel modèle on se trouve <em>avant</em> de parler prix.
+      </p>
+    </div>
+
+    <div class="grid g-2" data-stagger="150">
+      <div class="card card--pad-lg card--accent" data-reveal="left">
+        <span class="card__num">Modèle A</span>
+        <h3 style="margin-bottom:12px">Le programmatique transparent</h3>
+        <p>L'agence achète pour le compte de l'annonceur, qui voit le détail des coûts — CPM média, frais de plateforme, data, inventaire. La rémunération de l'agence est contractuelle.</p>
+        <div class="note mt-m" style="border-color:var(--orange)">
+          <strong>Notre argumentaire doit tenir devant l'annonceur :</strong> mesure,
+          incrémentalité, qualité d'inventaire.
+        </div>
+      </div>
+      <div class="card card--pad-lg" data-reveal="right">
+        <span class="card__num">Modèle B</span>
+        <h3 style="margin-bottom:12px">Le programmatique non transparent</h3>
+        <p>L'agence revend une prestation à un prix global, sans détailler ses coûts d'achat. Elle porte le risque, et sa marge dépend de l'écart.</p>
+        <div class="note note--info mt-m">
+          <strong>La discussion porte sur :</strong> le coût d'achat, les volumes garantis
+          et la délivrabilité.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4.3 CAS DÉROULÉ ===== -->
+<section class="section rel" id="cas" data-level="core">
+  <span class="ghost-num" aria-hidden="true">4.3</span>
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>4.3 — Un cas déroulé</div>
+      <h2 data-split>Lancement d'une gamme soin</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Budget de <strong>150 000 €</strong>, sur six semaines. Cible : femmes de 25 à 49 ans,
+        urbaines. Deux KPI retenus : couverture et part de nouveaux clients.
+      </p>
+    </div>
+
+    <div class="split split--sticky">
+      <div class="tl" data-tl>
+        <div class="tl__prog"></div>
+        <div class="tl__item">
+          <span class="tl__dot"></span>
+          <div class="tl__k">Semaine 0 · Brief</div>
+          <div class="tl__t">Faire connaître la gamme et déclencher l'essai</div>
+          <p class="tl__d">Cible : femmes de 25 à 49 ans, urbaines. Deux KPI retenus : couverture et part de nouveaux clients. Le bilan est cadré dès ce moment.</p>
+        </div>
+        <div class="tl__item">
+          <span class="tl__dot"></span>
+          <div class="tl__k">Semaine 0 · Plan</div>
+          <div class="tl__t">55 % CTV, 30 % display retail, 15 % audio</div>
+          <p class="tl__d">La CTV porte la couverture, le display retail capte l'intention, l'audio tient le fil rouge. Audiences in-market et acheteurs de la catégorie.</p>
+        </div>
+        <div class="tl__item">
+          <span class="tl__dot"></span>
+          <div class="tl__k">Semaine 1 · Setup</div>
+          <div class="tl__t">Un line item par objectif</div>
+          <p class="tl__d">Capping à 3 expositions par semaine cross-écrans. Programmatic Guaranteed sur les temps forts, enchère ouverte et Private Auction sur le reste.</p>
+        </div>
+        <div class="tl__item">
+          <span class="tl__dot"></span>
+          <div class="tl__k">Semaine 2 · En vol</div>
+          <div class="tl__t">12 % du budget display basculent vers la CTV</div>
+          <p class="tl__d">La CTV affiche un meilleur coût par nouveau client. Les placements peu visibles sont exclus dans la foulée.</p>
+        </div>
+        <div class="tl__item">
+          <span class="tl__dot"></span>
+          <div class="tl__k">Semaine 7 · Bilan</div>
+          <div class="tl__t">Lecture à trois niveaux</div>
+          <p class="tl__d">Couverture et fréquence, réaction sur la fiche produit, puis ventes et part de nouveaux clients.</p>
+        </div>
+      </div>
+
+      <div class="sticky-col">
+        <div class="demo" data-mix data-reveal="right">
+          <div class="demo__head">
+            <div class="demo__title"><span class="dot"></span>Répartition du budget</div>
+            <div class="demo__ctrls">
+              <button class="btn btn--ghost btn--sm" data-mix-toggle>Appliquer l'arbitrage de la semaine 2</button>
+            </div>
+          </div>
+          <div class="mix">
+            <div class="mix__row" data-before="55" data-after="67" style="--c:var(--prime)">
+              <span class="mix__lbl">CTV</span>
+              <span class="mix__track"><span class="mix__fill"></span></span>
+              <span class="mix__pct">55 %</span>
+            </div>
+            <div class="mix__row" data-before="30" data-after="18" style="--c:var(--orange)">
+              <span class="mix__lbl">Display retail</span>
+              <span class="mix__track"><span class="mix__fill"></span></span>
+              <span class="mix__pct">30 %</span>
+            </div>
+            <div class="mix__row" data-before="15" data-after="15" style="--c:var(--music)">
+              <span class="mix__lbl">Audio</span>
+              <span class="mix__track"><span class="mix__fill"></span></span>
+              <span class="mix__pct">15 %</span>
+            </div>
+          </div>
+          <div class="note mt-m" data-mix-note></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-row mt-l" data-stagger="130">
+      <div class="stat" data-reveal>
+        <span class="stat__v" data-count="4.2" data-dec="1" data-suf=" M"></span>
+        <span class="stat__l">Individus touchés</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat__v" data-count="3.1" data-dec="1"></span>
+        <span class="stat__l">Fréquence moyenne d'exposition</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat__v" data-count="68" data-suf=" %"></span>
+        <span class="stat__l">De nouveaux clients parmi les acheteurs</span>
+      </div>
+      <div class="stat" data-reveal>
+        <span class="stat__v" data-count="2.4" data-dec="1" data-suf="×"></span>
+        <span class="stat__l">Retour sur investissement</span>
+      </div>
+    </div>
+
+    <div class="note note--warn mt-l" data-reveal>
+      <strong>Exemple pédagogique.</strong> Les chiffres sont illustratifs et ne doivent pas être
+      présentés comme une référence client.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4.4 STRUCTURE DE COÛTS ===== -->
+<section class="section section--panel rel" id="couts" data-level="standard">
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>4.4 — La structure de coûts</div>
+      <h2 data-split>Où passent 100 € investis</h2>
+    </div>
+
+    <div class="demo" data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>Décomposition d'un budget · survolez un poste</div>
+        <div class="demo__ctrls"><span class="rtb__counter">Fourchettes indicatives</span></div>
+      </div>
+
+      <div class="cost100" data-cost100>
+        <div class="cost100__bar">
+          <div class="cost100__seg" data-w="70" style="--c:#ff9900;--d:0ms"><span>70 % · Média</span></div>
+          <div class="cost100__seg" data-w="12" style="--c:#37c5f0;--d:140ms"><span>12 %</span></div>
+          <div class="cost100__seg" data-w="10" style="--c:#a78bfa;--d:280ms"><span>10 %</span></div>
+          <div class="cost100__seg" data-w="8" style="--c:#34d399;--d:420ms"><span>8 %</span></div>
+        </div>
+      </div>
+
+      <div class="alloc mt-l"
+        data-total="100 €"
+        data-label="investis"
+        data-donut='[{"t":"Média — working media","d":"Ce qui achète réellement des impressions. En first price, c’est exactement l’enchère saisie.","v":70,"c":"#ff9900"},{"t":"Frais de plateforme","d":"Le coût d’accès à la DSP, en pourcentage du budget. Le poste où les plateformes se différencient le plus.","v":12,"c":"#37c5f0"},{"t":"Data et audiences","d":"Les segments tiers se paient au CPM, en plus du média. Les Amazon Audiences n’entraînent pas ce surcoût.","v":10,"c":"#a78bfa"},{"t":"Ad serving et mesure","d":"Diffusion des créations, vérification, brand safety, outils de mesure tierce.","v":8,"c":"#34d399"}]'>
+        <div class="donut">
+          <svg aria-hidden="true"></svg>
+          <div class="donut__mid">
+            <b data-donut-v>100 €</b>
+            <span data-donut-l>investis</span>
+          </div>
+        </div>
+        <div class="legend"></div>
+      </div>
+    </div>
+
+    <div class="grid g-2 mt-l" data-stagger="130">
+      <div class="card" data-reveal="left">
+        <div class="card__icon" style="background:rgba(52,211,153,.14);color:var(--measure)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h4>Ce qui est négociable</h4>
+        <ul class="ticks mt-s">
+          <li>Les frais de plateforme, sur volume.</li>
+          <li>Le coût de la data, lorsqu'on s'appuie sur les audiences propriétaires.</li>
+          <li>Les engagements en Programmatic Guaranteed.</li>
+        </ul>
+      </div>
+      <div class="card" data-reveal="right">
+        <div class="card__icon" style="background:rgba(255,106,94,.14);color:var(--alert)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+        <h4>Ce qui ne l'est pas</h4>
+        <p>Le CPM média en enchère ouverte, qui se fixe à chaque impression selon la concurrence. Aucune négociation ne s'y applique — seul le pilotage du CPM maximum et du chemin d'achat agit dessus.</p>
+      </div>
+    </div>
+
+    <div class="note mt-l" data-reveal>
+      <strong>La bonne question à poser :</strong> « Quelle part du budget finit en impressions
+      servies ? » Un CPM bas assorti d'une chaîne d'achat longue coûte souvent plus cher qu'un CPM
+      plus élevé en direct.
+    </div>
+    <p class="muted mt-s" style="font-size:.84rem" data-reveal>
+      Fourchettes indicatives : la répartition réelle dépend du contrat, du mix de leviers et de la
+      part de data tierce.
+    </p>
+  </div>
+</section>
+
+<!-- ===== 4.5 OBJECTIONS ===== -->
+<section class="section rel" id="objections" data-level="core">
+  <span class="ghost-num" aria-hidden="true">4.5</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>4.5 — Les cinq objections courantes</div>
+      <h2 data-split>Cliquez pour retourner la carte</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        L'objection au recto, la réponse cadrée au verso. Chacun doit pouvoir les enchaîner
+        sans hésiter.
+      </p>
+    </div>
+
+    <div class="objs" data-stagger="90">
+      <div class="flip card--flat" data-reveal="scale">
+        <div class="flip__in">
+          <div class="flip__face">
+            <span class="flip__hint">Objection 01</span>
+            <p class="obj__q">« C'est un walled garden, je ne verrai rien. »</p>
+            <span class="flip__hint">Retourner →</span>
+          </div>
+          <div class="flip__face flip__face--back">
+            <span class="flip__hint">Réponse</span>
+            <p class="obj__a">La performance est lisible : rapports par placement, mesure jusqu'à la vente, analyses croisées en clean room. Ce qui reste fermé, c'est la donnée individuelle — pas le résultat.</p>
+            <span class="flip__hint">← Retour</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip card--flat" data-reveal="scale">
+        <div class="flip__in">
+          <div class="flip__face">
+            <span class="flip__hint">Objection 02</span>
+            <p class="obj__q">« Je ne vends pas sur Amazon. »</p>
+            <span class="flip__hint">Retourner →</span>
+          </div>
+          <div class="flip__face flip__face--back">
+            <span class="flip__hint">Réponse</span>
+            <p class="obj__a">Amazon DSP est ouvert aux annonceurs non endémiques. Les signaux servent au ciblage ; la conversion peut se faire sur votre site, en concession ou en magasin.</p>
+            <span class="flip__hint">← Retour</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip card--flat" data-reveal="scale">
+        <div class="flip__in">
+          <div class="flip__face">
+            <span class="flip__hint">Objection 03</span>
+            <p class="obj__q">« J'ai déjà DV360, pourquoi une DSP en plus ? »</p>
+            <span class="flip__hint">Retourner →</span>
+          </div>
+          <div class="flip__face flip__face--back">
+            <span class="flip__hint">Réponse</span>
+            <p class="obj__a">On ne remplace pas, on complète : Prime Video, Twitch, Fire TV et les signaux d'achat ne sont pas accessibles ailleurs. On le prouve sur une part réduite du budget.</p>
+            <span class="flip__hint">← Retour</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip card--flat" data-reveal="scale">
+        <div class="flip__in">
+          <div class="flip__face">
+            <span class="flip__hint">Objection 04</span>
+            <p class="obj__q">« Vos CPM sont plus chers. »</p>
+            <span class="flip__hint">Retourner →</span>
+          </div>
+          <div class="flip__face flip__face--back">
+            <span class="flip__hint">Réponse</span>
+            <p class="obj__a">À périmètre égal : de la CTV premium en environnement logué ne se compare pas à du display open web. Le juge de paix est le coût par résultat.</p>
+            <span class="flip__hint">← Retour</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip card--flat" data-reveal="scale">
+        <div class="flip__in">
+          <div class="flip__face">
+            <span class="flip__hint">Objection 05</span>
+            <p class="obj__q">« Trop complexe, je n'ai pas les ressources. »</p>
+            <span class="flip__hint">Retourner →</span>
+          </div>
+          <div class="flip__face flip__face--back">
+            <span class="flip__hint">Réponse</span>
+            <p class="obj__a">Managed ou self-service selon la maturité de l'équipe. On démarre sur un périmètre restreint, avec accompagnement et formation des traders.</p>
+            <span class="flip__hint">← Retour</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note mt-l" data-reveal>
+      <strong>La règle générale :</strong> ne jamais défendre un CPM. Ramener au coût par résultat,
+      puis proposer un test cadré — périmètre, durée, critère de succès.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4.6 ERREURS ===== -->
+<section class="section section--alt rel" id="erreurs" data-level="standard">
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>4.6 — Les cinq erreurs de setup</div>
+      <h2 data-split>Dix minutes de vérification, la moitié des mauvais bilans évités</h2>
+    </div>
+
+    <div class="errs" data-stagger="90">
+      <div class="err" data-reveal>
+        <span class="err__ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><span class="err__l">L'erreur</span><b>Pas de capping, ou capping trop élevé</b></div>
+        <div><span class="err__l">Ce qu'elle coûte</span><p>Le budget se concentre sur les gros consommateurs de média et la couverture stagne.</p></div>
+        <div><span class="err__l">Le réflexe</span><p class="fix">Fixer le capping au brief, cross-écrans, et le relire en semaine 2.</p></div>
+      </div>
+
+      <div class="err" data-reveal>
+        <span class="err__ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><span class="err__l">L'erreur</span><b>Un seul line item pour plusieurs objectifs</b></div>
+        <div><span class="err__l">Ce qu'elle coûte</span><p>L'optimisation vise le mauvais signal et le bilan devient illisible.</p></div>
+        <div><span class="err__l">Le réflexe</span><p class="fix">Un objectif, un line item, un KPI. Toujours.</p></div>
+      </div>
+
+      <div class="err" data-reveal>
+        <span class="err__ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><span class="err__l">L'erreur</span><b>Tracking posé après le lancement</b></div>
+        <div><span class="err__l">Ce qu'elle coûte</span><p>Les premiers jours sont perdus pour la mesure et le bilan se négocie.</p></div>
+        <div><span class="err__l">Le réflexe</span><p class="fix">Valider les pixels et les tags avant le go live, pas après.</p></div>
+      </div>
+
+      <div class="err" data-reveal>
+        <span class="err__ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><span class="err__l">L'erreur</span><b>Audiences trop étroites au lancement</b></div>
+        <div><span class="err__l">Ce qu'elle coûte</span><p>Trop peu de volume pour que l'optimisation apprenne, et le CPM s'envole.</p></div>
+        <div><span class="err__l">Le réflexe</span><p class="fix">Ouvrir large, puis resserrer sur ce qui performe.</p></div>
+      </div>
+
+      <div class="err" data-reveal>
+        <span class="err__ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
+        <div><span class="err__l">L'erreur</span><b>Exclusions oubliées</b></div>
+        <div><span class="err__l">Ce qu'elle coûte</span><p>On repaye des clients déjà acquis et on diffuse là où on ne voulait pas.</p></div>
+        <div><span class="err__l">Le réflexe</span><p class="fix">Exclure les clients existants et appliquer les listes dès le setup.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. CE QU'IL FAUT RETENIR ===== -->
+<section class="section rel" id="retenir">
+  <span class="ghost-num" aria-hidden="true">05</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>Chapitre 05</div>
+      <h2 data-split>Ce qu'il faut retenir</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Un achat unifié, des signaux propriétaires, une mesure consolidée.
+      </p>
+    </div>
+
+    <div class="recap" data-reveal="scale">
+      <div class="recap__t">La synthèse de la session</div>
+      <div class="recap__h">Quatre phrases à savoir redire une semaine plus tard.</div>
+      <ul>
+        <li>L'achat se joue impression par impression, en une centaine de millisecondes — et majoritairement en first price, ce qui fait de l'enchère un levier de coût direct.</li>
+        <li>Une campagne se construit dans l'ordre : objectif, data, inventaire, paramétrage, optimisation, mesure. Un seul objectif principal, un line item par objectif.</li>
+        <li>L'adressabilité ne repose plus sur le cookie tiers : signaux authentifiés, contexte, identifiants propriétaires et data éditeur se combinent.</li>
+        <li>Audio, CTV et DOOH se programmatisent, et s'achètent depuis un seul point d'entrée.</li>
+      </ul>
+    </div>
+
+    <div class="grid g-3 mt-l" data-stagger="110">
+      <a class="card" href="fondamentaux.html#enchere" style="text-decoration:none" data-reveal>
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <h4>Revoir l'enchère</h4>
+        <p>Le simulateur RTB, à rejouer autant de fois que nécessaire.</p>
+      </a>
+      <a class="card" href="quiz.html" style="text-decoration:none" data-reveal>
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <h4>Refaire le quiz</h4>
+        <p>Les mêmes dix questions, à la fin de la session. L'écart de score est la vraie mesure.</p>
+      </a>
+      <a class="card" href="glossaire.html" style="text-decoration:none" data-reveal>
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+        </div>
+        <h4>Garder le glossaire</h4>
+        <p>Vingt-sept termes cherchables, à ouvrir en second onglet au quotidien.</p>
+      </a>
+    </div>
+
+    <div class="note note--info mt-l" data-reveal>
+      <strong>Prochaine étape possible :</strong> une session pratique dans l'interface Amazon DSP.
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="brand mb-m" href="index.html" aria-label="amazon ads — Le Programmatique">
+          <span class="amz-lockup amz-lockup--nav" aria-hidden="true">
+            <span class="amz-lockup__t">amazon ads</span>
+        <svg class="amz-lockup__s" viewBox="0 0 100 15" fill="none" aria-hidden="true">
+          <path d="M2.5 5.2C17 13.6 57 15.4 79 6.4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M72.2 1.9c2.3-1 7.6-2 9.6-.7 1.9 1.2.2 5.9-.9 7.9-.3.6-.9.3-.7-.3.7-2 1.9-5.4.4-6.3-1.6-.9-5.7 0-7.7.5-.6.1-.9-.9-.7-1.1z" fill="currentColor"/>
+        </svg>          </span>
+          <span class="brand__sep" aria-hidden="true"></span>
+          <span class="brand__txt">
+            <span class="brand__t1">Le Programmatique</span>
+            <span class="brand__t2">Support de formation</span>
+          </span>
+        </a>
+        <p class="muted" style="font-size:.9rem;max-width:340px">
+          Formation équipe multiscreen — Amazon Ads. Support interne, à usage pédagogique.
+          Les chiffres du cas déroulé sont illustratifs.
+        </p>
+      </div>
+      <div>
+        <h4>Chapitres</h4>
+        <ul>
+          <li><a href="quiz.html">Quiz d'entrée</a></li>
+          <li><a href="fondamentaux.html">1 · Les fondamentaux</a></li>
+          <li><a href="campagne.html">2 · Vis ma vie d'une campagne</a></li>
+          <li><a href="marche.html">3 · Un marché qui évolue</a></li>
+          <li><a href="terrain.html">4 · Sur le terrain</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Dans ce chapitre</h4>
+        <ul>
+          <li><a href="#interlocuteurs" data-level="standard">Les interlocuteurs</a></li>
+          <li><a href="#cas" data-level="core">Le cas déroulé</a></li>
+          <li><a href="#couts" data-level="standard">Structure de coûts</a></li>
+          <li><a href="#objections" data-level="core">Les objections</a></li>
+          <li><a href="#erreurs" data-level="standard">Les erreurs de setup</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bot">
+      <span>Préparé pour <strong style="color:var(--orange)">France</strong> — Amazon Ads · Août 2026</span>
+      <span>Amazon Squid Ink #232F3E · Amazon Orange #FF9900</span>
+    </div>
+  </div>
+</footer>
+
+<div class="palette" role="dialog" aria-label="Recherche">
+  <div class="palette__box">
+    <input class="palette__in" type="text" placeholder="Rechercher une notion, un chapitre, un module…" aria-label="Recherche">
+    <div class="palette__res"></div>
+    <div class="palette__foot">
+      <span><kbd>↑↓</kbd>naviguer</span>
+      <span><kbd>↵</kbd>ouvrir</span>
+      <span><kbd>esc</kbd>fermer</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Format de la session ===== -->
+<div class="fmt-modal" data-fmt-modal role="dialog" aria-modal="true" aria-label="Format de la session">
+  <div class="fmt-modal__box">
+    <button class="fmt-modal__close" data-fmt-close aria-label="Fermer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="kicker">Format de la session</div>
+    <h2 style="font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:12px">Combien de temps avez-vous&nbsp;?</h2>
+    <p class="dim" style="font-size:.94rem;max-width:660px;margin-bottom:26px">
+      Le plan s&rsquo;articule diff&eacute;remment selon le cr&eacute;neau&nbsp;: les sections secondaires se masquent
+      pour tenir le timing, et l&rsquo;essentiel reste au centre. Vous pouvez revenir au plan complet
+      &agrave; tout moment.
+    </p>
+
+    <div class="fmt-cards">
+      <button class="fmt-card" data-fmt-set="essentiel">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Essentiel</span>
+        <span class="fmt-card__t">45 min</span>
+        <span class="fmt-card__d">Comprendre et savoir en parler&nbsp;: l&rsquo;ench&egrave;re, le first price, la data, un cas concret et les objections.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>5 min</b></div>
+          <div><span>1 &middot; Fondamentaux</span><b>15 min</b></div>
+          <div><span>2 &middot; La campagne</span><b>10 min</b></div>
+          <div><span>3 &middot; Le march&eacute;</span><b>8 min</b></div>
+          <div><span>4 &middot; Sur le terrain</span><b>7 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>14 sections</span><b>4 simulateurs</b></div>
+        </span>
+      </button>
+
+      <button class="fmt-card" data-fmt-set="standard">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Standard</span>
+        <span class="fmt-card__t">1 h</span>
+        <span class="fmt-card__d">Le parcours complet moins les approfondissements&nbsp;: on ajoute les deals, le ciblage, les DSP et la structure de co&ucirc;ts.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>6 min</b></div>
+          <div><span>1 &middot; Fondamentaux</span><b>24 min</b></div>
+          <div><span>2 &middot; La campagne</span><b>12 min</b></div>
+          <div><span>3 &middot; Le march&eacute;</span><b>9 min</b></div>
+          <div><span>4 &middot; Sur le terrain</span><b>9 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>26 sections</span><b>8 simulateurs</b></div>
+        </span>
+      </button>
+
+      <button class="fmt-card" data-fmt-set="complet">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Complet</span>
+        <span class="fmt-card__t">90 min</span>
+        <span class="fmt-card__d">Tout le plan&nbsp;: cha&icirc;ne d&rsquo;achat, audio, DOOH et mod&egrave;les d&rsquo;achat compris. La version de r&eacute;f&eacute;rence.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>9 min</b></div>
+          <div><span>1 &middot; Fondamentaux</span><b>36 min</b></div>
+          <div><span>2 &middot; La campagne</span><b>18 min</b></div>
+          <div><span>3 &middot; Le march&eacute;</span><b>14 min</b></div>
+          <div><span>4 &middot; Sur le terrain</span><b>13 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>30 sections</span><b>11 simulateurs</b></div>
+        </span>
+      </button>
+    </div>
+
+    <p class="muted" style="font-size:.82rem;margin-top:22px">
+      Aucun contenu n&rsquo;est supprim&eacute;&nbsp;: le format masque les sections les moins prioritaires,
+      et le choix est m&eacute;moris&eacute; sur ce navigateur.
+    </p>
+  </div>
+</div>
+
+<button class="totop" aria-label="Retour en haut">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="assets/js/core.js"></script>
+<script src="assets/js/modules.js"></script>
+</body>
+</html>

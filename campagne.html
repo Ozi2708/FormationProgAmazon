@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2 · Vis ma vie d'une campagne — Le Programmatique | Amazon Ads</title>
+<meta name="description" content="Six étapes dans l'ordre réel du travail : objectifs et KPI, data, inventaire et formats, paramétrage et go live, optimisation, mesure et bilan.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23232F3E'/%3E%3Cpath d='M6 19c5 4 15 4 20-1' stroke='%23FF9900' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 14l5 3.4-5 2.6z' fill='%23FF9900'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/modules.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="amazon ads — Le Programmatique, support de formation">
+      <span class="amz-lockup amz-lockup--nav" aria-hidden="true">
+        <span class="amz-lockup__t">amazon ads</span>
+        <svg class="amz-lockup__s" viewBox="0 0 100 15" fill="none" aria-hidden="true">
+          <path d="M2.5 5.2C17 13.6 57 15.4 79 6.4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M72.2 1.9c2.3-1 7.6-2 9.6-.7 1.9 1.2.2 5.9-.9 7.9-.3.6-.9.3-.7-.3.7-2 1.9-5.4.4-6.3-1.6-.9-5.7 0-7.7.5-.6.1-.9-.9-.7-1.1z" fill="currentColor"/>
+        </svg>      </span>
+      <span class="brand__sep" aria-hidden="true"></span>
+      <span class="brand__txt">
+        <span class="brand__t1">Le Programmatique</span>
+        <span class="brand__t2">Support de formation</span>
+      </span>
+    </a>
+    <nav class="nav__links" aria-label="Navigation principale">
+      <a class="nav__link" href="fondamentaux.html">Fondamentaux</a>
+      <a class="nav__link" href="campagne.html" aria-current="page">La campagne</a>
+      <a class="nav__link" href="marche.html">Le marché</a>
+      <a class="nav__link" href="terrain.html">Sur le terrain</a>
+      <a class="nav__link" href="glossaire.html">Glossaire</a>
+      <button class="nav__search" data-palette-open aria-label="Rechercher">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/></svg>
+        Rechercher <kbd>⌘K</kbd>
+      </button>
+      <a class="nav__cta" href="quiz.html">Quiz</a>
+    </nav>
+    <button class="fmt-chip" data-fmt-open aria-label="Changer le format de la session">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+      <span class="fmt-chip__txt">Format</span> <b data-fmt-chip>90 min</b>
+    </button>
+    <button class="burger" aria-expanded="false" aria-label="Ouvrir le menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="progress"></div>
+
+<nav class="mobile-menu" aria-label="Menu">
+  <a href="quiz.html"><small>00</small> Quiz d'entrée</a>
+  <a href="fondamentaux.html"><small>01</small> Les fondamentaux</a>
+  <a href="campagne.html"><small>02</small> Vis ma vie d'une campagne</a>
+  <a href="marche.html"><small>03</small> Un marché qui évolue</a>
+  <a href="terrain.html"><small>04</small> Sur le terrain</a>
+  <a href="glossaire.html"><small>05</small> Glossaire</a>
+  <button class="btn btn--ghost mt-l" data-fmt-open style="width:max-content">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+    Format de la session · <b data-fmt-chip>90 min</b>
+  </button>
+  <button class="btn btn--ghost mt-s" data-palette-open style="width:max-content">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/></svg>
+    Rechercher dans le support
+  </button>
+</nav>
+
+<main id="main">
+
+<section class="hero hero--chapter">
+  <div class="hero__bg" data-parallax="0.07"></div>
+  <div class="hero__grid"></div>
+  <canvas class="hero__canvas" aria-hidden="true"></canvas>
+  <div class="hero__fade"></div>
+  <div class="wrap hero__content">
+    <div class="kicker" data-reveal>Chapitre 02</div>
+    <h1 data-split>Vis ma vie d'une campagne</h1>
+    <p class="lead mt-m" data-reveal style="max-width:620px;--d:200ms">
+      Six étapes, présentées dans l'ordre réel du travail : du brief au bilan.
+    </p>
+    <div class="chip-row mt-m" data-reveal style="--d:320ms">
+      <span class="chip"><span class="chip__dot"></span><span data-txt-e="4 étapes" data-txt-s="6 étapes" data-txt-c="6 étapes">6 étapes</span></span>
+      <span class="chip">Checklist de go live interactive</span>
+      <span class="chip" data-txt-e="&#8776; 10 minutes" data-txt-s="&#8776; 13 minutes" data-txt-c="&#8776; 20 minutes">&#8776; 20 minutes</span>
+    </div>
+  </div>
+</section>
+
+<div class="subnav">
+  <div class="subnav__inner">
+    <a href="#objectifs" data-level="core">2.1 Objectifs et KPI</a>
+    <a href="#data" data-level="core">2.2 La data</a>
+    <a href="#inventaire" data-level="standard">2.3 Inventaire et formats</a>
+    <a href="#parametrage" data-level="core">2.4 Paramétrage</a>
+    <a href="#optimisation" data-level="standard">2.5 Optimisation</a>
+    <a href="#mesure" data-level="core">2.6 Mesure et bilan</a>
+  </div>
+</div>
+
+<div class="fmt-bar" data-fmt-bar hidden>
+  <div class="fmt-bar__in">
+    <span class="fmt-bar__t">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+      <span>Format <b data-fmt-name>Complet</b> &mdash; <span data-fmt-bar-count></span></span>
+    </span>
+    <span class="fmt-bar__act">
+      <button class="chip" data-fmt-open>Changer de format</button>
+      <button class="chip chip--on" data-fmt-all>Afficher tout le plan</button>
+    </span>
+  </div>
+</div>
+<!-- ===== 2.1 OBJECTIFS ===== -->
+<section class="section rel" id="objectifs" data-level="core">
+  <span class="ghost-num" aria-hidden="true">2.1</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>2.1 — Objectifs et KPI</div>
+      <h2 data-split>On part toujours de l'objectif, jamais du format</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Trois familles d'objectifs, chacune avec ses indicateurs. Le format, l'écran et le deal
+        se déduisent de ce choix — pas l'inverse.
+      </p>
+    </div>
+
+    <div class="funnel" data-funnel data-reveal>
+      <div class="fn" data-w="100%" style="--c:var(--supply)">
+        <div>
+          <div class="fn__t">Notoriété</div>
+          <div class="fn__d">Être vu par la bonne cible : couverture, visibilité des assets, fréquence d'exposition.</div>
+        </div>
+        <div class="fn__kpi"><span>CPM</span><span>Reach</span><span>Fréquence</span></div>
+      </div>
+      <div class="fn" data-w="82%" style="--c:var(--data)">
+        <div>
+          <div class="fn__t">Engagement</div>
+          <div class="fn__d">Générer un trafic qualifié : visites, consultation des pages clés, temps passé, interactions.</div>
+        </div>
+        <div class="fn__kpi"><span>CPC</span><span>CTR</span><span>Visites</span></div>
+      </div>
+      <div class="fn" data-w="62%" style="--c:var(--orange)">
+        <div>
+          <div class="fn__t">Conversion</div>
+          <div class="fn__d">Produire un résultat business : leads, ventes, chiffre d'affaires, rentabilité.</div>
+        </div>
+        <div class="fn__kpi"><span>CPL</span><span>CPA</span><span>ROAS</span></div>
+      </div>
+    </div>
+
+    <div class="note note--warn mt-l" data-reveal>
+      <strong>La règle :</strong> un seul objectif principal par campagne. Les autres indicateurs
+      servent à lire la performance, pas à l'optimiser. Un line item qui poursuit deux objectifs
+      n'en sert bien aucun.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2.2 DATA ===== -->
+<section class="section section--alt rel" id="data" data-level="core">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>2.2 — La data</div>
+      <h2 data-split>Quelle donnée pour identifier la cible</h2>
+    </div>
+
+    <div class="rings" data-rings data-reveal>
+      <svg class="rings__svg" viewBox="0 0 240 240" aria-hidden="true">
+        <circle class="rings__c is-on" data-ring="1" cx="120" cy="120" r="42" stroke="#ff9900"/>
+        <circle class="rings__c" data-ring="2" cx="120" cy="120" r="76" stroke="#37c5f0"/>
+        <circle class="rings__c" data-ring="3" cx="120" cy="120" r="110" stroke="#a78bfa"/>
+        <text class="rings__lbl" x="120" y="124">1<tspan font-size="8">re</tspan></text>
+        <text class="rings__lbl" x="120" y="52">2<tspan font-size="8">e</tspan></text>
+        <text class="rings__lbl" x="120" y="18">3<tspan font-size="8">e</tspan></text>
+      </svg>
+
+      <div class="rings__list">
+        <button class="rings__item is-on" data-ring="1" style="--c:var(--orange)">
+          <b>Données de première partie — first party</b>
+          <p>Collectées par l'annonceur, dans son propre environnement : CRM, base clients, visiteurs du site, acheteurs, abonnés. C'est la donnée la plus fiable et la plus durable.</p>
+        </button>
+        <button class="rings__item" data-ring="2" style="--c:var(--supply)">
+          <b>Données de deuxième partie — second party</b>
+          <p>Partagées par un partenaire média ou business, sans échange pécuniaire : un retailer, un éditeur.</p>
+        </button>
+        <button class="rings__item" data-ring="3" style="--c:var(--data)">
+          <b>Données de troisième partie — third party</b>
+          <p>Vendues par un tiers et appliquées en surcouche du plan : socio-démographie, centres d'intérêt, intention d'achat. Elles se paient au CPM, en plus du média.</p>
+        </button>
+      </div>
+    </div>
+
+    <div class="split mt-l">
+      <div class="card card--accent card--pad-lg" data-reveal="left">
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.4 9.4-8 10-4.6-.6-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h4>Chez Amazon Ads</h4>
+        <p>Les <strong>Amazon Audiences</strong> reposent sur des signaux d'achat, de navigation et de streaming propriétaires, activables uniquement dans Amazon DSP. S'y ajoutent les audiences annonceur (CRM hashé, remarketing) et les audiences tierces en surcouche.</p>
+        <p class="mt-s" style="color:var(--orange-soft);font-weight:600;font-size:.9rem">Les Amazon Audiences n'entraînent pas de surcoût data au CPM.</p>
+      </div>
+      <div class="note note--warn" data-reveal="right">
+        <strong>RGPD — la question se pose au brief, pas au lancement.</strong>
+        Toute activation suppose une base légale et un consentement conformes.
+        Un ciblage validé médiatiquement mais bloqué juridiquement fait perdre une semaine
+        de vol, et la crédibilité qui va avec.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2.3 INVENTAIRE ===== -->
+<section class="section rel" id="inventaire" data-level="standard">
+  <span class="ghost-num" aria-hidden="true">2.3</span>
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>2.3 — Inventaire et formats</div>
+      <h2 data-split>Cinq environnements, un même budget</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Un même budget peut couvrir plusieurs environnements : la bascule de l'un à l'autre
+        se pilote en cours de campagne.
+      </p>
+    </div>
+
+    <div class="screens" data-stagger="90">
+      <article class="scr" style="--c:var(--supply)" data-reveal>
+        <div class="scr__vis">
+          <div class="mk">
+            <div class="mk-band"></div><div class="mk-band s"></div>
+            <div class="mk-ad"></div>
+            <div class="mk-band"></div><div class="mk-band s"></div>
+          </div>
+        </div>
+        <div>
+          <div class="scr__t">Display</div>
+          <p class="scr__d">Bannières statiques ou dynamiques, sur sites et applications. Usages : retargeting, génération de trafic.</p>
+        </div>
+        <div class="scr__k">CPM · CTR</div>
+      </article>
+
+      <article class="scr" style="--c:var(--data)" data-reveal>
+        <div class="scr__vis">
+          <span class="mk-play">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20"/></svg>
+          </span>
+        </div>
+        <div>
+          <div class="scr__t">Vidéo</div>
+          <p class="scr__d">Formats in-stream et out-stream, chez les éditeurs et sur les plateformes vidéo.</p>
+        </div>
+        <div class="scr__k">CPM · VTR</div>
+      </article>
+
+      <article class="scr" style="--c:var(--music)" data-reveal>
+        <div class="scr__vis">
+          <div class="wavebars">
+            <i style="animation-delay:-0s"></i><i style="animation-delay:-.1s"></i><i style="animation-delay:-.2s"></i>
+            <i style="animation-delay:-.3s"></i><i style="animation-delay:-.15s"></i><i style="animation-delay:-.05s"></i>
+            <i style="animation-delay:-.25s"></i><i style="animation-delay:-.35s"></i><i style="animation-delay:-.12s"></i>
+            <i style="animation-delay:-.22s"></i><i style="animation-delay:-.08s"></i><i style="animation-delay:-.3s"></i>
+          </div>
+        </div>
+        <div>
+          <div class="scr__t">Audio</div>
+          <p class="scr__d">Spots de 15 ou 30 secondes, accompagnés d'un companion banner cliquable.</p>
+        </div>
+        <div class="scr__k">CPM · LTR</div>
+      </article>
+
+      <article class="scr" style="--c:var(--prime)" data-reveal>
+        <div class="scr__vis">
+          <svg width="64" height="44" viewBox="0 0 64 44" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="2" width="60" height="34" rx="3"/>
+            <line x1="22" y1="42" x2="42" y2="42"/><line x1="32" y1="36" x2="32" y2="42"/>
+            <polygon points="27,13 39,19 27,25" fill="currentColor" stroke="none"/>
+          </svg>
+        </div>
+        <div>
+          <div class="scr__t">CTV</div>
+          <p class="scr__d">Vidéo plein écran non skippable, diffusée sur téléviseur connecté.</p>
+        </div>
+        <div class="scr__k">CPM · Taux de complétion</div>
+      </article>
+
+      <article class="scr" style="--c:var(--firetv)" data-reveal>
+        <div class="scr__vis">
+          <svg width="60" height="52" viewBox="0 0 60 52" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="4" width="48" height="28" rx="2"/>
+            <line x1="30" y1="32" x2="30" y2="48"/><line x1="20" y1="48" x2="40" y2="48"/>
+            <path d="M14 18h8l4-6 4 12 4-8 3 2h9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="scr__t">DOOH</div>
+          <p class="scr__d">Écrans digitaux extérieurs, visuel statique ou contextualisé. Usage : drive-to-store.</p>
+        </div>
+        <div class="scr__k">CPM · ODV</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2.4 PARAMÉTRAGE ===== -->
+<section class="section section--panel rel" id="parametrage" data-level="core">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>2.4 — Paramétrage</div>
+      <h2 data-split>Du brief au go live</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Le paramétrage se structure sur trois niveaux. C'est au niveau du line item que se joue
+        l'essentiel du pilotage.
+      </p>
+    </div>
+
+    <div class="grid g-3 mb-m" data-stagger="110">
+      <div class="card" data-reveal>
+        <span class="card__num">Niveau 1</span>
+        <h4>La campagne</h4>
+        <p>Objectif, budget total, dates de vol, KPI de référence, marché.</p>
+      </div>
+      <div class="card card--accent" data-reveal>
+        <span class="card__num">Niveau 2 · le cœur</span>
+        <h4>Le line item, ou stratégie</h4>
+        <p>Audience, inventaire et deals autorisés, type d'enchère et CPM maximum, capping, type d'appareil, géographie, plages horaires.</p>
+      </div>
+      <div class="card" data-reveal>
+        <span class="card__num">Niveau 3</span>
+        <h4>Les créations</h4>
+        <p>Formats et déclinaisons, DCO, tags et pixels de tracking, pages de destination.</p>
+      </div>
+    </div>
+
+    <div class="demo mt-l" data-golive data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>Checklist avant lancement · cochez pour valider</div>
+      </div>
+      <div class="golive">
+        <div class="golive__list">
+          <button class="gl"><span class="gl__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="gl__t">Ciblages et exclusions relus</span></button>
+          <button class="gl"><span class="gl__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="gl__t">Capping et pacing définis</span></button>
+          <button class="gl"><span class="gl__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="gl__t">Listes de brand safety appliquées</span></button>
+          <button class="gl"><span class="gl__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="gl__t">Deal IDs actifs et testés</span></button>
+          <button class="gl"><span class="gl__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="gl__t">Tracking et pixels vérifiés</span></button>
+          <button class="gl"><span class="gl__box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span><span class="gl__t">Créations prévisualisées, tous formats</span></button>
+        </div>
+        <div class="gauge">
+          <div class="gauge__ring">
+            <svg viewBox="0 0 160 160" aria-hidden="true">
+              <circle class="gauge__bg" cx="80" cy="80" r="70"/>
+              <circle class="gauge__fg" cx="80" cy="80" r="70"/>
+            </svg>
+            <div class="gauge__txt">
+              <div class="gauge__n" data-gl-num>0%</div>
+              <div class="gauge__s">Prêt au go live</div>
+            </div>
+          </div>
+          <div class="gauge__msg" data-gl-msg></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note note--warn mt-l" data-reveal>
+      <strong>Un go live sans tracking validé</strong> produit une campagne qu'on ne saura ni lire
+      ni défendre au bilan. C'est l'erreur la plus coûteuse du chapitre 4.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2.5 OPTIMISATION ===== -->
+<section class="section rel" id="optimisation" data-level="standard">
+  <span class="ghost-num" aria-hidden="true">2.5</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>2.5 — Optimisation</div>
+      <h2 data-split>Quoi, et dans quel ordre</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        L'ordre compte : on agit d'abord sur le budget et les enchères, la création vient ensuite.
+      </p>
+    </div>
+
+    <div class="opti" data-stagger="80">
+      <div class="opti__i" data-reveal>
+        <div class="opti__t"><b>Pacing et budget</b><span>Réallouer vers ce qui délivre, corriger les dérives de consommation.</span></div>
+        <div class="opti__imp"><small>Impact</small><div class="opti__bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div></div>
+      </div>
+      <div class="opti__i" data-reveal>
+        <div class="opti__t"><b>Enchères</b><span>Ajuster le CPM maximum par audience, par placement et par type d'appareil.</span></div>
+        <div class="opti__imp"><small>Impact</small><div class="opti__bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+      </div>
+      <div class="opti__i" data-reveal>
+        <div class="opti__t"><b>Inventaire</b><span>Exclure les placements faibles, monter les deals qui tiennent leurs promesses.</span></div>
+        <div class="opti__imp"><small>Impact</small><div class="opti__bars"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div></div>
+      </div>
+      <div class="opti__i" data-reveal>
+        <div class="opti__t"><b>Audiences</b><span>Élargir ou resserrer, retirer les segments trop chers.</span></div>
+        <div class="opti__imp"><small>Impact</small><div class="opti__bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      </div>
+      <div class="opti__i" data-reveal>
+        <div class="opti__t"><b>Créations</b><span>Rotation, arbitrage entre formats, activation du DCO.</span></div>
+        <div class="opti__imp"><small>Impact</small><div class="opti__bars"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></div></div>
+      </div>
+      <div class="opti__i" data-reveal>
+        <div class="opti__t"><b>Fréquence</b><span>Recaler le capping sur la répétition réellement observée, cross-écrans.</span></div>
+        <div class="opti__imp"><small>Impact</small><div class="opti__bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></div></div>
+      </div>
+    </div>
+
+    <div class="note mt-l" data-reveal>
+      <strong>Une seule variable à la fois</strong>, sur une fenêtre de lecture suffisante :
+      sinon on ne sait pas ce qui a produit l'effet. C'est la différence entre optimiser
+      et bricoler.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2.6 MESURE ===== -->
+<section class="section section--alt rel" id="mesure" data-level="core">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>2.6 — Mesure et bilan</div>
+      <h2 data-split>Trois niveaux de lecture, dans cet ordre</h2>
+    </div>
+
+    <div class="grid g-3" data-stagger="120">
+      <div class="card card--pad-lg" data-reveal>
+        <span class="card__num">Niveau média</span>
+        <h3 style="margin-bottom:10px">A-t-on bien acheté ?</h3>
+        <p>Impressions, couverture et fréquence, visibilité, complétion, CPM réel par environnement.</p>
+      </div>
+      <div class="card card--pad-lg" data-reveal>
+        <span class="card__num">Niveau comportement</span>
+        <h3 style="margin-bottom:10px">A-t-on créé une réaction ?</h3>
+        <p>CTR, visites, consultation des pages clés, temps passé, ajouts au panier, recherches de marque.</p>
+      </div>
+      <div class="card card--pad-lg card--accent" data-reveal>
+        <span class="card__num">Niveau business</span>
+        <h3 style="margin-bottom:10px">A-t-on produit un résultat ?</h3>
+        <p>Ventes, chiffre d'affaires, coût par acquisition, ROAS, part de nouveaux clients.</p>
+      </div>
+    </div>
+
+    <div class="split mt-l">
+      <div class="flow">
+        <h3 data-reveal>Au-delà du dernier clic</h3>
+        <p class="dim" data-reveal style="--d:80ms">
+          On dispose des études post-test et brand lift, de la mesure incrémentale et des analyses
+          croisées en clean room — chez Amazon Ads via <strong>Amazon Marketing Cloud</strong>, qui
+          permet de recouper exposition média et comportement d'achat sans exposer de données
+          individuelles.
+        </p>
+        <div class="note" data-reveal style="--d:160ms">
+          <strong>Le bilan se prépare au brief.</strong> Les KPI, les sources de mesure et la
+          méthode sont fixés avant le lancement — pas reconstitués après.
+        </div>
+      </div>
+      <div class="grid" style="gap:12px" data-stagger="90">
+        <div class="card card--flat" data-reveal="right">
+          <h4>Post-test et brand lift</h4>
+          <p>Mesurer le déplacement d'image et de mémorisation sur une population exposée versus une population témoin.</p>
+        </div>
+        <div class="card card--flat" data-reveal="right">
+          <h4>Mesure incrémentale</h4>
+          <p>Isoler ce que le média a produit en plus de ce qui serait arrivé sans lui.</p>
+        </div>
+        <div class="card card--flat" data-reveal="right">
+          <h4>Clean room (AMC)</h4>
+          <p>Croiser exposition et achat, construire des audiences sur mesure, sans jamais exposer de donnée individuelle.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== À RETENIR ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="recap" data-reveal="scale">
+      <div class="recap__t">À retenir — chapitre 2</div>
+      <div class="recap__h">Une campagne se construit dans l'ordre : objectif, data, inventaire, paramétrage, optimisation, mesure.</div>
+      <ul>
+        <li>Un seul objectif principal par campagne, un line item par objectif, un KPI par line item.</li>
+        <li>La donnée first party est la plus fiable ; la data tierce se paie au CPM, en surcouche.</li>
+        <li>Le paramétrage se joue au niveau du line item — c'est là que se pilote l'essentiel.</li>
+        <li>On optimise d'abord le budget et les enchères, la création vient ensuite. Une variable à la fois.</li>
+        <li>Le bilan se prépare au brief : KPI, sources et méthode fixés avant le lancement.</li>
+      </ul>
+    </div>
+
+    <a class="nextup mt-l" href="marche.html" data-reveal>
+      <div>
+        <div class="nextup__k">Chapitre suivant</div>
+        <div class="nextup__t">03 · Un marché qui évolue</div>
+        <div class="nextup__d">L'identité se reconstruit sans le cookie tiers, et les médias historiques passent au programmatique.</div>
+      </div>
+      <span class="chap__go" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="brand mb-m" href="index.html" aria-label="amazon ads — Le Programmatique">
+          <span class="amz-lockup amz-lockup--nav" aria-hidden="true">
+            <span class="amz-lockup__t">amazon ads</span>
+        <svg class="amz-lockup__s" viewBox="0 0 100 15" fill="none" aria-hidden="true">
+          <path d="M2.5 5.2C17 13.6 57 15.4 79 6.4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M72.2 1.9c2.3-1 7.6-2 9.6-.7 1.9 1.2.2 5.9-.9 7.9-.3.6-.9.3-.7-.3.7-2 1.9-5.4.4-6.3-1.6-.9-5.7 0-7.7.5-.6.1-.9-.9-.7-1.1z" fill="currentColor"/>
+        </svg>          </span>
+          <span class="brand__sep" aria-hidden="true"></span>
+          <span class="brand__txt">
+            <span class="brand__t1">Le Programmatique</span>
+            <span class="brand__t2">Support de formation</span>
+          </span>
+        </a>
+        <p class="muted" style="font-size:.9rem;max-width:340px">
+          Formation équipe multiscreen — Amazon Ads. Support interne, à usage pédagogique.
+        </p>
+      </div>
+      <div>
+        <h4>Chapitres</h4>
+        <ul>
+          <li><a href="quiz.html">Quiz d'entrée</a></li>
+          <li><a href="fondamentaux.html">1 · Les fondamentaux</a></li>
+          <li><a href="campagne.html">2 · Vis ma vie d'une campagne</a></li>
+          <li><a href="marche.html">3 · Un marché qui évolue</a></li>
+          <li><a href="terrain.html">4 · Sur le terrain</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Dans ce chapitre</h4>
+        <ul>
+          <li><a href="#objectifs" data-level="core">Objectifs et KPI</a></li>
+          <li><a href="#data" data-level="core">La data</a></li>
+          <li><a href="#parametrage" data-level="core">Checklist go live</a></li>
+          <li><a href="#optimisation" data-level="standard">Ordre d'optimisation</a></li>
+          <li><a href="#mesure" data-level="core">Mesure et bilan</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bot">
+      <span>Préparé pour <strong style="color:var(--orange)">France</strong> — Amazon Ads · Août 2026</span>
+      <span>Amazon Squid Ink #232F3E · Amazon Orange #FF9900</span>
+    </div>
+  </div>
+</footer>
+
+<div class="palette" role="dialog" aria-label="Recherche">
+  <div class="palette__box">
+    <input class="palette__in" type="text" placeholder="Rechercher une notion, un chapitre, un module…" aria-label="Recherche">
+    <div class="palette__res"></div>
+    <div class="palette__foot">
+      <span><kbd>↑↓</kbd>naviguer</span>
+      <span><kbd>↵</kbd>ouvrir</span>
+      <span><kbd>esc</kbd>fermer</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Format de la session ===== -->
+<div class="fmt-modal" data-fmt-modal role="dialog" aria-modal="true" aria-label="Format de la session">
+  <div class="fmt-modal__box">
+    <button class="fmt-modal__close" data-fmt-close aria-label="Fermer">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="kicker">Format de la session</div>
+    <h2 style="font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:12px">Combien de temps avez-vous&nbsp;?</h2>
+    <p class="dim" style="font-size:.94rem;max-width:660px;margin-bottom:26px">
+      Le plan s&rsquo;articule diff&eacute;remment selon le cr&eacute;neau&nbsp;: les sections secondaires se masquent
+      pour tenir le timing, et l&rsquo;essentiel reste au centre. Vous pouvez revenir au plan complet
+      &agrave; tout moment.
+    </p>
+
+    <div class="fmt-cards">
+      <button class="fmt-card" data-fmt-set="essentiel">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Essentiel</span>
+        <span class="fmt-card__t">45 min</span>
+        <span class="fmt-card__d">Comprendre et savoir en parler&nbsp;: l&rsquo;ench&egrave;re, le first price, la data, un cas concret et les objections.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>5 min</b></div>
+          <div><span>1 &middot; Fondamentaux</span><b>15 min</b></div>
+          <div><span>2 &middot; La campagne</span><b>10 min</b></div>
+          <div><span>3 &middot; Le march&eacute;</span><b>8 min</b></div>
+          <div><span>4 &middot; Sur le terrain</span><b>7 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>14 sections</span><b>4 simulateurs</b></div>
+        </span>
+      </button>
+
+      <button class="fmt-card" data-fmt-set="standard">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Standard</span>
+        <span class="fmt-card__t">1 h</span>
+        <span class="fmt-card__d">Le parcours complet moins les approfondissements&nbsp;: on ajoute les deals, le ciblage, les DSP et la structure de co&ucirc;ts.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>6 min</b></div>
+          <div><span>1 &middot; Fondamentaux</span><b>24 min</b></div>
+          <div><span>2 &middot; La campagne</span><b>12 min</b></div>
+          <div><span>3 &middot; Le march&eacute;</span><b>9 min</b></div>
+          <div><span>4 &middot; Sur le terrain</span><b>9 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>26 sections</span><b>8 simulateurs</b></div>
+        </span>
+      </button>
+
+      <button class="fmt-card" data-fmt-set="complet">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Complet</span>
+        <span class="fmt-card__t">90 min</span>
+        <span class="fmt-card__d">Tout le plan&nbsp;: cha&icirc;ne d&rsquo;achat, audio, DOOH et mod&egrave;les d&rsquo;achat compris. La version de r&eacute;f&eacute;rence.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>9 min</b></div>
+          <div><span>1 &middot; Fondamentaux</span><b>36 min</b></div>
+          <div><span>2 &middot; La campagne</span><b>18 min</b></div>
+          <div><span>3 &middot; Le march&eacute;</span><b>14 min</b></div>
+          <div><span>4 &middot; Sur le terrain</span><b>13 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>30 sections</span><b>11 simulateurs</b></div>
+        </span>
+      </button>
+    </div>
+
+    <p class="muted" style="font-size:.82rem;margin-top:22px">
+      Aucun contenu n&rsquo;est supprim&eacute;&nbsp;: le format masque les sections les moins prioritaires,
+      et le choix est m&eacute;moris&eacute; sur ce navigateur.
+    </p>
+  </div>
+</div>
+
+<button class="totop" aria-label="Retour en haut">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="assets/js/core.js"></script>
+<script src="assets/js/modules.js"></script>
+</body>
+</html>
