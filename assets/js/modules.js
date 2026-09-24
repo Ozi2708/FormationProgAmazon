@@ -4,8 +4,10 @@
    ========================================================================== */
 (() => {
   'use strict';
-  const { $, $$, reduced, onEnter, rand, fmt } = window.LP;
-  const eur = (v) => v.toFixed(2).replace('.', ',') + ' €';
+  const { $, $$, reduced, onEnter, rand, fmt, EN, T } = window.LP;
+  const eur = (v) => (EN ? '€' + v.toFixed(2) : v.toFixed(2).replace('.', ',') + ' €');
+  // Pourcentage : espace insécable en français, collé en anglais.
+  const pc = (v) => v + (EN ? '%' : ' %');
 
   /* ======================================================================
      1. Simulateur d'enchère RTB — cycle complet en 7 étapes
@@ -30,7 +32,14 @@
     { n: 'Equativ', c: '#f0713a', l: LOGO.grid },
   ];
 
-  const BLOCKS = [
+  const BLOCKS = EN ? [
+    'Audience not targeted',
+    'Frequency cap reached',
+    'Inventory not allowed',
+    'Daily budget spent',
+    'Brand safety: site excluded',
+    'Format not supported',
+  ] : [
     'Audience non ciblée',
     'Capping atteint',
     'Inventaire non autorisé',
@@ -60,7 +69,15 @@
     const countEl = $('[data-rtb-count]', root);
 
     const MARKS = [0, 12, 34, 62, 88, 104, 118];
-    const PHASES = [
+    const PHASES = EN ? [
+      'Page loading',
+      'Bid request sent',
+      'Campaign filtering',
+      'Valuing the impression',
+      'Bids received',
+      'SSP decision',
+      'Creative served',
+    ] : [
       'Chargement de la page',
       'Appel d’offres envoyé',
       'Filtrage des campagnes',
@@ -69,7 +86,15 @@
       'Arbitrage du SSP',
       'Création servie',
     ];
-    const CHAIN = [
+    const CHAIN = EN ? [
+      'impression available',
+      'bid request → 6 DSPs',
+      'filtering',
+      'valuation',
+      'bids received',
+      'best offer selected',
+      'creative served',
+    ] : [
       'impression disponible',
       'bid request → 6 DSP',
       'filtrage en cours',
@@ -79,7 +104,15 @@
       'créa servie',
     ];
     // Ce qu'on dit à l'oral sur chaque étape.
-    const HINTS = [
+    const HINTS = EN ? [
+      'A user opens the page. An ad slot becomes available — and everything that follows has to happen before the page finishes rendering.',
+      'The SSP sends the same opportunity to every connected DSP, along with the signals it has: context, device, location.',
+      'Each DSP applies its own rules. Those that don’t pass don’t even respond: this is where campaign setup pays off — or costs you.',
+      'The DSPs still in the running value the impression for the relevant campaign and calculate their maximum CPM.',
+      'Bids flow back up to the SSP. All of this plays out in a few dozen milliseconds.',
+      'The SSP picks the best valid bid. One winner, and the price paid is its own bid.',
+      '',
+    ] : [
       'Un internaute ouvre la page. Un espace publicitaire se libère — et tout ce qui suit doit tenir avant que la page ne s’affiche.',
       'Le SSP envoie la même opportunité à toutes les DSP connectées, accompagnée des signaux dont il dispose : contexte, appareil, géographie.',
       'Chaque DSP applique ses propres règles. Celles qui ne passent pas ne répondent même pas : c’est ici que le paramétrage de la campagne se paie.',
@@ -119,8 +152,8 @@
           (b) => `<div class="dsprow" style="--c:${b.c}">
             <span class="dsprow__logo">${b.l}</span>
             <span class="dsprow__n">
-              <span class="nm">${b.n}${b.us ? '<span class="tag">nous</span>' : ''}</span>
-              <span class="dsprow__s">en veille</span>
+              <span class="nm">${b.n}${b.us ? '<span class="tag">' + T('nous', 'us') + '</span>' : ''}</span>
+              <span class="dsprow__s">${T('en veille', 'idle')}</span>
             </span>
             <span class="dsprow__v">—</span>
           </div>`
@@ -159,6 +192,13 @@
       const others = state.eligible.filter((b) => b !== state.best);
       const second = others.length ? others.reduce((a, b) => (b.cpm > a.cpm ? b : a)) : null;
       const blocked = state.bidders.filter((b) => b.blocked).length;
+      if (EN) {
+        return state.best.us
+          ? `<span><b>Amazon DSP wins the impression</b> at a ${eur(state.best.cpm)} CPM — in first price, that is exactly the bid entered.
+             ${blocked ? blocked + ' DSP' + (blocked > 1 ? 's' : '') + ' didn’t even compete (filtered out). ' : ''}${second ? 'Second-highest bid: ' + eur(second.cpm) + '.' : ''}</span>`
+          : `<span><b>${state.best.n} wins the impression</b> at a ${eur(state.best.cpm)} CPM. Our bid: ${eur(state.bidders.find((b) => b.us).cpm)}.
+             To win this kind of inventory, the maximum CPM on this line item needs to go up.</span>`;
+      }
       return state.best.us
         ? `<span><b>Amazon DSP remporte l’impression</b> à ${eur(state.best.cpm)} de CPM — en first price, c’est exactement l’enchère saisie.
            ${blocked ? blocked + ' DSP n’ont même pas concouru (filtrage). ' : ''}${second ? 'Deuxième enchère : ' + eur(second.cpm) + '.' : ''}</span>`
@@ -190,8 +230,8 @@
       nodePub.classList.add('is-live');
       nodeSsp.classList.toggle('is-live', i >= 1);
       chainTxt.textContent =
-        i === 3 ? state.eligible.length + ' DSP en lice'
-        : i === 4 ? state.eligible.length + ' enchères reçues'
+        i === 3 ? state.eligible.length + T(' DSP en lice', ' DSPs in the running')
+        : i === 4 ? state.eligible.length + T(' enchères reçues', ' bids received')
         : CHAIN[i];
 
       state.bidders.forEach((b) => {
@@ -201,28 +241,28 @@
         el.classList.remove('is-probe', 'is-block', 'is-bid', 'is-win', 'is-lost');
         el.style.removeProperty('--w');
 
-        if (i === 0) { s.textContent = 'en veille'; v.textContent = '—'; return; }
+        if (i === 0) { s.textContent = T('en veille', 'idle'); v.textContent = '—'; return; }
         if (i === 1) {
           el.classList.add('is-probe');
-          s.textContent = 'appel d’offres reçu';
+          s.textContent = T('appel d’offres reçu', 'bid request received');
           v.textContent = '—';
           return;
         }
         if (b.blocked) {
           el.classList.add('is-block');
           s.textContent = b.reason;
-          v.textContent = 'ne concourt pas';
+          v.textContent = T('ne concourt pas', 'not bidding');
           return;
         }
-        if (i === 2) { s.textContent = 'campagne éligible'; v.textContent = '—'; return; }
+        if (i === 2) { s.textContent = T('campagne éligible', 'campaign eligible'); v.textContent = '—'; return; }
 
         el.style.setProperty('--w', (b.cpm / state.max) * 100 + '%');
         v.textContent = eur(b.cpm);
-        if (i === 3) { el.classList.add('is-bid'); s.textContent = 'CPM maximum calculé'; }
-        else if (i === 4) { el.classList.add('is-bid'); s.textContent = 'enchère transmise au SSP'; }
+        if (i === 3) { el.classList.add('is-bid'); s.textContent = T('CPM maximum calculé', 'maximum CPM calculated'); }
+        else if (i === 4) { el.classList.add('is-bid'); s.textContent = T('enchère transmise au SSP', 'bid sent to the SSP'); }
         else {
           el.classList.add(b === state.best ? 'is-win' : 'is-lost');
-          s.textContent = b === state.best ? 'remporte l’impression' : 'enchère non retenue';
+          s.textContent = b === state.best ? T('remporte l’impression', 'wins the impression') : T('enchère non retenue', 'bid not selected');
         }
       });
 
@@ -244,14 +284,16 @@
       if (mode === 'step') {
         prevBtn.hidden = step <= 0;
         runBtn.textContent =
-          step < 0 ? 'Lancer une impression'
-          : step >= 6 ? 'Nouvelle impression'
-          : 'Étape suivante';
-        countEl.textContent = step < 0 ? 'prêt' : 'étape ' + (step + 1) + ' / 7';
+          step < 0 ? T('Lancer une impression', 'Run an impression')
+          : step >= 6 ? T('Nouvelle impression', 'New impression')
+          : T('Étape suivante', 'Next step');
+        countEl.textContent = step < 0 ? T('prêt', 'ready') : T('étape ', 'step ') + (step + 1) + ' / 7';
       } else {
         prevBtn.hidden = true;
-        runBtn.textContent = 'Lancer une impression';
-        countEl.textContent = runs + (runs > 1 ? ' enchères jouées' : ' enchère jouée');
+        runBtn.textContent = T('Lancer une impression', 'Run an impression');
+        countEl.textContent = runs + (EN
+          ? (runs === 1 ? ' auction run' : ' auctions run')
+          : (runs > 1 ? ' enchères jouées' : ' enchère jouée'));
       }
     };
 
@@ -273,11 +315,11 @@
       browser.classList.remove('is-loading');
       nodePub.classList.remove('is-live');
       nodeSsp.classList.remove('is-live');
-      chainTxt.textContent = 'en attente';
+      chainTxt.textContent = T('en attente', 'waiting');
       result.className = 'rtb__result mt-m';
-      result.innerHTML = '<span class="muted">L’enchère se rejoue à chaque impression disponible. Lancez-en une.</span>';
+      result.innerHTML = '<span class="muted">' + T('L’enchère se rejoue à chaque impression disponible. Lancez-en une.', 'The auction replays for every available impression. Run one.') + '</span>';
       msEl.textContent = '0';
-      phaseEl.textContent = 'En attente';
+      phaseEl.textContent = T('En attente', 'Waiting');
       list.innerHTML = '';
       runBtn.disabled = false;
       runBtn.style.opacity = '';
@@ -318,7 +360,7 @@
 
       timers.push(setTimeout(() => {
         stepEls.forEach((s) => { s.classList.remove('is-on'); s.classList.add('is-done'); });
-        phaseEl.textContent = 'Terminé — 120 ms';
+        phaseEl.textContent = T('Terminé — 120 ms', 'Done — 120 ms');
         msEl.textContent = '120';
         busy = false;
         runBtn.disabled = false;
@@ -399,17 +441,21 @@
       if (!win) {
         fp.textContent = '—';
         sp.textContent = '—';
-        fpd.textContent = 'Enchère perdue';
-        spd.textContent = 'Enchère perdue';
-        verdict.innerHTML = `Avec ${eur(bid)}, l’impression part à <b>${eur(top)}</b> chez un concurrent. Dans les deux modèles, on ne paie rien — mais on n’achète rien non plus.`;
+        fpd.textContent = T('Enchère perdue', 'Auction lost');
+        spd.textContent = T('Enchère perdue', 'Auction lost');
+        verdict.innerHTML = EN
+          ? `At ${eur(bid)}, the impression goes to a competitor at <b>${eur(top)}</b>. In both models you pay nothing — but you buy nothing either.`
+          : `Avec ${eur(bid)}, l’impression part à <b>${eur(top)}</b> chez un concurrent. Dans les deux modèles, on ne paie rien — mais on n’achète rien non plus.`;
         return;
       }
       fp.textContent = eur(bid);
       sp.textContent = eur(top + 0.01);
-      fpd.textContent = 'Vous payez exactement votre enchère maximale.';
-      spd.textContent = `Deuxième meilleure enchère (${eur(top)}) + 0,01 €.`;
+      fpd.textContent = T('Vous payez exactement votre enchère maximale.', 'You pay exactly your maximum bid.');
+      spd.textContent = EN ? `Second-highest bid (${eur(top)}) + €0.01.` : `Deuxième meilleure enchère (${eur(top)}) + 0,01 €.`;
       const delta = bid - (top + 0.01);
-      verdict.innerHTML = `Sur cette impression, le first price coûte <b>${eur(delta)}</b> de plus pour le même résultat — soit <b>${((delta / (top + 0.01)) * 100).toFixed(0)} %</b>. C’est exactement le montant que le second price absorbait à votre place : d’où la nécessité de piloter le CPM maximum, audience par audience.`;
+      verdict.innerHTML = EN
+        ? `On this impression, first price costs <b>${eur(delta)}</b> more for the same outcome — that is <b>${((delta / (top + 0.01)) * 100).toFixed(0)}%</b>. That is exactly what second price used to absorb for you: hence the need to manage the maximum CPM, audience by audience.`
+        : `Sur cette impression, le first price coûte <b>${eur(delta)}</b> de plus pour le même résultat — soit <b>${((delta / (top + 0.01)) * 100).toFixed(0)} %</b>. C’est exactement le montant que le second price absorbait à votre place : d’où la nécessité de piloter le CPM maximum, audience par audience.`;
     };
 
     slider.addEventListener('input', draw);
@@ -441,15 +487,15 @@
     { n: 'L’Équipe', c: 'Sport', pop: 16, aff: 0.62, sport: true },
     { n: 'RMC Sport', c: 'Sport', pop: 12, aff: 0.68, sport: true },
     { n: 'Eurosport', c: 'Sport', pop: 10, aff: 0.55, sport: true },
-    { n: 'TF1', c: 'Généraliste', pop: 18, aff: 0.22 },
-    { n: 'M6', c: 'Généraliste', pop: 15, aff: 0.17 },
-    { n: 'France.tv', c: 'Généraliste', pop: 14, aff: 0.19 },
-    { n: 'Le Monde', c: 'Actualité', pop: 14, aff: 0.14 },
-    { n: 'Le Figaro', c: 'Actualité', pop: 12, aff: 0.16 },
-    { n: '20 Minutes', c: 'Actualité', pop: 15, aff: 0.15 },
+    { n: 'TF1', c: T('Généraliste', 'General'), pop: 18, aff: 0.22 },
+    { n: 'M6', c: T('Généraliste', 'General'), pop: 15, aff: 0.17 },
+    { n: 'France.tv', c: T('Généraliste', 'General'), pop: 14, aff: 0.19 },
+    { n: 'Le Monde', c: T('Actualité', 'News'), pop: 14, aff: 0.14 },
+    { n: 'Le Figaro', c: T('Actualité', 'News'), pop: 12, aff: 0.16 },
+    { n: '20 Minutes', c: T('Actualité', 'News'), pop: 15, aff: 0.15 },
     { n: 'Twitch', c: 'Live · gaming', pop: 13, aff: 0.11 },
-    { n: 'Allociné', c: 'Cinéma', pop: 10, aff: 0.09 },
-    { n: 'Marmiton', c: 'Cuisine', pop: 11, aff: 0.05 },
+    { n: 'Allociné', c: T('Cinéma', 'Movies'), pop: 10, aff: 0.09 },
+    { n: 'Marmiton', c: T('Cuisine', 'Cooking'), pop: 11, aff: 0.05 },
   ];
   // Part de la cible non adressable : pas de consentement, pas de signal.
   const SIGNAL_LOSS = 0.15;
@@ -479,7 +525,9 @@
       )
       .join('');
 
-    caption.textContent = `${sites.length} sites · ${totalPop} internautes · ${totalMatch} dans la cible`;
+    caption.textContent = EN
+      ? `${sites.length} sites · ${totalPop} users · ${totalMatch} in the target`
+      : `${sites.length} sites · ${totalPop} internautes · ${totalMatch} dans la cible`;
 
     const setStat = (sel, label, value, detail, tone) => {
       const box = $(sel, root);
@@ -498,7 +546,7 @@
         const s = sites[si];
         const buySite = !audience && s.sport;
         card.classList.toggle('is-bought', buySite);
-        $('.tgt__buy', card).textContent = buySite ? 'emplacement acheté' : '';
+        $('.tgt__buy', card).textContent = buySite ? T('emplacement acheté', 'placement bought') : '';
 
         let siteHits = 0;
         $$('.pdot', card).forEach((d, i) => {
@@ -525,7 +573,25 @@
       const onPct = bought ? Math.round((onTarget / bought) * 100) : 0;
       const reachPct = Math.round((reached / totalMatch) * 100);
 
-      if (audience) {
+      if (EN && audience) {
+        setStat('[data-tgt-sitestat]', 'Sites reached', touchedSites, 'wherever the target is');
+        setStat('[data-tgt-onstat]', 'On-target impressions', pc(onPct), 'no wastage', 'good');
+        setStat('[data-tgt-reachstat]', 'Target reached', pc(reachPct), pc(100 - reachPct) + ' not addressable, for lack of signal');
+        note.innerHTML =
+          `<strong>You buy people.</strong> The same people, whatever the site: ` +
+          `${touchedSites} sites reached instead of 3, and zero off-target impressions. The trade-off: ` +
+          `you depend on the signal — ${pc(100 - reachPct)} of the target stays out of reach, and the inventory ` +
+          `reached isn’t always as premium as a negotiated placement.`;
+      } else if (EN) {
+        setStat('[data-tgt-sitestat]', 'Sites bought', '3', 'out of ' + sites.length + ' — the sports sites');
+        setStat('[data-tgt-onstat]', 'On-target impressions', pc(onPct), pc(100 - onPct) + ' wastage', 'bad');
+        setStat('[data-tgt-reachstat]', 'Target reached', pc(reachPct), 'fans outside sports sites are missed');
+        note.innerHTML =
+          `<strong>You buy a context.</strong> All the traffic of L'Équipe, RMC Sport and Eurosport — ` +
+          `easy to negotiate, no identifier needed, and a controlled environment. But ` +
+          `<strong>${pc(100 - onPct)} of impressions land off target</strong>, and football fans who ` +
+          `read Le Monde or watch Twitch are never reached.`;
+      } else if (audience) {
         setStat('[data-tgt-sitestat]', 'Sites touchés', touchedSites, 'partout où la cible se trouve');
         setStat('[data-tgt-onstat]', 'Impressions sur la cible', onPct + ' %', 'aucune déperdition', 'good');
         setStat('[data-tgt-reachstat]', 'Cible atteinte', reachPct + ' %', 100 - reachPct + ' % non adressables, faute de signal');
@@ -601,21 +667,21 @@
       x: 268, lbl: 'SSP · EXCHANGE',
       nodes: [
         { n: 'Exchange A', f: 8 }, { n: 'Exchange B', f: 9 }, { n: 'Exchange C', f: 10 },
-        { n: 'SSP amont', f: 9 }, { n: 'Exchange D', f: 8 },
+        { n: T('SSP amont', 'Upstream SSP'), f: 9 }, { n: 'Exchange D', f: 8 },
       ],
     },
     {
-      x: 502, lbl: 'REVENDEURS',
+      x: 502, lbl: T('REVENDEURS', 'RESELLERS'),
       nodes: [
-        { n: 'Revendeur 1', f: 11 }, { n: 'Revendeur 2', f: 12 },
-        { n: 'Revendeur 3', f: 13 }, { n: 'Revendeur 4', f: 14 },
+        { n: T('Revendeur 1', 'Reseller 1'), f: 11 }, { n: T('Revendeur 2', 'Reseller 2'), f: 12 },
+        { n: T('Revendeur 3', 'Reseller 3'), f: 13 }, { n: T('Revendeur 4', 'Reseller 4'), f: 14 },
       ],
     },
     {
-      x: 736, lbl: 'SSP DE L’ÉDITEUR',
+      x: 736, lbl: T('SSP DE L’ÉDITEUR', 'PUBLISHER SSP'),
       nodes: [
-        { n: 'SSP directe', f: 7 }, { n: 'SSP intégrée', f: 9 },
-        { n: 'SSP tierce', f: 11 }, { n: 'SSP revendue', f: 14 },
+        { n: T('SSP directe', 'Direct SSP'), f: 7 }, { n: T('SSP intégrée', 'Integrated SSP'), f: 9 },
+        { n: T('SSP tierce', 'Third-party SSP'), f: 11 }, { n: T('SSP revendue', 'Resold SSP'), f: 14 },
       ],
     },
   ];
@@ -668,7 +734,7 @@
     cols.forEach((col) =>
       col.forEach((nd) => {
         g += `<circle class="spo3__hop" data-node="${nd.n}" cx="${nd.x}" cy="${nd.y}" r="7"/>`;
-        g += `<text class="spo3__hoplbl" data-node="${nd.n}" x="${nd.x}" y="${nd.y - 13}">${nd.n} · ${nd.f} %</text>`;
+        g += `<text class="spo3__hoplbl" data-node="${nd.n}" x="${nd.x}" y="${nd.y - 13}">${nd.n} · ${pc(nd.f)}</text>`;
       })
     );
     g += `<circle class="spo3__end" cx="${A.x}" cy="${A.y}" r="26"/>
@@ -687,13 +753,13 @@
     );
 
     const showDetail = (p) => {
-      const chain = ['DSP', ...p.hops.map((h) => `${h.n} <b style="color:${p.color}">${h.f} %</b>`), 'Impression']
+      const chain = ['DSP', ...p.hops.map((h) => `${h.n} <b style="color:${p.color}">${pc(h.f)}</b>`), 'Impression']
         .join(' <span class="sep">→</span> ');
       detail.classList.toggle('is-best', p === best);
       detail.innerHTML =
-        `<span class="lbl">${p.hops.length} intermédiaire${p.hops.length > 1 ? 's' : ''}</span>` +
+        `<span class="lbl">${p.hops.length} ${T('intermédiaire', 'intermediar')}${p.hops.length > 1 ? T('s', 'ies') : T('', 'y')}</span>` +
         `<span>${chain}</span>` +
-        `<span class="res"><span class="fees">− ${p.fee} % de frais</span> · <span class="wm">${100 - p.fee} % working media</span></span>`;
+        `<span class="res"><span class="fees">− ${pc(p.fee)} ${T('de frais', 'fees')}</span> · <span class="wm">${pc(100 - p.fee)} working media</span></span>`;
     };
 
     pathEls.forEach((el, i) => {
@@ -713,19 +779,27 @@
 
     const setState = (clean) => {
       root.classList.toggle('is-clean', clean);
-      btn.textContent = clean ? 'Revoir tous les chemins' : 'Appliquer le SPO';
+      btn.textContent = clean ? T('Revoir tous les chemins', 'Show all paths again') : T('Appliquer le SPO', 'Apply SPO');
 
       const avg = clean ? 100 - best.fee : avgAll;
       const fees = 100 - avg;
 
-      $('[data-spo-fees]', root).textContent = fees + ' %';
-      $('[data-spo-working]', root).textContent = avg + ' %';
+      $('[data-spo-fees]', root).textContent = pc(fees);
+      $('[data-spo-working]', root).textContent = pc(avg);
       $('[data-spo-fees-fill]', root).style.width = fees * 2.4 + '%';
       $('[data-spo-working-fill]', root).style.width = avg + '%';
       $('[data-spo-working-fill]', root).classList.toggle('is-good', clean);
       showDetail(clean ? best : paths[paths.length - 1]);
 
-      $('[data-spo-note]', root).innerHTML = clean
+      $('[data-spo-note]', root).innerHTML = EN
+        ? (clean
+          ? `<strong>Only one path kept: ${best.hops.map((h) => h.n).join(' → ')}, ${pc(100 - best.fee)} working media.</strong> ` +
+            `We didn’t negotiate a better price — we removed layers that added nothing. ` +
+            `Same budget, ${100 - best.fee - avgAll} more points of impressions, and readable measurement because you know where every euro goes.`
+          : `<strong>${paths.length} paths to the same impression, ${pc(fees)} of the budget absorbed on average.</strong> ` +
+            `Exchanges, resellers, multiple SSPs: the same inventory surfaces several times and every ` +
+            `intermediary takes a cut. In practice, up to 357 possible routes have been observed.`)
+        : clean
         ? `<strong>Un seul chemin conservé : ${best.hops.map((h) => h.n).join(' → ')}, ${100 - best.fee} % de working media.</strong> ` +
           `On n'a pas négocié un meilleur prix — on a retiré des étages qui ne servaient à rien. ` +
           `À budget constant, ${100 - best.fee - avgAll} points d'impressions en plus, et une mesure lisible parce qu'on sait par où passe chaque euro.`
@@ -744,7 +818,7 @@
   function radars() {
     const cards = $$('[data-radar]');
     if (!cards.length) return;
-    const AX = ['Reach', 'Data', 'Premium', 'Neutralité', 'Coût'];
+    const AX = ['Reach', 'Data', 'Premium', T('Neutralité', 'Neutrality'), T('Coût', 'Cost')];
     cards.forEach((card) => {
       const svg = $('.dsp__radar', card);
       const vals = card.dataset.radar.split(',').map(Number);
@@ -782,7 +856,15 @@
     const msg = $('[data-gl-msg]', root);
     const C = 439.8;
 
-    const MSG = [
+    const MSG = EN ? [
+      'Nothing checked yet. Going live like this means a campaign you can neither read nor defend.',
+      'Making progress. Five items still open.',
+      'The setup is taking shape, but tracking remains the critical point.',
+      'Solid base. Watch the deal IDs and the exclusions.',
+      'Almost there. Two checks before launch.',
+      'One last item to tick.',
+      'Ready to launch. The campaign will be readable at wrap-up.',
+    ] : [
       'Aucun point validé. Un go live dans cet état, c’est une campagne qu’on ne saura ni lire ni défendre.',
       'On avance. Cinq points restent ouverts.',
       'Le paramétrage prend forme, mais le tracking reste le point critique.',
@@ -892,7 +974,7 @@
         .map((d, i) => `<button data-i="${i}" style="--c:${d.c}">
             <span class="sw"></span>
             <span><b>${d.t}</b><small>${d.d}</small></span>
-            <span class="pct">${d.v} %</span></button>`)
+            <span class="pct">${pc(d.v)}</span></button>`)
         .join('');
 
       const segs = $$('.donut__seg', svg);
@@ -902,8 +984,8 @@
         root.querySelector('.donut').classList.toggle('has-sel', on);
         segs.forEach((s, k) => s.classList.toggle('is-on', k === i));
         btns.forEach((b, k) => b.classList.toggle('is-on', k === i));
-        midV.textContent = on ? data[i].v + ' %' : root.dataset.total || '100 %';
-        midL.textContent = on ? data[i].t : root.dataset.label || 'du budget';
+        midV.textContent = on ? pc(data[i].v) : root.dataset.total || pc(100);
+        midL.textContent = on ? data[i].t : root.dataset.label || T('du budget', 'of budget');
       };
       btns.forEach((b, i) => {
         b.addEventListener('mouseenter', () => sel(i));
@@ -979,12 +1061,18 @@
       rows.forEach((r) => {
         const v = parseFloat(after ? r.dataset.after : r.dataset.before);
         $('.mix__fill', r).style.width = v + '%';
-        $('.mix__pct', r).textContent = v + ' %';
+        $('.mix__pct', r).textContent = pc(v);
       });
-      if (btn) btn.textContent = after ? 'Revenir au plan initial' : 'Appliquer l’arbitrage de la semaine 2';
+      if (btn) btn.textContent = after
+        ? T('Revenir au plan initial', 'Back to the initial plan')
+        : T('Appliquer l’arbitrage de la semaine 2', 'Apply the week-2 reallocation');
       const note = $('[data-mix-note]', root);
       if (note) {
-        note.innerHTML = after
+        note.innerHTML = EN
+          ? (after
+            ? 'In week 2, <strong>12% of the display budget</strong> moves to CTV: better cost per new customer. Low-viewability placements are excluded at the same time.'
+            : 'Starting plan: CTV drives reach, retail display captures intent, audio keeps the thread running.')
+          : after
           ? 'En semaine 2, <strong>12 % du budget display</strong> basculent vers la CTV : meilleur coût par nouveau client. Les placements peu visibles sont exclus dans la foulée.'
           : 'Plan de départ : la CTV porte la couverture, le display retail capte l’intention, l’audio tient le fil rouge.';
       }
@@ -1031,10 +1119,10 @@
     const t0 = performance.now();
     const tick = (t) => {
       n = ((t - t0) / 1000) * 148000; // ~148 k impressions/seconde
-      el.textContent = Math.floor(n).toLocaleString('fr-FR');
+      el.textContent = Math.floor(n).toLocaleString(EN ? 'en-GB' : 'fr-FR');
       requestAnimationFrame(tick);
     };
-    if (reduced()) { el.textContent = '12 800 000 000'; return; }
+    if (reduced()) { el.textContent = T('12 800 000 000', '12,800,000,000'); return; }
     requestAnimationFrame(tick);
   }
 
@@ -1061,7 +1149,7 @@
   /* ======================================================================
      20. Quiz
      ====================================================================== */
-  const QUESTIONS = [
+  const QUESTIONS_FR = [
     {
       q: 'Que signifie « RTB » ?',
       o: ['Real Time Branding', 'Real Time Bidding', 'Rate Tracking Base', 'Reach Targeting Benchmark'],
@@ -1134,6 +1222,80 @@
     },
   ];
 
+  const QUESTIONS_EN = [
+    {
+      q: 'What does “RTB” stand for?',
+      o: ['Real Time Branding', 'Real Time Bidding', 'Rate Tracking Base', 'Reach Targeting Benchmark'],
+      a: 1,
+      lvl: 1,
+      e: 'Real Time Bidding. The auction happens in real time, while the page is loading.',
+    },
+    {
+      q: 'How long does a programmatic auction take?',
+      o: ['About two seconds', 'About one second', 'About 120 milliseconds', 'It depends on the campaign budget'],
+      a: 2,
+      lvl: 1,
+      e: 'About 120 milliseconds. Six steps, completed before the page is displayed.',
+    },
+    {
+      q: 'Which player bids on behalf of the advertiser?',
+      o: ['The SSP', 'The ad exchange', 'The DSP', 'The ad server'],
+      a: 2,
+      lvl: 1,
+      e: 'The DSP. It sits on the demand side. The SSP works for the publisher.',
+    },
+    {
+      q: 'In a first-price model, the winner pays…',
+      o: ['The second-highest bid plus one cent', 'Its maximum bid', 'The publisher’s floor price', 'The average of the bids received'],
+      a: 1,
+      lvl: 1,
+      e: 'Its maximum bid. Every cent bid is a cent spent.',
+    },
+    {
+      q: 'Which deal type guarantees impression volume?',
+      o: ['Open Auction', 'Private Auction', 'Preferred Deal', 'Programmatic Guaranteed'],
+      a: 3,
+      lvl: 2,
+      e: 'Programmatic Guaranteed. It is the only deal that reserves impressions. A Preferred Deal gives priority access, not volume.',
+    },
+    {
+      q: 'What is first-party data?',
+      o: ['Data bought from a third-party provider', 'The advertiser’s own data, collected in its own environment', 'A media partner’s data shared at no cost', 'The publisher’s socio-demographic segments'],
+      a: 1,
+      lvl: 1,
+      e: 'The advertiser’s data. Collected by the advertiser, on its own properties. The third option describes second party, the first one third party.',
+    },
+    {
+      q: '“Audience based” targeting means…',
+      o: ['Buying a placement on a site with an assumed audience', 'Buying data-qualified individuals, whatever the site', 'Buying only in the open auction', 'Buying at a guaranteed fixed CPM'],
+      a: 1,
+      lvl: 3,
+      e: 'Data-qualified individuals. The first option describes media based buying, the logic of traditional media planning.',
+    },
+    {
+      q: 'What is frequency capping for?',
+      o: ['Capping the maximum CPM', 'Limiting the daily budget', 'Limiting repeat exposure per person', 'Blocking non-brand-safe sites'],
+      a: 2,
+      lvl: 2,
+      e: 'Limiting repetition. It controls ad pressure, across publishers and across screens.',
+    },
+    {
+      q: 'Which metric measures full listens of an audio spot?',
+      o: ['VTR', 'LTR', 'ODV', 'CTR'],
+      a: 1,
+      lvl: 3,
+      e: 'LTR (listen-through rate). VTR is its video equivalent, ODV (opportunity to see) the DOOH one.',
+    },
+    {
+      q: 'In April 2025, regarding third-party cookies in Chrome, Google announced…',
+      o: ['Full removal by end of 2025', 'Gradual removal through 2027', 'Keeping third-party cookies, with the choice left to users', 'Replacement by a mandatory single identifier'],
+      a: 2,
+      lvl: 2,
+      e: 'Third-party cookies stay: Google dropped its plan to remove them. But Safari and Firefox already block them by default.',
+    },
+  ];
+  const QUESTIONS = EN ? QUESTIONS_EN : QUESTIONS_FR;
+
   function quiz() {
     const root = $('[data-quiz]');
     if (!root) return;
@@ -1164,7 +1326,7 @@
       if (i >= SET.length) return end();
       const q = SET[i];
       card.innerHTML = `
-        <div class="quiz__n">Question ${i + 1} sur ${SET.length}</div>
+        <div class="quiz__n">Question ${i + 1} ${T('sur', 'of')} ${SET.length}</div>
         <div class="quiz__q">${q.q}</div>
         <div class="quiz__opts">
           ${q.o.map((o, k) => `<button class="qopt" data-k="${k}">
@@ -1174,9 +1336,9 @@
         </div>
         <div class="quiz__exp" data-exp></div>
         <div class="quiz__foot">
-          <span class="muted" style="font-size:.84rem">Pas d’enjeu — l’objectif est de repérer les points à clarifier.</span>
+          <span class="muted" style="font-size:.84rem">${T('Pas d’enjeu — l’objectif est de repérer les points à clarifier.', 'No pressure — the goal is to spot what needs clarifying.')}</span>
           <button class="btn btn--primary btn--sm" data-next hidden>
-            ${i === SET.length - 1 ? 'Voir le résultat' : 'Question suivante'}
+            ${i === SET.length - 1 ? T('Voir le résultat', 'See the result') : T('Question suivante', 'Next question')}
             <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>`;
@@ -1198,7 +1360,7 @@
             else if (ok === k) o.classList.add('is-wrong');
             else o.classList.add('is-mute');
           });
-          exp.innerHTML = `<strong>${right ? 'Exact.' : 'Réponse attendue : ' + 'ABCD'[q.a] + '.'}</strong> ${q.e}`;
+          exp.innerHTML = `<strong>${right ? T('Exact.', 'Correct.') : T('Réponse attendue : ', 'Expected answer: ') + 'ABCD'[q.a] + '.'}</strong> ${q.e}`;
           exp.classList.add('is-show');
           next.hidden = false;
           paintDots();
@@ -1209,10 +1371,16 @@
 
     const end = () => {
       const p = score / SET.length;
-      const badge =
-        p === 1 ? 'Sans faute' : p >= 0.8 ? 'Solide' : p >= 0.6 ? 'Bonne base' : p >= 0.4 ? 'À consolider' : 'À reprendre';
-      const advice =
-        p >= 0.8
+      const badge = EN
+        ? (p === 1 ? 'Perfect score' : p >= 0.8 ? 'Solid' : p >= 0.6 ? 'Good base' : p >= 0.4 ? 'Needs work' : 'Start over')
+        : p === 1 ? 'Sans faute' : p >= 0.8 ? 'Solide' : p >= 0.6 ? 'Bonne base' : p >= 0.4 ? 'À consolider' : 'À reprendre';
+      const advice = EN
+        ? (p >= 0.8
+          ? 'The fundamentals are there. Chapter 4, “In the field”, will be the most useful.'
+          : p >= 0.5
+            ? 'Go back over chapter 1: the auction, pricing models and deal types.'
+            : 'Start with chapter 1, in order — everything else builds on it.')
+        : p >= 0.8
           ? 'Les fondamentaux sont acquis. Le chapitre 4 « Sur le terrain » sera le plus utile.'
           : p >= 0.5
             ? 'Reprenez le chapitre 1 : enchère, modèles de prix et types de deals.'
@@ -1221,7 +1389,7 @@
         <div class="quiz__end">
           <div class="quiz__ring">
             <svg viewBox="0 0 180 180"><circle class="bg" cx="90" cy="90" r="80"/><circle class="fg" cx="90" cy="90" r="80"/></svg>
-            <div><b>${score}/${SET.length}</b><span>Bonnes réponses</span></div>
+            <div><b>${score}/${SET.length}</b><span>${T('Bonnes réponses', 'Correct answers')}</span></div>
           </div>
           <div class="quiz__badge">${badge}</div>
           <p class="lead" style="max-width:520px">${advice}</p>
@@ -1231,8 +1399,8 @@
                 <div><b>${q.q}</b><span>${q.e}</span></div></div>`).join('')}
           </div>
           <div class="btn-row" style="justify-content:center">
-            <button class="btn btn--ghost btn--sm" data-again>Refaire le quiz</button>
-            <a class="btn btn--primary btn--sm" href="fondamentaux.html">Entrer dans le chapitre 1
+            <button class="btn btn--ghost btn--sm" data-again>${T('Refaire le quiz', 'Retake the quiz')}</button>
+            <a class="btn btn--primary btn--sm" href="fondamentaux.html">${T('Entrer dans le chapitre 1', 'Start chapter 1')}
               <svg class="btn__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
           </div>
         </div>`;
@@ -1297,7 +1465,7 @@
   /* ======================================================================
      21. Glossaire
      ====================================================================== */
-  const GLOSSARY = [
+  const GLOSSARY_FR = [
     ['Ad server', '', 'Serveur publicitaire chargé de la diffusion des créations et du comptage des impressions.'],
     ['AMC', 'Amazon Marketing Cloud', 'Clean room permettant des analyses croisées et la construction d’audiences sur mesure sans exposer de données individuelles.'],
     ['Capping', '', 'Limitation du nombre d’expositions d’une même personne à une campagne, sur une période donnée.'],
@@ -1327,6 +1495,37 @@
     ['Working media', '', 'Part du budget qui finance réellement l’achat d’impressions.'],
   ];
 
+  const GLOSSARY_EN = [
+    ['Ad server', '', 'Server that delivers creatives and counts impressions.'],
+    ['AMC', 'Amazon Marketing Cloud', 'Clean room for cross-dataset analysis and custom audience building without exposing individual-level data.'],
+    ['Capping', 'frequency capping', 'Limit on how many times the same person sees a campaign over a given period.'],
+    ['CPA', 'cost per acquisition', 'Average cost of one conversion.'],
+    ['CPC', 'cost per click', 'Average cost of one click.'],
+    ['CPM', 'cost per mille', 'Price paid for a thousand impressions.'],
+    ['CTR', 'click-through rate', 'Clicks divided by impressions.'],
+    ['CTV', 'connected TV', 'Video delivered on a TV set through an app or a streaming platform.'],
+    ['DCO', 'dynamic creative optimization', 'Automatic tailoring of the creative to the context or profile.'],
+    ['Deal ID', '', 'Contract identifier for an agreement between buyer and publisher, activated in the DSP.'],
+    ['DOOH', 'digital out of home', 'Digital outdoor advertising.'],
+    ['DSP', 'demand-side platform', 'Buying platform on the advertiser side.'],
+    ['First price', '', 'Auction model where the winner pays its maximum bid.'],
+    ['LTR', 'listen-through rate', 'Share of audio spots listened to in full.'],
+    ['ODV', 'opportunity to see', 'Contact metric used in DOOH (French: opportunité de voir).'],
+    ['Open Auction', '', 'Auction open to all buyers.'],
+    ['Pacing', '', 'How fast the budget is spent over the campaign flight.'],
+    ['PA', 'private auction', 'Auction restricted to invited buyers.'],
+    ['PD', 'preferred deal', 'Direct, fixed-CPM agreement giving priority access with no volume commitment.'],
+    ['PG', 'programmatic guaranteed', 'Direct, fixed-CPM agreement with a guaranteed number of impressions.'],
+    ['ROAS', 'return on ad spend', 'Revenue generated divided by media spend.'],
+    ['RTB', 'real time bidding', 'Real-time auction.'],
+    ['Second price', '', 'Auction model where the winner pays the second-highest bid plus one cent.'],
+    ['SPO', 'supply path optimisation', 'Optimising the buying path between the DSP and the publisher.'],
+    ['SSP', 'supply-side platform', 'Selling platform on the publisher side.'],
+    ['VTR', 'view-through rate', 'Share of videos watched to completion.'],
+    ['Working media', '', 'Share of the budget that actually pays for impressions.'],
+  ];
+  const GLOSSARY = EN ? GLOSSARY_EN : GLOSSARY_FR;
+
   function glossary() {
     const root = $('[data-gloss]');
     if (!root) return;
@@ -1342,7 +1541,7 @@
     const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
     const present = new Set(GLOSSARY.map((g) => g[0][0].toUpperCase()));
     alpha.innerHTML =
-      `<button data-l="" class="is-on">Tous</button>` +
+      `<button data-l="" class="is-on">${T('Tous', 'All')}</button>` +
       LETTERS.map((l) => `<button data-l="${l}"${present.has(l) ? '' : ' disabled'}>${l}</button>`).join('');
 
     const hi = (txt, q) => {
@@ -1360,12 +1559,14 @@
         const okQ = !nq || norm(g[0] + ' ' + g[1] + ' ' + g[2]).includes(nq);
         return okL && okQ;
       });
-      count.textContent = list.length + (list.length > 1 ? ' termes' : ' terme');
+      count.textContent = list.length + (EN
+        ? (list.length === 1 ? ' term' : ' terms')
+        : (list.length > 1 ? ' termes' : ' terme'));
       grid.innerHTML = list.length
         ? list.map((g, i) => `<div class="gl-term" style="animation-delay:${Math.min(i * 24, 400)}ms">
               <div class="gl-term__t"><b>${hi(g[0], q)}</b>${g[1] ? `<span>${hi(g[1], q)}</span>` : ''}</div>
               <p>${hi(g[2], q)}</p></div>`).join('')
-        : '<div class="gl-empty">Aucun terme ne correspond. Essayez « enchère », « CPM » ou « deal ».</div>';
+        : '<div class="gl-empty">' + T('Aucun terme ne correspond. Essayez « enchère », « CPM » ou « deal ».', 'No matching term. Try “auction”, “CPM” or “deal”.') + '</div>';
     };
 
     input.addEventListener('input', render);
@@ -1410,21 +1611,30 @@
         el.classList.toggle('is-skip', active[i] && i !== winner);
         const st = $('.prio__state', el);
         st.textContent = !active[i]
-          ? 'désactivé'
+          ? T('désactivé', 'disabled')
           : i === winner
-            ? 'sert l’impression'
-            : i < winner ? '—' : 'jamais atteint';
+            ? T('sert l’impression', 'serves the impression')
+            : i < winner ? '—' : T('jamais atteint', 'never reached');
       });
 
       if (winner === -1) {
-        verdict.innerHTML =
+        verdict.innerHTML = EN
+          ? '<strong>No eligible demand left.</strong> The publisher serves its own house ad, or leaves the slot empty. This is called a <em>passback</em>.'
+          :
           '<strong>Plus aucune demande éligible.</strong> L’éditeur sert son propre habillage, ou laisse l’emplacement vide. C’est ce qu’on appelle un <em>passback</em>.';
         return;
       }
       const w = PRIO[winner];
       const higher = PRIO.filter((p, i) => active[i] && i > winner);
       const best = higher.length ? Math.max(...higher.map((p) => p.cpm)) : 0;
-      if (best > w.cpm) {
+      if (EN) {
+        verdict.innerHTML = best > w.cpm
+          ? `<strong>${w.n} serves the impression at ${eur(w.cpm)}</strong> — even though a lower tier offered ${eur(best)}. ` +
+            `The ad server works down the ladder in order: it only compares prices within the same tier. ` +
+            `That is the whole point of negotiating a PG or PD on scarce inventory.`
+          : `<strong>${w.n} serves the impression at ${eur(w.cpm)}</strong> — it is the highest-priority tier still active, ` +
+            `and no lower tier offers more.`;
+      } else if (best > w.cpm) {
         verdict.innerHTML =
           `<strong>${w.n} sert l’impression à ${eur(w.cpm)}</strong> — alors qu’un niveau plus bas proposait ${eur(best)}. ` +
           `L’ad server descend l’échelle dans l’ordre : il ne compare les prix qu’à l’intérieur d’un même niveau. ` +
@@ -1450,7 +1660,13 @@
      ensuite la façon de mettre en concurrence qui désigne le gagnant.
      ====================================================================== */
   const SSPS = ['Xandr', 'Magnite', 'PubMatic', 'Equativ', 'Index Exchange'];
-  const ST = {
+  const ST = EN ? {
+    under: 'Below the floor',
+    reject: 'Rejected',
+    elig: 'Eligible',
+    win: 'Winner',
+    skip: 'Not called',
+  } : {
     under: 'Sous le plancher',
     reject: 'Rejetée',
     elig: 'Éligible',
@@ -1520,7 +1736,7 @@
       if (state === 'skip') {
         el.classList.add('is-skip');
         st.textContent = ST.skip;
-        em.textContent = 'l’impression est déjà vendue';
+        em.textContent = T('l’impression est déjà vendue', 'the impression is already sold');
         fill.style.width = '0%';
         $('.hb__v', el).textContent = '—';
         return;
@@ -1530,15 +1746,15 @@
       if (state === 'reject') {
         el.classList.add('is-reject');
         st.textContent = ST.reject;
-        em.textContent = `${ST.under} — il manque ${eur(floor - bid.cpm)}`;
+        em.textContent = EN ? `${ST.under} — ${eur(floor - bid.cpm)} short` : `${ST.under} — il manque ${eur(floor - bid.cpm)}`;
       } else if (state === 'elig') {
         el.classList.add('is-elig');
         st.textContent = ST.elig;
-        em.textContent = `franchit le plancher de ${eur(bid.cpm - floor)}`;
+        em.textContent = EN ? `clears the floor by ${eur(bid.cpm - floor)}` : `franchit le plancher de ${eur(bid.cpm - floor)}`;
       } else if (state === 'win') {
         el.classList.add('is-win');
         st.textContent = ST.win;
-        em.textContent = winTxt || 'meilleure offre éligible';
+        em.textContent = winTxt || T('meilleure offre éligible', 'best eligible bid');
       }
     };
 
@@ -1561,7 +1777,7 @@
       $('[data-hb-col="hb"]', root).classList.remove('is-best');
       deltaEl.hidden = true;
       verdict.innerHTML =
-        '<span class="muted">Mêmes offres, même plancher. Seule la mise en concurrence change.</span>';
+        '<span class="muted">' + T('Mêmes offres, même plancher. Seule la mise en concurrence change.', 'Same bids, same floor. Only the way they compete changes.') + '</span>';
 
       const STEP = 520;
 
@@ -1569,7 +1785,7 @@
       bids.forEach((b, i) => {
         timers.push(setTimeout(() => {
           if (i < first) setRow(cRows[i], 'reject', b, floor);
-          else if (i === first) setRow(cRows[i], 'win', b, floor, 'première offre éligible — on s’arrête là');
+          else if (i === first) setRow(cRows[i], 'win', b, floor, T('première offre éligible — on s’arrête là', 'first eligible bid — we stop here'));
           else setRow(cRows[i], 'skip', b, floor);
         }, 300 + i * STEP));
       });
@@ -1596,9 +1812,12 @@
         $('[data-hb-col="hb"]', root).classList.add('is-best');
         const gain = best.cpm - bids[first].cpm;
         deltaEl.hidden = false;
-        deltaEl.innerHTML = `<b>+ ${eur(gain)}</b> de CPM pour l’éditeur, sur la même impression.`;
-        verdict.innerHTML =
-          'Le plancher filtre les enchères. La méthode de mise en concurrence détermine ensuite ' +
+        deltaEl.innerHTML = EN
+          ? `<b>+ ${eur(gain)}</b> CPM for the publisher, on the same impression.`
+          : `<b>+ ${eur(gain)}</b> de CPM pour l’éditeur, sur la même impression.`;
+        verdict.innerHTML = EN
+          ? 'The floor filters the bids. The way bids compete then decides which eligible bid wins the impression.'
+          : 'Le plancher filtre les enchères. La méthode de mise en concurrence détermine ensuite ' +
           'quelle offre éligible remporte l’impression.';
       }, t0 + 900));
     };
