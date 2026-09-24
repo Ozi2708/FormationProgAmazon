@@ -1387,6 +1387,7 @@ input[type="range"]::-moz-range-thumb {
   .vs__head { display: none; }
   .vs__row { grid-template-columns: 1fr; gap: 6px; padding: 15px 16px; }
   .vs__a::before { content: "Gré à gré · "; color: var(--text-3); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  html[lang="en"] .vs__a::before { content: "Direct · "; }
   .vs__b { padding-top: 4px; }
 }
 
@@ -2824,3 +2825,34 @@ body.is-present .is-slide-trim { display: none !important; }
 }
 .spo3__legend span { display: inline-flex; align-items: center; gap: 7px; }
 .spo3__legend i { width: 18px; height: 3px; border-radius: 2px; }
+
+/* ==========================================================================
+   32. Choix de la langue — FR / EN
+   ========================================================================== */
+.langbtn {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  padding: 3px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.04);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: border-color 0.25s, background 0.25s, transform 0.25s var(--spring);
+}
+.langbtn span { padding: 4px 8px; border-radius: 999px; color: var(--text-3); transition: color 0.25s, background 0.25s; }
+.langbtn span.is-cur { background: var(--orange); color: #17222f; }
+.langbtn:hover { border-color: rgba(255, 153, 0, 0.55); transform: translateY(-1px); }
+.langbtn:hover span:not(.is-cur) { color: #fff; }
+@media (max-width: 1080px) {
+  .langbtn { margin-left: auto; }
+  .langbtn + .fmt-chip { margin-left: 8px; }
+}
+@media (max-width: 560px) {
+  .nav .langbtn { display: none; }
+  .langbtn + .fmt-chip { margin-left: auto; }
+}

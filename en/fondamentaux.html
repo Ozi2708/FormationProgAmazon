@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1 · The fundamentals — Programmatic advertising | Amazon Ads</title>
+<meta name="description" content="Definition, ecosystem, the 120 ms auction cycle, first and second price, media vs audience based, deal types, supply path optimisation and the DSP landscape.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23232F3E'/%3E%3Cpath d='M6 19c5 4 15 4 20-1' stroke='%23FF9900' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3Cpath d='M23 14l5 3.4-5 2.6z' fill='%23FF9900'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="alternate" hreflang="fr" href="../fondamentaux.html">
+<link rel="alternate" hreflang="en" href="fondamentaux.html">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/modules.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <div class="nav__inner">
+    <a class="brand" href="index.html" aria-label="amazon ads — Programmatic advertising, training material">
+      <span class="amz-lockup amz-lockup--nav" aria-hidden="true">
+        <span class="amz-lockup__t">amazon ads</span>
+        <svg class="amz-lockup__s" viewBox="0 0 100 15" fill="none" aria-hidden="true">
+          <path d="M2.5 5.2C17 13.6 57 15.4 79 6.4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M72.2 1.9c2.3-1 7.6-2 9.6-.7 1.9 1.2.2 5.9-.9 7.9-.3.6-.9.3-.7-.3.7-2 1.9-5.4.4-6.3-1.6-.9-5.7 0-7.7.5-.6.1-.9-.9-.7-1.1z" fill="currentColor"/>
+        </svg>      </span>
+      <span class="brand__sep" aria-hidden="true"></span>
+      <span class="brand__txt">
+        <span class="brand__t1">Programmatic</span>
+        <span class="brand__t2">Training material</span>
+      </span>
+    </a>
+    <nav class="nav__links" aria-label="Main navigation">
+      <a class="nav__link" href="fondamentaux.html" aria-current="page">Fundamentals</a>
+      <a class="nav__link" href="campagne.html">The campaign</a>
+      <a class="nav__link" href="marche.html">The market</a>
+      <a class="nav__link" href="terrain.html">In the field</a>
+      <a class="nav__link" href="glossaire.html">Glossary</a>
+      <button class="nav__search" data-palette-open aria-label="Search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/></svg>
+        Search <kbd>⌘K</kbd>
+      </button>
+      <a class="nav__cta" href="quiz.html">Quiz</a>
+    </nav>
+    <button class="fmt-chip" data-fmt-open aria-label="Change the session format">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+      <span class="fmt-chip__txt">Format</span> <b data-fmt-chip>90 min</b>
+    </button>
+    <button class="burger" aria-expanded="false" aria-label="Open the menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<div class="progress"></div>
+
+<nav class="mobile-menu" aria-label="Menu">
+  <a href="quiz.html"><small>00</small> Entry quiz</a>
+  <a href="fondamentaux.html"><small>01</small> The fundamentals</a>
+  <a href="campagne.html"><small>02</small> A day in the life of a campaign</a>
+  <a href="marche.html"><small>03</small> A changing market</a>
+  <a href="terrain.html"><small>04</small> In the field</a>
+  <a href="glossaire.html"><small>05</small> Glossary</a>
+  <button class="btn btn--ghost mt-l" data-fmt-open style="width:max-content">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+    Session format · <b data-fmt-chip>90 min</b>
+  </button>
+  <button class="btn btn--ghost mt-s" data-palette-open style="width:max-content">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.7" y2="16.7"/></svg>
+    Search the material
+  </button>
+</nav>
+
+<main id="main">
+
+<!-- ===== CHAPTER HERO ===== -->
+<section class="hero hero--chapter">
+  <div class="hero__bg" data-parallax="0.07"></div>
+  <div class="hero__grid"></div>
+  <canvas class="hero__canvas" aria-hidden="true"></canvas>
+  <div class="hero__fade"></div>
+  <div class="wrap hero__content">
+    <div class="kicker" data-reveal>Chapter 01</div>
+    <h1 data-split>The fundamentals</h1>
+    <p class="lead mt-m" data-reveal style="max-width:640px;--d:200ms">
+      By the end of this chapter, everyone should be able to explain to a client what
+      programmatic is and why we use it.
+    </p>
+    <div class="chip-row mt-m" data-reveal style="--d:320ms">
+      <span class="chip"><span class="chip__dot"></span><span data-txt-e="5 sections" data-txt-s="10 sections" data-txt-c="11 sections">11 sections</span></span>
+      <span class="chip" data-txt-e="2 simulators" data-txt-s="5 simulators" data-txt-c="6 simulators">6 simulators</span>
+      <span class="chip" data-txt-e="&#8776; 15 minutes" data-txt-s="&#8776; 24 minutes" data-txt-c="&#8776; 36 minutes">&#8776; 36 minutes</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SUB-NAVIGATION ===== -->
+<div class="subnav">
+  <div class="subnav__inner">
+    <a href="#definition" data-level="core">1.1 Definition</a>
+    <a href="#ecosysteme" data-level="core">1.2 The ecosystem</a>
+    <a href="#enchere" data-level="core">1.3 The auction cycle</a>
+    <a href="#prix" data-level="core">1.4 Pricing models</a>
+    <a href="#ciblage" data-level="standard">1.5 Media / audience</a>
+    <a href="#greagre" data-level="standard">1.6 Vs direct deals</a>
+    <a href="#avantages" data-level="core">1.7 The six benefits</a>
+    <a href="#deals" data-level="standard">1.8 Deal types</a>
+    <a href="#priorite" data-level="standard">1.9 Access priority</a>
+    <a href="#spo" data-level="full">1.10 Supply chain</a>
+    <a href="#dsp" data-level="standard">1.11 The DSP landscape</a>
+  </div>
+</div>
+
+<div class="fmt-bar" data-fmt-bar hidden>
+  <div class="fmt-bar__in">
+    <span class="fmt-bar__t">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>
+      <span><b data-fmt-name>Full</b> format &mdash; <span data-fmt-bar-count></span></span>
+    </span>
+    <span class="fmt-bar__act">
+      <button class="chip" data-fmt-open>Change format</button>
+      <button class="chip chip--on" data-fmt-all>Show the full plan</button>
+    </span>
+  </div>
+</div>
+<!-- ===== 1.1 DEFINITION ===== -->
+<section class="section rel" id="definition" data-level="core">
+  <span class="ghost-num" aria-hidden="true">1.1</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.1 — Definition</div>
+      <h2 data-split>What “programmatic” means</h2>
+    </div>
+    <div class="split">
+      <div class="flow">
+        <p class="lead" data-reveal>
+          Programmatic is the <strong>automated</strong> buying and selling of advertising space,
+          <strong>one impression at a time</strong>, through technology platforms.
+        </p>
+        <p data-reveal style="--d:100ms" class="dim">
+          No more insertion orders negotiated and exchanged by hand: each impression is
+          assessed individually based on its context, the audience seeing it and the campaign
+          objective. Every publisher becomes reachable from a single entry point.
+        </p>
+        <div class="note" data-reveal style="--d:180ms">
+          <strong>The way to put it to a client:</strong> you no longer buy a
+          placement for a week, you buy an opportunity to reach someone, one at a time,
+          making a call every single time.
+        </div>
+      </div>
+      <div class="grid g-2" data-stagger="100">
+        <div class="card" data-reveal="scale">
+          <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <h4>Speed</h4>
+          <p>The impression is auctioned, bought and served in under 200 milliseconds, while the page is loading.</p>
+        </div>
+        <div class="card" data-reveal="scale">
+          <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h4>Scope</h4>
+          <p>Display, video, audio, CTV and DOOH are all bought from the same platform, across five screens.</p>
+        </div>
+        <div class="card" data-reveal="scale">
+          <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          </div>
+          <h4>Unified data</h4>
+          <p>The same profile is recognised across every publisher, and can be enriched with third-party data.</p>
+        </div>
+        <div class="card" data-reveal="scale">
+          <div class="card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <h4>Global frequency capping</h4>
+          <p>Repeat exposure is managed globally, not publisher by publisher.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.2 ECOSYSTEM ===== -->
+<section class="section section--alt rel" id="ecosysteme" data-level="core">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.2 — The ecosystem</div>
+      <h2 data-split>Four players and two cross-cutting layers</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Read the chain from demand to supply. The DSP connects directly to publishers’
+        SSPs, and the whole transaction happens while the page is loading.
+      </p>
+    </div>
+
+    <div class="eco" data-reveal>
+      <div class="eco__flow" data-stagger="90">
+        <button class="eco__node" data-eco-node style="--c:var(--demand)" data-reveal>
+          <span class="eco__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+          </span>
+          <small>Demand</small>
+          <b>Advertiser &amp; agency</b>
+          <p>Set the objectives, the budget, the target audiences and the multiscreen strategy.</p>
+        </button>
+
+        <button class="eco__node" data-eco-node style="--c:var(--orange)" data-reveal>
+          <span class="eco__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 12h4l2-4 2 8 2-4h1"/></svg>
+          </span>
+          <small>Buying</small>
+          <b>DSP</b>
+          <p>Buy-side platform. It assesses every impression on offer and bids according to the campaign rules: audience, allowed inventory, remaining budget, frequency cap, brand safety. Amazon DSP is one example.</p>
+        </button>
+
+        <button class="eco__node" data-eco-node style="--c:var(--supply)" data-reveal>
+          <span class="eco__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </span>
+          <small>Selling</small>
+          <b>SSP</b>
+          <p>Sell-side platform. It makes the inventory available to DSPs, passes on the available signals and decides between the bids received.</p>
+        </button>
+
+        <button class="eco__node" data-eco-node style="--c:var(--measure)" data-reveal>
+          <span class="eco__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
+          </span>
+          <small>Supply</small>
+          <b>Publishers</b>
+          <p>Sites, apps, streaming platforms, CTV and audio environments: the media where the ad is shown.</p>
+        </button>
+      </div>
+
+      <div class="eco__layers mt-m" data-stagger="120">
+        <div class="eco__layer" style="--c:var(--data)" data-reveal>
+          <span class="eco__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V5s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+          </span>
+          <div>
+            <b>Signals and data</b>
+            <p>First-party audiences, third-party data as an extra layer, page context, device type, geography: everything that feeds the bidding decision.</p>
+          </div>
+        </div>
+        <div class="eco__layer" style="--c:var(--supply)" data-reveal>
+          <span class="eco__ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          </span>
+          <div>
+            <b>Ad server and measurement</b>
+            <p>Creative delivery, impression counting, brand safety checks and consolidated measurement, continuously.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note note--info mt-l" data-reveal>
+      <strong>The reflex to keep:</strong> DSP = buy side, SSP = sell side.
+      It is the most common mix-up in meetings — and the easiest one to clear up.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.3 AUCTION CYCLE ===== -->
+<section class="section rel" id="enchere" data-level="core">
+  <span class="ghost-num" aria-hidden="true">1.3</span>
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.3 — The auction cycle</div>
+      <h2 data-split>A hundred and twenty milliseconds, seven steps</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        From page load to the creative being displayed: a closed loop that replays for
+        every available impression, billions of times a day.
+      </p>
+    </div>
+
+    <div class="demo rtb" data-rtb data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>Auction simulator · RTB</div>
+        <div class="demo__ctrls">
+          <button class="chip" data-rtb-mode="real">Real time</button>
+          <button class="chip chip--on" data-rtb-mode="slow">Slow motion ×50</button>
+          <button class="chip" data-rtb-mode="step">Step by step</button>
+          <button class="btn btn--ghost btn--sm" data-rtb-prev hidden aria-label="Previous step">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="btn btn--primary btn--sm" data-rtb-run>Run an impression</button>
+          <span class="rtb__counter" data-rtb-count>0 auctions run</span>
+        </div>
+      </div>
+
+      <div class="rtb2">
+        <!-- Left column: what the user sees -->
+        <div>
+          <div class="browser" data-rtb-browser>
+            <div class="browser__bar">
+              <i></i><i></i><i></i>
+              <span class="browser__url">lequotidien.fr/economie</span>
+              <span class="browser__spin"></span>
+            </div>
+            <div class="browser__page">
+              <div class="sk sk--title"></div>
+              <div class="sk"></div>
+              <div class="sk sk--s"></div>
+              <div class="adslot" data-rtb-slot>
+                <span class="adslot__ph">300 × 250</span>
+                <div class="crea">
+                  <div class="crea-nrj" lang="fr">
+                    <div class="crea-nrj__gov">
+                      <span class="crea-nrj__flag"><i style="background:#000091"></i><i style="background:#fff"></i><i style="background:#e1000f"></i></span>
+                      <b>GOUVERNEMENT</b>
+                    </div>
+                    <div class="crea-nrj__h">
+                      Pour économiser l'énergie, on agit, on réduit.<br>
+                      <span class="crea-nrj__hl">Chauffage à 19 degrés maximum.</span>
+                    </div>
+                    <div class="crea-nrj__foot">
+                      <span class="crea-nrj__brand">Chaque<br>geste <span>compte</span></span>
+                      <span class="crea-nrj__url">chaquegestecompte.gouv.fr</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="sk"></div>
+              <div class="sk sk--s"></div>
+            </div>
+          </div>
+
+          <div class="rtb2__clock">
+            <span class="rtb__ms" data-rtb-ms>0</span>
+            <span class="rtb__unit">ms</span>
+            <span class="rtb__phase" data-rtb-phase>Waiting</span>
+          </div>
+          <div class="rtb__bar"><div class="rtb__fill" data-rtb-fill></div></div>
+
+          <ol class="rtb2__steps" data-rtb-steps>
+            <li class="rtb2__step"><i>1</i><span><b>The page loads</b> — an ad slot becomes available</span><em>0 ms</em></li>
+            <li class="rtb2__step"><i>2</i><span><b>Bid request</b> — the SSP calls the DSPs</span><em>12 ms</em></li>
+            <li class="rtb2__step"><i>3</i><span><b>Filtering</b> — each DSP checks eligibility</span><em>34 ms</em></li>
+            <li class="rtb2__step"><i>4</i><span><b>Bidding</b> — eligible DSPs value the impression</span><em>62 ms</em></li>
+            <li class="rtb2__step"><i>5</i><span><b>Response</b> — bids flow back to the SSP</span><em>88 ms</em></li>
+            <li class="rtb2__step"><i>6</i><span><b>Decision</b> — the SSP picks the best offer</span><em>104 ms</em></li>
+            <li class="rtb2__step"><i>7</i><span><b>Display</b> — creative served, impression counted</span><em>118 ms</em></li>
+          </ol>
+        </div>
+
+        <!-- Right column: the programmatic chain -->
+        <div>
+          <div class="rtb2__chain">
+            <span class="rtb2__node" data-rtb-node="pub">Publisher</span>
+            <span class="rtb2__arrow"></span>
+            <span class="rtb2__node" data-rtb-node="ssp">SSP</span>
+            <span class="rtb2__chaintxt" data-rtb-chaintxt>waiting</span>
+          </div>
+
+          <div class="rtb2__flow" data-rtb-flow>
+            <span class="rtb2__spine"></span>
+            <div class="rtb2__list" data-rtb-bidders></div>
+          </div>
+
+          <div class="rtb__result mt-m" data-rtb-result></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g-3 mt-l" data-stagger="110">
+      <div class="card card--flat" data-reveal>
+        <h4>What happens at step 3</h4>
+        <p>Filtering. An audience that is too narrow, a frequency cap already reached, a badly set brand safety list — and the campaign doesn’t even compete.</p>
+      </div>
+      <div class="card card--flat" data-reveal>
+        <h4>What happens at step 4</h4>
+        <p>Valuation. The maximum CPM entered in the line item becomes, in first price, the price actually paid.</p>
+      </div>
+      <div class="card card--flat" data-reveal>
+        <h4>What happens at step 7</h4>
+        <p>Measurement. Without tags and pixels validated before go live, the impression is served but unreadable at wrap-up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.4 PRICING MODELS ===== -->
+<section class="section section--panel rel" id="prix" data-level="core">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.4 — Pricing models</div>
+      <h2 data-split>First price and second price</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Two auction logics have followed one another in the market. Move the slider: the price paid
+        is recalculated in both models, against the same competitors.
+      </p>
+    </div>
+
+    <div class="demo" data-px data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>Pricing model comparator</div>
+        <div class="demo__ctrls">
+          <button class="chip" data-px-shuffle>Replay with other competitors</button>
+        </div>
+      </div>
+
+      <div class="px">
+        <div class="px__slider">
+          <label for="bid">
+            <span>Your maximum CPM (the bid entered in the line item)</span>
+            <output for="bid">€8.00</output>
+          </label>
+          <input id="bid" type="range" min="2" max="16" step="0.1" value="9.4">
+          <div class="px__field">
+            <span class="muted" style="font-size:.8rem">Competing bids received by the SSP</span>
+            <div class="px__rivals" data-px-rivals></div>
+          </div>
+        </div>
+
+        <div class="px__cards">
+          <div class="px__card">
+            <h4>Second price <span class="px__badge" style="background:rgba(255,255,255,.08);color:var(--text-3)">former standard</span></h4>
+            <p class="muted" style="font-size:.86rem;margin:0">The winner paid the second-highest bid plus one cent.</p>
+            <div class="px__pay" data-px-second>—</div>
+            <div class="px__delta" data-px-second-d></div>
+            <p class="px__note">You could bid high without paying high: the gap between the bid entered and the price actually paid absorbed valuation errors.</p>
+          </div>
+          <div class="px__card is-std">
+            <h4>First price <span class="px__badge">today’s standard</span></h4>
+            <p class="muted" style="font-size:.86rem;margin:0">The winner pays exactly its maximum bid.</p>
+            <div class="px__pay" data-px-first>—</div>
+            <div class="px__delta" data-px-first-d></div>
+            <p class="px__note">Every cent bid is a cent spent. The bid becomes a cost lever, no longer just a statement of intent.</p>
+          </div>
+        </div>
+
+        <div class="note" data-px-verdict></div>
+      </div>
+    </div>
+
+    <div class="note note--warn mt-l" data-reveal>
+      <strong>Operational consequence:</strong> manage the maximum CPM by audience and by
+      placement, and keep a constant eye on drift in the actual cost. A maximum CPM set once
+      at setup and then forgotten is a budget line that leaks.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.5 MEDIA / AUDIENCE ===== -->
+<section class="section rel" id="ciblage" data-level="standard">
+  <span class="ghost-num" aria-hidden="true">1.5</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.5 — Two ways to target</div>
+      <h2 data-split>Media based or audience based</h2>
+    </div>
+
+    <div class="demo" data-mva data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>Same brief, two ways to buy it</div>
+        <div class="mva__switch">
+          <span class="mva__thumb"></span>
+          <button data-mode="media" class="is-on">Media based</button>
+          <button data-mode="audience">Audience based</button>
+        </div>
+      </div>
+
+      <div class="tgt__brief">
+        <span class="chip">Target</span>
+        <span><b>Aged 35 and over, football fan</b> — each dot is a user, each block a site.</span>
+        <span class="mono" style="margin-left:auto;font-size:.78rem;color:var(--text-3)" data-tgt-caption></span>
+      </div>
+
+      <div class="tgt__grid" data-tgt-grid></div>
+
+      <div class="tgt__legend">
+        <span><i class="pdot is-hit"></i> Impression bought, on target</span>
+        <span><i class="pdot is-waste"></i> Impression bought, off target</span>
+        <span><i class="pdot is-miss"></i> On target, never reached</span>
+        <span><i class="pdot"></i> Off target, not bought</span>
+      </div>
+
+      <div class="tgt__stats">
+        <div class="tgt__stat" data-tgt-sitestat><span>Sites bought</span><b>—</b><em></em></div>
+        <div class="tgt__stat" data-tgt-onstat><span>On-target impressions</span><b>—</b><em></em></div>
+        <div class="tgt__stat" data-tgt-reachstat><span>Target reached</span><b>—</b><em></em></div>
+      </div>
+
+      <div class="note mt-m" data-tgt-note></div>
+      <div class="grid g-2" style="gap:22px">
+        <div>
+          <h4 style="color:var(--supply);margin-bottom:8px">Media based — buying a placement</h4>
+          <p class="dim" style="font-size:.94rem">
+            Space on a site, in a section or a programme whose audience is assumed.
+            It is the logic of traditional media planning.
+          </p>
+          <ul class="ticks mt-s">
+            <li>Premium, controlled context, high-impact formats</li>
+            <li>Relies on publisher data, without depending on an identifier</li>
+          </ul>
+          <ul class="ticks ticks--x mt-s">
+            <li>Audience assumed, not measured individually</li>
+            <li>Frequency capping hard to maintain from one publisher to another</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--orange);margin-bottom:8px">Audience based — buying people</h4>
+          <p class="dim" style="font-size:.94rem">
+            People qualified by data, whatever the site where you find them.
+            It is the logic of audience planning.
+          </p>
+          <ul class="ticks mt-s">
+            <li>Individual precision, cross-publisher capping and deduplication</li>
+            <li>Volume available immediately, real-time optimisation</li>
+          </ul>
+          <ul class="ticks ticks--x mt-s">
+            <li>Depends on signal availability</li>
+            <li>Inventory sometimes less premium</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="note mt-l" data-reveal>
+      <strong>In practice, the two are combined:</strong> an audience-based foundation for
+      precision, topped up with media-based buys on high-value contexts.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.6 VS DIRECT DEALS ===== -->
+<section class="section section--alt rel" id="greagre" data-level="standard">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.6 — Side by side</div>
+      <h2 data-split>Programmatic and direct deals</h2>
+    </div>
+
+    <div class="vs" data-stagger="70">
+      <div class="vs__head">
+        <span>Criterion</span><span>Direct deals</span><span class="b">Programmatic</span>
+      </div>
+      <div class="vs__row" data-reveal>
+        <span class="vs__k">Set-up</span>
+        <span class="vs__a">Manual insertion orders, negotiated publisher by publisher</span>
+        <span class="vs__b">Immediate activation, across all publishers</span>
+      </div>
+      <div class="vs__row" data-reveal>
+        <span class="vs__k">Data</span>
+        <span class="vs__a">Siloed by publisher</span>
+        <span class="vs__b">Unified, with third-party data as an extra layer</span>
+      </div>
+      <div class="vs__row" data-reveal>
+        <span class="vs__k">Frequency capping</span>
+        <span class="vs__a">Imposed, publisher by publisher</span>
+        <span class="vs__b">Managed across publishers and screens</span>
+      </div>
+      <div class="vs__row" data-reveal>
+        <span class="vs__k">Steering</span>
+        <span class="vs__a">Plan locked until wrap-up</span>
+        <span class="vs__b">Real-time optimisation</span>
+      </div>
+      <div class="vs__row" data-reveal>
+        <span class="vs__k">Budget</span>
+        <span class="vs__a">Firm commitments, hard to reverse</span>
+        <span class="vs__b">Can be reallocated at any time</span>
+      </div>
+      <div class="vs__row" data-reveal>
+        <span class="vs__k">Measurement</span>
+        <span class="vs__a">Mixed metrics, consolidated by hand</span>
+        <span class="vs__b">Consolidated, standardised, continuous</span>
+      </div>
+    </div>
+
+    <div class="note note--info mt-l" data-reveal>
+      <strong>A nuance worth making:</strong> direct deals keep their place for some editorial
+      partnerships — and programmatic can actually contract them, through a
+      <em>Programmatic Guaranteed</em> deal.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.7 SIX BENEFITS ===== -->
+<section class="section rel" id="avantages" data-level="core">
+  <span class="ghost-num" aria-hidden="true">1.7</span>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.7 — The six benefits</div>
+      <h2 data-split>Everyone should be able to name three without notes</h2>
+    </div>
+    <div class="grid g-3" data-stagger="90">
+      <div class="card" data-reveal>
+        <span class="card__num">01</span>
+        <h4>Targeting precision</h4>
+        <p>Audiences built on real signals: intent, context, purchase behaviour, enriched with third-party data.</p>
+      </div>
+      <div class="card" data-reveal>
+        <span class="card__num">02</span>
+        <h4>Unified data</h4>
+        <p>The same profile recognised across every publisher, with no data silos.</p>
+      </div>
+      <div class="card" data-reveal>
+        <span class="card__num">03</span>
+        <h4>Unified frequency capping</h4>
+        <p>Repetition is managed globally, across publishers and screens, which cuts waste.</p>
+      </div>
+      <div class="card" data-reveal>
+        <span class="card__num">04</span>
+        <h4>Real-time optimisation</h4>
+        <p>Budgets, bids and creatives adjust continuously based on observed performance.</p>
+      </div>
+      <div class="card" data-reveal>
+        <span class="card__num">05</span>
+        <h4>Multiscreen reach</h4>
+        <p>Display, video, audio, CTV and DOOH managed from a single platform.</p>
+      </div>
+      <div class="card" data-reveal>
+        <span class="card__num">06</span>
+        <h4>Measurement and transparency</h4>
+        <p>Impression-level reporting, built-in brand safety, a consolidated view of the whole set-up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.8 DEALS ===== -->
+<section class="section section--panel rel" id="deals" data-level="standard">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.8 — The four deal types</div>
+      <h2 data-split>From the most open to the most reserved</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Each deal takes the form of a <strong>Deal ID</strong> activated in the DSP. Priority
+        access to the impression follows the order below.
+      </p>
+    </div>
+
+    <div class="deals" data-stagger="80">
+      <div class="deal" data-deal data-reveal>
+        <button class="deal__btn">
+          <span class="deal__rank">1</span>
+          <span><span class="deal__name">Programmatic Guaranteed (PG)</span><span class="deal__sub">Reserved, negotiated directly</span></span>
+          <span class="deal__meta"><span class="chip">Fixed CPM</span><span class="chip chip--on">Guaranteed volume</span></span>
+          <span class="deal__caret"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="deal__body"><div class="deal__inner"><div class="deal__pad">
+          <div class="deal__prio" style="--w:100%"><i></i></div>
+          <div class="deal__grid">
+            <div><span>Access</span><b>Reserved, negotiated directly</b></div>
+            <div><span>Price</span><b>Fixed CPM</b></div>
+            <div><span>Volume</span><b>Guaranteed and reserved</b></div>
+          </div>
+          <p class="dim" style="font-size:.92rem;margin:0"><strong>Typical use:</strong> key moments, sponsorship, scarce inventory such as premium CTV. It is the only deal that reserves impressions — the one you pull out when reach must be secured on a given date.</p>
+        </div></div></div>
+      </div>
+
+      <div class="deal" data-deal data-reveal>
+        <button class="deal__btn">
+          <span class="deal__rank">2</span>
+          <span><span class="deal__name">Preferred Deal (PD)</span><span class="deal__sub">Negotiated directly</span></span>
+          <span class="deal__meta"><span class="chip">Fixed CPM</span><span class="chip">Priority access</span></span>
+          <span class="deal__caret"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="deal__body"><div class="deal__inner"><div class="deal__pad">
+          <div class="deal__prio" style="--w:75%"><i></i></div>
+          <div class="deal__grid">
+            <div><span>Access</span><b>Negotiated directly</b></div>
+            <div><span>Price</span><b>Fixed CPM</b></div>
+            <div><span>Volume</span><b>Priority access, not guaranteed</b></div>
+          </div>
+          <p class="dim" style="font-size:.92rem;margin:0"><strong>Typical use:</strong> priority on inventory, with no volume commitment. Not to be confused with PG: you jump the queue, you don’t reserve anything.</p>
+        </div></div></div>
+      </div>
+
+      <div class="deal" data-deal data-reveal>
+        <button class="deal__btn">
+          <span class="deal__rank">3</span>
+          <span><span class="deal__name">Private Auction (PA)</span><span class="deal__sub">Invitation only</span></span>
+          <span class="deal__meta"><span class="chip">Auction + floor price</span><span class="chip">Not guaranteed</span></span>
+          <span class="deal__caret"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="deal__body"><div class="deal__inner"><div class="deal__pad">
+          <div class="deal__prio" style="--w:50%"><i></i></div>
+          <div class="deal__grid">
+            <div><span>Access</span><b>Invitation only</b></div>
+            <div><span>Price</span><b>Auction with a floor price</b></div>
+            <div><span>Volume</span><b>Not guaranteed</b></div>
+          </div>
+          <p class="dim" style="font-size:.92rem;margin:0"><strong>Typical use:</strong> premium inventory, competition limited to a few buyers. The right balance between inventory quality and bidding flexibility.</p>
+        </div></div></div>
+      </div>
+
+      <div class="deal" data-deal data-reveal>
+        <button class="deal__btn">
+          <span class="deal__rank">4</span>
+          <span><span class="deal__name">Open Auction</span><span class="deal__sub">Open to all buyers</span></span>
+          <span class="deal__meta"><span class="chip">Variable auction</span><span class="chip">Not guaranteed</span></span>
+          <span class="deal__caret"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="deal__body"><div class="deal__inner"><div class="deal__pad">
+          <div class="deal__prio" style="--w:25%"><i></i></div>
+          <div class="deal__grid">
+            <div><span>Access</span><b>Open to all</b></div>
+            <div><span>Price</span><b>Auction, variable</b></div>
+            <div><span>Volume</span><b>Not guaranteed</b></div>
+          </div>
+          <p class="dim" style="font-size:.92rem;margin:0"><strong>Typical use:</strong> broad prospecting, scale at a controlled cost. This is where managing the maximum CPM and exclusions makes the biggest difference.</p>
+        </div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.9 ACCESS PRIORITY AND HEADER BIDDING ===== -->
+<section class="section rel" id="priorite" data-level="standard">
+  <span class="ghost-num" aria-hidden="true">1.9</span>
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.9 — Inventory access priority</div>
+      <h2 data-split>Priority beats price</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        An impression doesn’t go to the highest bidder: it goes first to the highest-ranked
+        deal in the ad server. Switch the tiers off one by one to see who serves it.
+      </p>
+    </div>
+
+    <div class="demo" data-prio data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>Ad server decision · click a tier to disable it</div>
+        <div class="demo__ctrls">
+          <button class="chip" data-prio-reset>Re-enable all</button>
+        </div>
+      </div>
+
+      <div class="prio" data-prio-list>
+        <div class="prio__row" data-prio-row="0" style="--c:var(--orange)">
+          <span class="prio__rank">1</span>
+          <span>
+            <span class="prio__n">Programmatic Guaranteed</span>
+            <span class="prio__d">Reserved volume, CPM negotiated in advance</span>
+          </span>
+          <span class="prio__cpm">€12.00 fixed CPM</span>
+          <span class="prio__state"></span>
+          <button class="prio__sw" aria-label="Enable or disable this tier"></button>
+        </div>
+        <div class="prio__row" data-prio-row="1" style="--c:#febd69">
+          <span class="prio__rank">2</span>
+          <span>
+            <span class="prio__n">Preferred Deal</span>
+            <span class="prio__d">Priority access, fixed CPM, no volume commitment</span>
+          </span>
+          <span class="prio__cpm">€9.50 fixed CPM</span>
+          <span class="prio__state"></span>
+          <button class="prio__sw" aria-label="Enable or disable this tier"></button>
+        </div>
+        <div class="prio__row" data-prio-row="2" style="--c:var(--supply)">
+          <span class="prio__rank">3</span>
+          <span>
+            <span class="prio__n">Private Auction</span>
+            <span class="prio__d">Invitation-only auction, with a floor price</span>
+          </span>
+          <span class="prio__cpm">€14.20 best bid</span>
+          <span class="prio__state"></span>
+          <button class="prio__sw" aria-label="Enable or disable this tier"></button>
+        </div>
+        <div class="prio__row" data-prio-row="3" style="--c:var(--data)">
+          <span class="prio__rank">4</span>
+          <span>
+            <span class="prio__n">Open Auction</span>
+            <span class="prio__d">Auction open to all buyers</span>
+          </span>
+          <span class="prio__cpm">€16.40 best bid</span>
+          <span class="prio__state"></span>
+          <button class="prio__sw" aria-label="Enable or disable this tier"></button>
+        </div>
+      </div>
+
+      <div class="note mt-m" data-prio-verdict></div>
+    </div>
+
+    <div class="note note--warn mt-l" data-reveal>
+      <strong>A nuance to know:</strong> this ladder describes the ad server’s <em>delivery</em>
+      priority. Between the two auction tiers (Private and Open), the unified auctions
+      of modern ad servers now largely decide on price. What holds true everywhere:
+      a reserved or negotiated agreement comes before an auction, whatever the amount.
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.9 bis — HEADER BIDDING ===== -->
+<section class="section section--panel rel" data-level="standard">
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.9 — On the publisher side</div>
+      <h2 data-split>Waterfall or header bidding</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Before it even reaches the ad server, the publisher has to call its SSPs. There are two ways
+        to do it — and the difference shows up in both time and price.
+      </p>
+    </div>
+
+    <div class="demo" data-hb data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>SSP calls · waterfall versus header bidding</div>
+        <div class="demo__ctrls">
+          <button class="btn btn--primary btn--sm" data-hb-run>Replay both</button>
+        </div>
+      </div>
+
+      <div class="hb__floorbar">
+        <span class="lbl">Publisher floor price</span>
+        <b data-hb-floor>—</b>
+        <span>The minimum a bid must reach to be accepted. It is the same
+          in both methods, with exactly the same bids.</span>
+      </div>
+
+      <div class="hb__grid">
+        <div class="hb__col" data-hb-col="cascade">
+          <div class="hb__t">
+            <b>Waterfall</b>
+            <span>in sequence</span>
+          </div>
+          <p class="dim" style="font-size:.86rem;margin:0">
+            SSPs are called one after another. As soon as a bid reaches the floor,
+            it wins the impression and the process stops: the rest are never called.
+          </p>
+          <div class="hb__calls" data-hb-calls-cascade></div>
+          <div class="hb__sum">
+            <div class="hb__stat lat"><span>Cumulative latency</span><b data-hb-lat-cascade>—</b></div>
+            <div class="hb__stat cpm"><span>Winning CPM</span><b data-hb-cpm-cascade>—</b></div>
+          </div>
+        </div>
+
+        <div class="hb__col" data-hb-col="hb">
+          <div class="hb__t">
+            <b>Header bidding</b>
+            <span>in parallel</span>
+          </div>
+          <p class="dim" style="font-size:.86rem;margin:0">
+            A wrapper in the page (most often Prebid.js) calls every SSP at the same
+            time. Bids below the floor are eliminated, then the best of the eligible
+            bids is selected.
+          </p>
+          <div class="hb__calls" data-hb-calls-hb></div>
+          <div class="hb__sum">
+            <div class="hb__stat lat"><span>Total latency</span><b data-hb-lat-hb>—</b></div>
+            <div class="hb__stat cpm"><span>Winning CPM</span><b data-hb-cpm-hb>—</b></div>
+          </div>
+          <div class="hb__delta" data-hb-delta hidden></div>
+        </div>
+      </div>
+
+      <div class="note mt-m" data-hb-verdict></div>
+    </div>
+
+    <div class="split mt-l">
+      <div>
+        <h3 data-reveal>What it changes for us, on the buy side</h3>
+        <ul class="ticks mt-s" data-stagger="80">
+          <li data-reveal>The same inventory can arrive through several SSPs at once: that is exactly the duplication <a href="#spo" style="color:var(--orange)">Supply Path Optimisation</a> tracks down.</li>
+          <li data-reveal>The winning header bidding bid is only a <strong>price to beat</strong> passed to the ad server — it then goes up against direct lines according to the priority seen above.</li>
+          <li data-reveal>A Deal ID is an identified path: it goes through header bidding without being diluted in open competition.</li>
+        </ul>
+      </div>
+      <div class="card card--pad-lg" data-reveal="right">
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6-6-6"/><path d="M12 19h8"/></svg>
+        </div>
+        <h4>The line to remember</h4>
+        <p class="lead" style="font-size:1.05rem;color:var(--text)">
+          Header bidding put an end to “first come, first served”. Priority
+          hasn’t moved.
+        </p>
+        <p>A publisher that moves to header bidding raises its revenue per impression, but doesn’t give up
+        serving its reserved agreements first. The two mechanisms stack on top of each other; they don’t
+        replace one another.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.10 SPO ===== -->
+<section class="section rel" id="spo" data-level="full">
+  <span class="ghost-num" aria-hidden="true">1.10</span>
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.10 — Supply Path Optimisation</div>
+      <h2 data-split>The supply chain, and what it costs</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        Several DSPs, several SSPs, resellers, third-party technologies — and at the end,
+        <strong>a single impression</strong>. On average, 357 possible routes lead to it.
+        Here are sixteen representative ones: hover over them, they don’t cost the same.
+      </p>
+    </div>
+
+    <div class="demo spo" data-spo data-reveal="scale">
+      <div class="demo__head">
+        <div class="demo__title"><span class="dot"></span>Buying paths to the same impression</div>
+        <div class="demo__ctrls">
+          <button class="btn btn--primary btn--sm" data-spo-toggle>Apply SPO</button>
+        </div>
+      </div>
+
+      <div class="spo3" data-spo-graph><svg aria-hidden="true"></svg></div>
+
+      <div class="spo3__legend">
+        <span><i style="background:var(--measure)"></i> Short path, low fees</span>
+        <span><i style="background:var(--orange)"></i> One more intermediary</span>
+        <span><i style="background:var(--alert)"></i> Chained resellers</span>
+        <span class="muted" style="margin-left:auto">Hover over a path for details</span>
+      </div>
+
+      <div class="spo3__detail" data-spo-detail></div>
+
+      <div class="spo__meters mt-m">
+        <div class="meter">
+          <div class="meter__top"><span>Average intermediation fees</span><span class="meter__v" data-spo-fees>—</span></div>
+          <div class="meter__track"><div class="meter__fill" data-spo-fees-fill></div></div>
+        </div>
+        <div class="meter">
+          <div class="meter__top"><span>Working media — what actually buys impressions</span><span class="meter__v" data-spo-working>—</span></div>
+          <div class="meter__track"><div class="meter__fill" data-spo-working-fill></div></div>
+        </div>
+      </div>
+
+      <div class="note mt-m" data-spo-note></div>
+    </div>
+
+    <div class="split mt-l">
+      <div>
+        <h3 data-reveal>Five ways to shorten the chain</h3>
+        <ol class="steps mt-s" data-stagger="80">
+          <li data-reveal><strong>Favour direct paths</strong><span>That is, SSPs connected directly to the publisher.</span></li>
+          <li data-reveal><strong>Exclude chained resellers</strong><span>And duplicated inventory.</span></li>
+          <li data-reveal><strong>Go through deals</strong><span>A Deal ID is an identified, contracted path.</span></li>
+          <li data-reveal><strong>Track working media</strong><span>The share of the budget that actually ends up as served impressions.</span></li>
+          <li data-reveal><strong>Check ads.txt and sellers.json</strong><span>To confirm sellers are legitimate.</span></li>
+        </ol>
+      </div>
+      <div class="card card--pad-lg" data-reveal="right">
+        <div class="card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <h4>The question to ask in a meeting</h4>
+        <p class="lead" style="font-size:1.08rem;color:var(--text)">“What share of the budget ends up as served impressions?”</p>
+        <p>A low CPM with a long supply chain often costs more than a higher CPM bought direct. It is the argument that shifts the conversation from price to value.</p>
+        <p class="muted" style="font-size:.84rem;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+          These orders of magnitude come from market studies. Reassess them campaign by
+          campaign using the DSP’s reports.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 1.11 DSP LANDSCAPE ===== -->
+<section class="section section--alt rel" id="dsp" data-level="standard">
+  <div class="wrap wrap-wide">
+    <div class="sec-head">
+      <div class="kicker" data-reveal>1.11 — The DSP landscape</div>
+      <h2 data-split>You don’t choose a DSP in the abstract</h2>
+      <p class="lead" data-reveal style="--d:120ms">
+        You choose it for an objective, a target inventory and a budget. Overview as of August 2026.
+      </p>
+    </div>
+
+    <div class="dsp__grid" data-stagger="110">
+      <article class="dsp__card" data-radar="72,95,92,45,60" style="--c:var(--orange)" data-reveal>
+        <div class="dsp__top">
+          <span class="dsp__logo">
+            <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M6 26c8 6 22 6 29-2" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M30 17l7 4.8-7 3.8z" fill="currentColor"/></svg>
+          </span>
+          <div>
+            <div class="dsp__name">Amazon DSP</div>
+            <div class="dsp__type">Proprietary ecosystem</div>
+          </div>
+        </div>
+        <svg class="dsp__radar" aria-hidden="true"></svg>
+        <div class="dsp__rows">
+          <div><span>Inventory</span><p>Prime Video, Twitch, Fire TV, Amazon Music, Amazon.fr, IMDb.</p></div>
+          <div><span>Data</span><p>Shopping, browsing and streaming signals, in a logged-in environment.</p></div>
+          <div><span>Use it for</span><p>Linking media to sales, premium CTV, full-funnel set-ups.</p></div>
+        </div>
+        <div class="dsp__watch"><b>Watch-outs:</b> the open web is a complement rather than the core of the offer; signals and measurement remain tied to the Amazon scope.</div>
+      </article>
+
+      <article class="dsp__card" data-radar="95,80,70,25,55" style="--c:#34a853" data-reveal>
+        <div class="dsp__top">
+          <span class="dsp__logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.4c0-1.1 1.2-1.7 2-1.1l10.2 6.5c.8.5.8 1.7 0 2.2L9 20.7c-.8.6-2 0-2-1.1z" fill="currentColor"/></svg></span>
+          <div>
+            <div class="dsp__name">DV360</div>
+            <div class="dsp__type">Proprietary ecosystem</div>
+          </div>
+        </div>
+        <svg class="dsp__radar" aria-hidden="true"></svg>
+        <div class="dsp__rows">
+          <div><span>Inventory</span><p>YouTube, Google Display Network, open web.</p></div>
+          <div><span>Data</span><p>Google signals (search, YouTube, Android), native integration with Ads, Analytics and Campaign Manager.</p></div>
+          <div><span>Use it for</span><p>Mass video reach and integrated Google plans.</p></div>
+        </div>
+        <div class="dsp__watch"><b>Watch-outs:</b> Google is both buyer and seller, which raises a neutrality issue; pricing transparency is lower than with independent platforms.</div>
+      </article>
+
+      <article class="dsp__card" data-radar="90,88,85,98,35" style="--c:#00aeef" data-reveal>
+        <div class="dsp__top">
+          <span class="dsp__logo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h7v11h-4V5.6H6z" fill="currentColor"/><path d="M16.4 4.9a8.7 8.7 0 11-8.9.6" fill="none" stroke="currentColor" stroke-width="3"/></svg></span>
+          <div>
+            <div class="dsp__name">The Trade Desk</div>
+            <div class="dsp__type">Independent platform</div>
+          </div>
+        </div>
+        <svg class="dsp__radar" aria-hidden="true"></svg>
+        <div class="dsp__rows">
+          <div><span>Inventory</span><p>Global open web, premium CTV and audio available through deals.</p></div>
+          <div><span>Data</span><p>A very large third-party data marketplace and industry identifiers.</p></div>
+          <div><span>Use it for</span><p>Neutral buying at scale on the open internet.</p></div>
+        </div>
+        <div class="dsp__watch"><b>Watch-outs:</b> a high cost of access, between platform fees and minimum budgets; no proprietary inventory and no first-hand retail data.</div>
+      </article>
+
+      <article class="dsp__card" data-radar="52,58,55,88,88" style="--c:#23b6a0" data-reveal>
+        <div class="dsp__top">
+          <span class="dsp__logo"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M5.6 13.2c2.8-.5 4.6-2 5.7-3.9.7 1.8 2 2.7 3.9 3-1.2 2.1-3.4 3.5-6 3.5-1.4 0-2.6-.9-3.6-2.6z" fill="#0b1017"/><path d="M14.4 7.4l3.8-1.7-1.5 3.6z" fill="#0b1017"/></svg></span>
+          <div>
+            <div class="dsp__name">Hawk (Azerion)</div>
+            <div class="dsp__type">Independent platform</div>
+          </div>
+        </div>
+        <svg class="dsp__radar" aria-hidden="true"></svg>
+        <div class="dsp__rows">
+          <div><span>Inventory</span><p>Curated European inventory, strong in digital audio and DOOH.</p></div>
+          <div><span>Data</span><p>Curation based on publisher signals, local geo-demographic data.</p></div>
+          <div><span>Use it for</span><p>Local plans, audio and DOOH, at a contained cost.</p></div>
+        </div>
+        <div class="dsp__watch"><b>Watch-outs:</b> reach and data catalogue more limited than the big three; little exclusive premium inventory, with access depending on negotiated deals.</div>
+      </article>
+    </div>
+
+    <p class="muted mt-m" style="font-size:.84rem" data-reveal>
+      The radars are a qualitative reading of positioning, meant for discussion:
+      they are not based on any published scoring.
+    </p>
+  </div>
+</section>
+
+<!-- ===== KEY TAKEAWAYS ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="recap" data-reveal="scale">
+      <div class="recap__t">Key takeaways — chapter 1</div>
+      <div class="recap__h">The right inventory, the right audience, at the right price — automatically.</div>
+      <ul>
+        <li>Buying happens impression by impression, in around a hundred milliseconds.</li>
+        <li>Compared with siloed direct deals, programmatic unifies data, frequency capping and measurement across publishers.</li>
+        <li>From Open Auction to Programmatic Guaranteed, the deal is chosen based on the objective and how scarce the inventory is.</li>
+        <li>The bid, the supply path and the choice of DSP are three cost levers you can manage.</li>
+      </ul>
+    </div>
+
+    <a class="nextup mt-l" href="campagne.html" data-reveal>
+      <div>
+        <div class="nextup__k">Next chapter</div>
+        <div class="nextup__t">02 · A day in the life of a campaign</div>
+        <div class="nextup__d">Six steps in the real order of work: from brief to wrap-up.</div>
+      </div>
+      <span class="chap__go" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="brand mb-m" href="index.html" aria-label="amazon ads — Programmatic advertising">
+          <span class="amz-lockup amz-lockup--nav" aria-hidden="true">
+            <span class="amz-lockup__t">amazon ads</span>
+        <svg class="amz-lockup__s" viewBox="0 0 100 15" fill="none" aria-hidden="true">
+          <path d="M2.5 5.2C17 13.6 57 15.4 79 6.4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+          <path d="M72.2 1.9c2.3-1 7.6-2 9.6-.7 1.9 1.2.2 5.9-.9 7.9-.3.6-.9.3-.7-.3.7-2 1.9-5.4.4-6.3-1.6-.9-5.7 0-7.7.5-.6.1-.9-.9-.7-1.1z" fill="currentColor"/>
+        </svg>          </span>
+          <span class="brand__sep" aria-hidden="true"></span>
+          <span class="brand__txt">
+            <span class="brand__t1">Programmatic</span>
+            <span class="brand__t2">Training material</span>
+          </span>
+        </a>
+        <p class="muted" style="font-size:.9rem;max-width:340px">
+          Multiscreen team training — Amazon Ads. Internal material, for training use only.
+        </p>
+      </div>
+      <div>
+        <h4>Chapters</h4>
+        <ul>
+          <li><a href="quiz.html">Entry quiz</a></li>
+          <li><a href="fondamentaux.html">1 · The fundamentals</a></li>
+          <li><a href="campagne.html">2 · A day in the life of a campaign</a></li>
+          <li><a href="marche.html">3 · A changing market</a></li>
+          <li><a href="terrain.html">4 · In the field</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>In this chapter</h4>
+        <ul>
+          <li><a href="#enchere" data-level="core">Auction simulator</a></li>
+          <li><a href="#prix" data-level="core">First / second price</a></li>
+          <li><a href="#ciblage" data-level="standard">Media / audience based</a></li>
+          <li><a href="#spo" data-level="full">Supply chain</a></li>
+          <li><a href="#dsp" data-level="standard">DSP landscape</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bot">
+      <span>Prepared for <strong style="color:var(--orange)">France</strong> — Amazon Ads · August 2026</span>
+      <span>Amazon Squid Ink #232F3E · Amazon Orange #FF9900</span>
+    </div>
+  </div>
+</footer>
+
+<div class="palette" role="dialog" aria-label="Search">
+  <div class="palette__box">
+    <input class="palette__in" type="text" placeholder="Search a concept, a chapter, a module…" aria-label="Search">
+    <div class="palette__res"></div>
+    <div class="palette__foot">
+      <span><kbd>↑↓</kbd>navigate</span>
+      <span><kbd>↵</kbd>open</span>
+      <span><kbd>esc</kbd>close</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Session format ===== -->
+<div class="fmt-modal" data-fmt-modal role="dialog" aria-modal="true" aria-label="Session format">
+  <div class="fmt-modal__box">
+    <button class="fmt-modal__close" data-fmt-close aria-label="Close">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="kicker">Session format</div>
+    <h2 style="font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:12px">How much time do you have?</h2>
+    <p class="dim" style="font-size:.94rem;max-width:660px;margin-bottom:26px">
+      The plan adapts to your time slot: secondary sections are hidden to keep to
+      time, and the essentials stay front and centre. You can go back to the full plan
+      at any time.
+    </p>
+
+    <div class="fmt-cards">
+      <button class="fmt-card" data-fmt-set="essentiel">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Essentials</span>
+        <span class="fmt-card__t">45 min</span>
+        <span class="fmt-card__d">Understand it and talk about it: the auction, first price, data, a real case and the objections.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>5 min</b></div>
+          <div><span>1 &middot; Fundamentals</span><b>15 min</b></div>
+          <div><span>2 &middot; The campaign</span><b>10 min</b></div>
+          <div><span>3 &middot; The market</span><b>8 min</b></div>
+          <div><span>4 &middot; In the field</span><b>7 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>14 sections</span><b>4 simulators</b></div>
+        </span>
+      </button>
+
+      <button class="fmt-card" data-fmt-set="standard">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Standard</span>
+        <span class="fmt-card__t">1 hr</span>
+        <span class="fmt-card__d">The full journey minus the deep dives: adds deals, targeting, DSPs and the cost structure.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>6 min</b></div>
+          <div><span>1 &middot; Fundamentals</span><b>24 min</b></div>
+          <div><span>2 &middot; The campaign</span><b>12 min</b></div>
+          <div><span>3 &middot; The market</span><b>9 min</b></div>
+          <div><span>4 &middot; In the field</span><b>9 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>26 sections</span><b>8 simulators</b></div>
+        </span>
+      </button>
+
+      <button class="fmt-card" data-fmt-set="complet">
+        <span class="fmt-card__tick"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span class="fmt-card__n">Full</span>
+        <span class="fmt-card__t">90 min</span>
+        <span class="fmt-card__d">The whole plan, including the supply chain, audio, DOOH and buying models. The reference version.</span>
+        <span class="fmt-card__list">
+          <div><span>Quiz</span><b>9 min</b></div>
+          <div><span>1 &middot; Fundamentals</span><b>36 min</b></div>
+          <div><span>2 &middot; The campaign</span><b>18 min</b></div>
+          <div><span>3 &middot; The market</span><b>14 min</b></div>
+          <div><span>4 &middot; In the field</span><b>13 min</b></div>
+          <div style="border-top:1px dashed var(--line);padding-top:8px;margin-top:3px"><span>30 sections</span><b>11 simulators</b></div>
+        </span>
+      </button>
+    </div>
+
+    <p class="muted" style="font-size:.82rem;margin-top:22px">
+      No content is removed: the format hides the lowest-priority sections,
+      and your choice is saved in this browser.
+    </p>
+  </div>
+</div>
+
+<button class="totop" aria-label="Back to top">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+</button>
+
+<script src="../assets/js/core.js"></script>
+<script src="../assets/js/modules.js"></script>
+</body>
+</html>

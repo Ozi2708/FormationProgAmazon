@@ -12,6 +12,24 @@ Les polices (Inter + IBM Plex Mono) sont chargées depuis Google Fonts. Sans
 connexion, le site bascule automatiquement sur les polices système — la mise en
 page reste identique.
 
+## Version anglaise — FR / EN
+
+Le site existe en français (racine) et en anglais (dossier `en/`), avec les mêmes
+noms de fichier : `index.html` ↔ `en/index.html`, etc. Le sélecteur **FR | EN** de
+la barre du haut (ou le bouton en bas du menu mobile) bascule vers la page jumelle
+en gardant la section en cours (`#enchere`, `#couts`…). Le format de session et le
+mode présentation sont partagés entre les deux langues.
+
+- **Textes des pages** : dans les fichiers `.html` de chaque langue. Une
+  modification de contenu est à reporter dans les deux versions.
+- **Textes générés par les scripts** (simulateurs, quiz, glossaire, recherche) :
+  `assets/js/` choisit la langue d'après `<html lang>`. Les libellés courts passent
+  par `T('français', 'English')`, les jeux de données ont leur double anglais —
+  `QUESTIONS_EN` et `GLOSSARY_EN` dans `modules.js`, `INDEX_EN` dans `core.js`.
+- En anglais, les montants s'écrivent `€8.40` et les pourcentages `12%`.
+- Restent volontairement en français : les noms propres (sites, lieux) et la
+  bannière de démonstration du simulateur, qui est une vraie campagne française.
+
 ## Mode présentation — un module par écran
 
 Bouton 🖵 dans la barre du haut, ou touche **P**. Chaque section devient une
@@ -201,7 +219,8 @@ pas être présentés comme une référence client.
 
 ```
 site-le-programmatique/
-├─ index.html … terrain.html      pages
+├─ index.html … terrain.html      pages (français)
+├─ en/index.html … en/terrain.html  pages (anglais)
 └─ assets/
    ├─ css/base.css                design system, layout, navigation
    ├─ css/modules.css             composants des modules interactifs

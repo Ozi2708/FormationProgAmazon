@@ -11,6 +11,11 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
+  /* Langue de la page : les pages anglaises vivent dans /en/ et portent
+     <html lang="en">. T(fr, en) renvoie le libellé dans la bonne langue. */
+  const EN = (document.documentElement.lang || '').toLowerCase().startsWith('en');
+  const T = (fr, en) => (EN ? en : fr);
+
   /* ==================================================================
      0. Format de session — 45 min / 1 h / 90 min
      Chaque section porte data-level="core|standard|full". On masque
@@ -18,9 +23,9 @@
      mémorisé et s'applique à l'ensemble du site.
      ================================================================== */
   const FORMATS = {
-    essentiel: { rank: 1, chip: '45 min', total: '45 minutes', name: 'Essentiel' },
-    standard: { rank: 2, chip: '1 h', total: '1 heure', name: 'Standard' },
-    complet: { rank: 3, chip: '90 min', total: '90 minutes', name: 'Complet' },
+    essentiel: { rank: 1, chip: '45 min', total: '45 minutes', name: T('Essentiel', 'Essentials') },
+    standard: { rank: 2, chip: T('1 h', '1 hr'), total: T('1 heure', '1 hour'), name: 'Standard' },
+    complet: { rank: 3, chip: '90 min', total: '90 minutes', name: T('Complet', 'Full') },
   };
   const LVL = { core: 1, standard: 2, full: 3 };
   const SUFFIX = { essentiel: 'E', standard: 'S', complet: 'C' };
@@ -76,8 +81,8 @@
     const c = $('[data-fmt-bar-count]', bar);
     if (c) {
       c.textContent = hidden === 1
-        ? '1 section est masquée sur ce chapitre.'
-        : hidden + ' sections sont masquées sur ce chapitre.';
+        ? T('1 section est masquée sur ce chapitre.', '1 section is hidden in this chapter.')
+        : hidden + T(' sections sont masquées sur ce chapitre.', ' sections are hidden in this chapter.');
     }
   }
 
@@ -201,7 +206,7 @@
       cw.className = wrap.className;
       const tag = document.createElement('div');
       tag.className = 'slide-cont__tag';
-      tag.textContent = (sec.querySelector('.kicker')?.textContent || 'Suite').trim() + ' — suite';
+      tag.textContent = (sec.querySelector('.kicker')?.textContent || T('Suite', 'Continued')).trim() + T(' — suite', ' — continued');
       cw.appendChild(tag);
       cont.appendChild(cw);
       host.after(cont);
@@ -378,8 +383,8 @@
       b.className = 'iconbtn';
       b.setAttribute('data-present-toggle', '');
       b.setAttribute('aria-pressed', 'false');
-      b.setAttribute('title', 'Mode présentation (P)');
-      b.setAttribute('aria-label', 'Mode présentation');
+      b.setAttribute('title', T('Mode présentation (P)', 'Presentation mode (P)'));
+      b.setAttribute('aria-label', T('Mode présentation', 'Presentation mode'));
       b.innerHTML = ICON_PRESENT;
       chip.after(b);
     }
@@ -392,7 +397,7 @@
       mb.style.width = 'max-content';
       mb.setAttribute('data-present-toggle', '');
       mb.setAttribute('aria-pressed', 'false');
-      mb.innerHTML = ICON_PRESENT + ' Mode présentation';
+      mb.innerHTML = ICON_PRESENT + T(' Mode présentation', ' Presentation mode');
       menu.appendChild(mb);
     }
 
@@ -401,11 +406,11 @@
       const hud = document.createElement('div');
       hud.className = 'present-hud';
       hud.innerHTML =
-        '<button data-present-prev aria-label="Diapositive précédente"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' +
+        '<button data-present-prev aria-label="' + T('Diapositive précédente', 'Previous slide') + '"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>' +
         '<span class="present-hud__n"><b data-present-i>1</b> / <span data-present-n>1</span></span>' +
-        '<button data-present-next aria-label="Diapositive suivante"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>' +
+        '<button data-present-next aria-label="' + T('Diapositive suivante', 'Next slide') + '"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>' +
         '<span class="present-hud__t" data-present-title></span>' +
-        '<button class="present-hud__exit" data-present-exit>Quitter</button>';
+        '<button class="present-hud__exit" data-present-exit>' + T('Quitter', 'Exit') + '</button>';
       document.body.appendChild(hud);
       $('[data-present-prev]', hud).addEventListener('click', () => goSlide(-1));
       $('[data-present-next]', hud).addEventListener('click', () => goSlide(1));
@@ -486,6 +491,48 @@
     let stored = '0';
     try { stored = localStorage.getItem('lp-present') || '0'; } catch (e) { /* mode privé */ }
     if (stored === '1') setPresent(true, false);
+  }
+
+  /* ------------------------------------------- 0 ter. Choix de la langue
+     Pages françaises à la racine, pages anglaises dans /en/, mêmes noms
+     de fichier. Le bouton pointe vers la page jumelle, ancre comprise. */
+  function langSwitch() {
+    const file = (location.pathname.split('/').pop() || 'index.html');
+    const target = () => (EN ? '../' : 'en/') + file + location.hash;
+    const label = EN ? 'FR' : 'EN';
+    const title = EN ? 'Version française' : 'English version';
+
+    const chip = $('.fmt-chip[data-fmt-open]');
+    if (chip && !$('.nav [data-lang-switch]')) {
+      const a = document.createElement('a');
+      a.className = 'langbtn';
+      a.setAttribute('data-lang-switch', '');
+      a.setAttribute('hreflang', EN ? 'fr' : 'en');
+      a.setAttribute('lang', EN ? 'fr' : 'en');
+      a.title = title;
+      a.setAttribute('aria-label', title);
+      a.innerHTML = '<span class="' + (EN ? '' : 'is-cur') + '">FR</span><span class="' + (EN ? 'is-cur' : '') + '">EN</span>';
+      chip.parentNode.insertBefore(a, chip);
+      a.addEventListener('click', () => { a.href = target(); });
+      a.href = target();
+    }
+
+    // Dans le menu mobile, un bouton : les liens y ont le style des chapitres.
+    const menu = $('.mobile-menu');
+    if (menu && !$('[data-lang-switch]', menu)) {
+      const m = document.createElement('button');
+      m.className = 'btn btn--ghost mt-s';
+      m.style.width = 'max-content';
+      m.setAttribute('data-lang-switch', '');
+      m.setAttribute('lang', EN ? 'fr' : 'en');
+      m.innerHTML = '<b>' + label + '</b> · ' + title;
+      m.addEventListener('click', () => { location.href = target(); });
+      menu.appendChild(m);
+    }
+    // L'ancre change en cours de lecture : le lien suit.
+    window.addEventListener('hashchange', () =>
+      $$('a[data-lang-switch]').forEach((x) => { x.href = target(); })
+    );
   }
 
   /* ---------------------------------------------------------------- 1. Préloader */
@@ -624,7 +671,7 @@
 
   /* ---------------------------------------------------------------- 6. Compteurs */
   const fmtNum = (v, dec) =>
-    v.toLocaleString('fr-FR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+    v.toLocaleString(EN ? 'en-GB' : 'fr-FR', { minimumFractionDigits: dec, maximumFractionDigits: dec });
 
   function counters() {
     const nodes = $$('[data-count]');
@@ -782,7 +829,7 @@
   }
 
   /* ------------------------------------------- 11. Palette de commande Ctrl+K */
-  const INDEX = [
+  const INDEX_FR = [
     { t: 'Accueil', d: 'Vue d’ensemble de la formation', u: 'index.html', g: 'Page' },
     { t: 'Le quiz d’entrée', d: '10 questions pour situer le niveau', u: 'quiz.html', g: 'Page' },
     { t: 'Glossaire', d: '27 termes du programmatique', u: 'glossaire.html', g: 'Page' },
@@ -823,6 +870,48 @@
     { t: 'Les erreurs de setup', d: 'Les 5 pièges classiques', u: 'terrain.html#erreurs', l: 2, g: 'Ch. 4' },
   ];
 
+  const INDEX_EN = [
+    { t: 'Home', d: 'Training overview', u: 'index.html', g: 'Page' },
+    { t: 'The entry quiz', d: '10 questions to gauge your level', u: 'quiz.html', g: 'Page' },
+    { t: 'Glossary', d: '27 programmatic terms', u: 'glossaire.html', g: 'Page' },
+
+    { t: 'What programmatic means', d: 'Automated buying, impression by impression', u: 'fondamentaux.html#definition', g: 'Ch. 1' },
+    { t: 'The ecosystem', d: 'Advertiser, DSP, SSP, publishers', u: 'fondamentaux.html#ecosysteme', g: 'Ch. 1' },
+    { t: 'The auction cycle', d: 'RTB simulator in 120 ms', u: 'fondamentaux.html#enchere', g: 'Ch. 1' },
+    { t: 'First price / second price', d: 'Price-paid simulator', u: 'fondamentaux.html#prix', g: 'Ch. 1' },
+    { t: 'Media based vs audience based', d: 'Two ways to target', u: 'fondamentaux.html#ciblage', l: 2, g: 'Ch. 1' },
+    { t: 'Programmatic vs direct deals', d: 'Side by side on 6 criteria', u: 'fondamentaux.html#greagre', l: 2, g: 'Ch. 1' },
+    { t: 'The six benefits', d: 'What you should be able to name', u: 'fondamentaux.html#avantages', g: 'Ch. 1' },
+    { t: 'Deal types', d: 'Open Auction, PA, PD, PG', u: 'fondamentaux.html#deals', l: 2, g: 'Ch. 1' },
+    { t: 'Inventory access priority', d: 'Which deal serves the impression, and why', u: 'fondamentaux.html#priorite', l: 2, g: 'Ch. 1' },
+    { t: 'Waterfall or header bidding', d: 'SSP calls in sequence or in parallel', u: 'fondamentaux.html#priorite', l: 2, g: 'Ch. 1' },
+    { t: 'Supply Path Optimisation', d: '357 routes, 20% leakage', u: 'fondamentaux.html#spo', l: 3, g: 'Ch. 1' },
+    { t: 'The DSP landscape', d: 'Amazon DSP, DV360, The Trade Desk, Hawk', u: 'fondamentaux.html#dsp', l: 2, g: 'Ch. 1' },
+
+    { t: 'Objectives and KPIs', d: 'Awareness, engagement, conversion', u: 'campagne.html#objectifs', g: 'Ch. 2' },
+    { t: 'Data', d: 'First, second and third party', u: 'campagne.html#data', g: 'Ch. 2' },
+    { t: 'Inventory and formats', d: 'Display, video, audio, CTV, DOOH', u: 'campagne.html#inventaire', l: 2, g: 'Ch. 2' },
+    { t: 'Setup and go live', d: 'Pre-launch checklist', u: 'campagne.html#parametrage', g: 'Ch. 2' },
+    { t: 'Optimisation', d: 'What to optimise, and in what order', u: 'campagne.html#optimisation', l: 2, g: 'Ch. 2' },
+    { t: 'Measurement and wrap-up', d: 'Media, behaviour, business', u: 'campagne.html#mesure', g: 'Ch. 2' },
+
+    { t: 'Cookies and identity', d: 'Where addressability stands', u: 'marche.html#cookies', g: 'Ch. 3' },
+    { t: 'Cookie alternatives', d: 'Context, SSO, server-side, deals', u: 'marche.html#alternatives', l: 2, g: 'Ch. 3' },
+    { t: 'Amazon’s position', d: 'First-party signals, logged-in environment', u: 'marche.html#amazon', g: 'Ch. 3' },
+    { t: 'Programmatic audio', d: 'The most under-used medium', u: 'marche.html#audio', l: 3, g: 'Ch. 3' },
+    { t: 'CTV and addressable TV', d: 'The number one growth driver', u: 'marche.html#ctv', l: 2, g: 'Ch. 3' },
+    { t: 'Programmatic DOOH', d: 'Trigger simulator', u: 'marche.html#dooh', l: 3, g: 'Ch. 3' },
+    { t: 'Amazon inventory', d: 'Prime Video, Twitch, Fire TV…', u: 'marche.html#inventaire-amazon', g: 'Ch. 3' },
+
+    { t: 'Who you work with', d: 'Who does what at the agency', u: 'terrain.html#interlocuteurs', l: 2, g: 'Ch. 4' },
+    { t: 'Buying models', d: 'Disclosed and non-disclosed', u: 'terrain.html#modeles', l: 3, g: 'Ch. 4' },
+    { t: 'A worked case', d: 'Skincare range launch, €150,000', u: 'terrain.html#cas', g: 'Ch. 4' },
+    { t: 'The cost structure', d: 'Where €100 invested actually goes', u: 'terrain.html#couts', l: 2, g: 'Ch. 4' },
+    { t: 'Objections', d: '5 objections, 5 answers', u: 'terrain.html#objections', g: 'Ch. 4' },
+    { t: 'Setup mistakes', d: 'The 5 classic pitfalls', u: 'terrain.html#erreurs', l: 2, g: 'Ch. 4' },
+  ];
+  const INDEX = EN ? INDEX_EN : INDEX_FR;
+
   function palette() {
     const box = $('.palette');
     if (!box) return;
@@ -846,7 +935,7 @@
         : pool.slice(0, 9);
       sel = 0;
       if (!list.length) {
-        res.innerHTML = '<div class="palette__empty">Aucun résultat pour « ' + q + ' »</div>';
+        res.innerHTML = '<div class="palette__empty">' + T('Aucun résultat pour « ' + q + ' »', 'No results for “' + q + '”') + '</div>';
         return;
       }
       res.innerHTML = list
@@ -924,6 +1013,7 @@
     // apparitions au scroll doivent travailler sur le DOM déjà filtré.
     applyFormat(readFormat(), false);
     formatUI();
+    langSwitch();
     preloader();
     nav();
     presentUI();
@@ -945,7 +1035,7 @@
 
   // Utilitaires partagés
   window.LP = {
-    $, $$, reduced, fmt: fmtNum,
+    $, $$, reduced, fmt: fmtNum, EN, T,
     /** Format de session courant ('essentiel' | 'standard' | 'complet'). */
     format: () => fmt,
     /** Rang du format courant : 1 = 45 min, 2 = 1 h, 3 = 90 min. */
