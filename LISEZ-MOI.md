@@ -1,7 +1,8 @@
 # Le Programmatique — site vitrine
 
-Support de formation Amazon Ads transformé en site web navigable.
-Préparé pour une présentation à **France** (Amazon Ads), août 2026.
+Support de formation Amazon Ads transformé en site web navigable, ouvert à
+toutes les équipes. Conçu et développé par **valdemo** — questions par Slack
+(@valdemo) ou par mail (valdemo@amazon.com).
 
 ## Ouvrir le site
 
