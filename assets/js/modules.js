@@ -15,11 +15,17 @@
      réponse au SSP → arbitrage → affichage de la création.
      Trois modes : temps réel, ralenti, et pas à pas pour la présentation.
      ====================================================================== */
+  // Logos officiels, résolus depuis l'emplacement du script : le même
+  // fichier sert les pages françaises (racine) et anglaises (en/).
+  const IMG = new URL('../img/', document.currentScript.src).href;
+  const tile = (file, cls) =>
+    `<span class="logo-tile ${cls || ''}"><img src="${IMG}${file}" alt=""></span>`;
+
   const LOGO = {
-    amazon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15c4.5 3.3 12 3.3 17-1" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round"/><path d="M17.2 10.6L22 13.5l-4.8 2.6z" fill="currentColor"/></svg>',
-    dv360: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.4c0-1.1 1.2-1.7 2-1.1l10.2 6.5c.8.5.8 1.7 0 2.2L9 20.7c-.8.6-2 0-2-1.1z" fill="currentColor"/></svg>',
-    ttd: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h7v11h-4V5.6H6z" fill="currentColor"/><path d="M16.4 4.9a8.7 8.7 0 11-8.9.6" fill="none" stroke="currentColor" stroke-width="3"/></svg>',
-    hawk: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M5.6 13.2c2.8-.5 4.6-2 5.7-3.9.7 1.8 2 2.7 3.9 3-1.2 2.1-3.4 3.5-6 3.5-1.4 0-2.6-.9-3.6-2.6z" fill="#0b1017"/><path d="M14.4 7.4l3.8-1.7-1.5 3.6z" fill="#0b1017"/></svg>',
+    amazon: tile('amazon-sourire-blanc.png', 'is-amz'),
+    dv360: tile('dv360.png'),
+    ttd: tile('thetradedesk.png'),
+    hawk: tile('hawk.png'),
     grid: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2" opacity=".45"/></svg>',
   };
 
