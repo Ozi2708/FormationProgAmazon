@@ -176,16 +176,19 @@ seulement masqué.
 
 ## Logos et créations
 
-Tous les logos sont **redessinés en SVG inline** : ils héritent de la couleur du
-thème, restent nets à toutes les tailles et ne dépendent d'aucun fichier externe.
+Les logos officiels sont dans `assets/img/` (PNG à fond transparent) :
 
-| Logo | Où | Couleur |
-|---|---|---|
-| Sourire Amazon | nav, pied de page, ligne « Amazon DSP » du simulateur, carte DSP | `#FF9900` |
-| Lockup « amazon ads » | bas de chaque pied de page | blanc + `#FF9900` |
-| DV360 (triangle play) | simulateur, carte DSP | `#34A853` |
-| The Trade Desk (marque circulaire) | simulateur, carte DSP | `#00AEEF` |
-| Hawk (cercle + oiseau) | simulateur, carte DSP | `#23B6A0` |
+| Fichier | Où |
+|---|---|
+| `amazon-ads-blanc.png` | barre du haut, pied de page, écran de chargement |
+| `amazon-sourire-blanc.png` | ligne « Amazon DSP » du simulateur, carte DSP (tuile Squid Ink) |
+| `dv360.png`, `thetradedesk.png`, `hawk.png` | simulateur d'enchère et cartes du paysage des DSP (tuile blanche) |
+| `favicon.png` | icône d'onglet, générée à partir du sourire |
+
+Dans le simulateur, les logos sont déclarés en tête de `assets/js/modules.js`
+(constante `LOGO`) ; sur les cartes DSP, directement dans `fondamentaux.html` et
+`en/fondamentaux.html`. Pour remplacer un logo, il suffit d'écraser le fichier
+correspondant en gardant son nom. Xandr et Equativ gardent une icône générique.
 
 La **bannière display** servie à la fin du simulateur est une recréation en CSS
 de la campagne de sobriété énergétique (`.crea-nrj` dans `modules.css`) : format
@@ -193,10 +196,6 @@ de la campagne de sobriété énergétique (`.crea-nrj` dans `modules.css`) : fo
 la remplacer par une autre créa, il suffit d'éditer ce bloc dans
 `fondamentaux.html` — ou d'y mettre une `<img>` si vous préférez un visuel réel.
 
-Si vous voulez utiliser les fichiers d'origine plutôt que mes redessins,
-déposez-les dans `assets/img/` et remplacez le `<svg>` concerné par une
-`<img src="assets/img/…" alt="">` — les classes `.dsp__logo` et `.dsprow__logo`
-gèrent déjà le cadrage.
 
 ## Design system
 

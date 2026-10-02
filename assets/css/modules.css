@@ -2190,17 +2190,6 @@ body.is-present .who__c { padding: 19px; }
 body.is-present .tl__item { padding-bottom: 22px; }
 body.is-present .is-slide-trim { display: none !important; }
 
-/* --- Lockup « amazon ads » --- */
-.amz-lockup { display: inline-grid; justify-items: start; gap: 1px; }
-.amz-lockup__t {
-  font-size: 1.06rem;
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 1;
-  color: #fff;
-}
-.amz-lockup__s { width: 74px; height: 11px; color: var(--orange); margin-left: 1px; }
-
 /* Sur très petit écran, la barre doit rester tenable : le bouton
    présentation passe dans le menu, et le sous-titre de marque disparaît. */
 @media (max-width: 560px) {
@@ -2215,18 +2204,12 @@ body.is-present .is-slide-trim { display: none !important; }
   .fmt-chip { padding: 6px 10px; gap: 6px; }
 }
 
-/* --- Lockup « amazon ads » en tête de page --- */
-.amz-lockup--nav { gap: 2px; }
-.amz-lockup--nav .amz-lockup__t { font-size: 1rem; letter-spacing: -0.045em; }
-.amz-lockup--nav .amz-lockup__s { width: 68px; height: 10px; }
 .brand__sep {
   width: 1px;
   height: 28px;
   background: var(--line-strong);
   flex: 0 0 1px;
 }
-.brand:hover .amz-lockup__s { color: var(--orange-soft); }
-.amz-lockup__s { transition: color 0.25s var(--ease); }
 
 /* La barre reste tenable : le titre du support s'efface avant le lockup. */
 @media (max-width: 1240px) and (min-width: 1081px) {
@@ -2856,3 +2839,30 @@ body.is-present .is-slide-trim { display: none !important; }
   .nav .langbtn { display: none; }
   .langbtn + .fmt-chip { margin-left: auto; }
 }
+
+/* ==========================================================================
+   33. Logos officiels — Amazon Ads, DV360, The Trade Desk, Hawk
+   Fichiers dans assets/img/. Les logos de DSP sont posés sur une tuile :
+   blanche pour garder leurs couleurs d'origine, Squid Ink pour Amazon, dont
+   le sourire est fourni en blanc.
+   ========================================================================== */
+.amz-logo { display: block; height: 22px; width: auto; }
+.brand { transition: opacity 0.25s var(--ease); }
+.brand:hover .amz-logo { opacity: 0.85; }
+
+.logo-tile {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: #fff;
+  overflow: hidden;
+}
+.logo-tile img { width: 68%; height: 68%; object-fit: contain; display: block; }
+.logo-tile.is-amz { background: #232f3e; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12); }
+.logo-tile.is-amz img { width: 76%; height: 76%; transform: translateY(8%); }
+/* La tuile remplace le fond teinté de la couleur de marque. */
+.dsp__logo.logo-tile { background: #fff; border-radius: 12px; }
+.dsp__logo.logo-tile.is-amz { background: #232f3e; }
+.dsprow__logo:has(.logo-tile) { background: none; }

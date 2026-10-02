@@ -1169,13 +1169,14 @@ table.t .num { font-family: var(--mono); color: var(--orange); font-weight: 600;
 }
 .preload.is-done { opacity: 0; visibility: hidden; }
 .preload__in { display: grid; justify-items: center; gap: 18px; }
-.preload__mark { width: 110px; }
-.preload__mark .arc {
-  stroke-dasharray: 220;
-  stroke-dashoffset: 220;
-  animation: dash-in 1s var(--ease) forwards;
+.preload__mark {
+  width: 170px;
+  height: auto;
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  animation: preload-mark 0.8s var(--ease) 0.1s forwards;
 }
-.preload__mark .head { opacity: 0; animation: fade-in 0.4s var(--ease) 0.75s forwards; }
+@keyframes preload-mark { to { opacity: 1; transform: none; } }
 .preload__t {
   font-size: 0.74rem;
   letter-spacing: 0.28em;
