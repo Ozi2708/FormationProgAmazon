@@ -115,7 +115,8 @@ seulement masqué.
   5. les enchères remontent au SSP ;
   6. le SSP retient la meilleure offre ;
   7. la création s'affiche dans l'emplacement et l'impression est comptée.
-  Amazon DSP concourt toujours et gagne ou perd selon le tirage — les deux
+  Les six DSP en lice : Amazon DSP, DV360, The Trade Desk, Hawk, Yahoo DSP et
+  Adobe Advertising DSP. Amazon DSP concourt toujours et gagne ou perd selon le tirage — les deux
   narratifs sont utiles en formation.
 
   **Trois modes**, au choix dans l'en-tête du module :
@@ -183,12 +184,13 @@ Les logos officiels sont dans `assets/img/` (PNG à fond transparent) :
 | `amazon-ads-blanc.png` | barre du haut, pied de page, écran de chargement |
 | `amazon-sourire-blanc.png` | ligne « Amazon DSP » du simulateur, carte DSP (tuile Squid Ink) |
 | `dv360.png`, `thetradedesk.png`, `hawk.png` | simulateur d'enchère et cartes du paysage des DSP (tuile blanche) |
+| `yahoo.svg`, `adobe.svg` | simulateur d'enchère : Yahoo DSP et Adobe Advertising DSP (tuile blanche) |
 | `favicon.png` | icône d'onglet, générée à partir du sourire |
 
 Dans le simulateur, les logos sont déclarés en tête de `assets/js/modules.js`
 (constante `LOGO`) ; sur les cartes DSP, directement dans `fondamentaux.html` et
 `en/fondamentaux.html`. Pour remplacer un logo, il suffit d'écraser le fichier
-correspondant en gardant son nom. Xandr et Equativ gardent une icône générique.
+correspondant en gardant son nom.
 
 La **bannière display** servie à la fin du simulateur est une recréation en CSS
 de la campagne de sobriété énergétique (`.crea-nrj` dans `modules.css`) : format

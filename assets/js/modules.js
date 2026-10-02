@@ -26,7 +26,8 @@
     dv360: tile('dv360.png'),
     ttd: tile('thetradedesk.png'),
     hawk: tile('hawk.png'),
-    grid: '<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2" opacity=".45"/></svg>',
+    yahoo: tile('yahoo.svg'),
+    adobe: tile('adobe.svg'),
   };
 
   const DSPS = [
@@ -34,8 +35,8 @@
     { n: 'DV360', c: '#34a853', l: LOGO.dv360 },
     { n: 'The Trade Desk', c: '#00aeef', l: LOGO.ttd },
     { n: 'Hawk', c: '#23b6a0', l: LOGO.hawk },
-    { n: 'Xandr', c: '#8b7cf6', l: LOGO.grid },
-    { n: 'Equativ', c: '#f0713a', l: LOGO.grid },
+    { n: 'Yahoo DSP', c: '#7b2fe0', l: LOGO.yahoo },
+    { n: 'Adobe Advertising', c: '#fa0f00', l: LOGO.adobe },
   ];
 
   const BLOCKS = EN ? [
