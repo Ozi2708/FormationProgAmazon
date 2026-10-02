@@ -2,7 +2,7 @@
 
 Support de formation Amazon Ads transformé en site web navigable, ouvert à
 toutes les équipes. Conçu et développé par **valdemo** — questions par Slack
-(@valdemo) ou par mail (valdemo@amazon.com).
+(@valdemo) ou par mail (valdemo@amazon.fr).
 
 ## Ouvrir le site
 
