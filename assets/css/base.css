@@ -1221,3 +1221,5 @@ body.is-leaving { opacity: 0; }
   .split-word > span { transform: none !important; }
   .marquee__track { animation: none; }
 }
+.footer .footer__mail { display: inline; font-size: inherit; font-weight: 600; color: var(--text-2); text-decoration: underline; text-underline-offset: 2px; padding: 0; }
+.footer .footer__mail:hover { color: var(--orange); transform: none; }
