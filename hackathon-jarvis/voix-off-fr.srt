@@ -1,0 +1,115 @@
+1
+00:00:03,500 --> 00:00:06,620
+Imaginez : neuf heures du matin.
+
+2
+00:00:07,200 --> 00:00:15,600
+Pour un consultant programmatique, la journée démarre en apnée : mails, Slack, invitations, exports DSP, tickets. Tout arrive en même temps.
+
+3
+00:00:15,800 --> 00:00:21,900
+Toutes les réponses sont là, quelque part : dans un mail, un fil, un export.
+
+4
+00:00:22,100 --> 00:00:25,220
+Mais personne ne peut tout voir.
+
+5
+00:00:27,500 --> 00:00:31,460
+Et si tout convergeait au même endroit ?
+
+6
+00:00:32,400 --> 00:00:34,800
+Alors on a créé J.A.R.V.I.S.
+
+7
+00:00:35,000 --> 00:00:42,740
+Un cerveau IA, propulsé par Kiro, qui transforme tout ce flux en un seul espace de travail.
+
+8
+00:00:43,800 --> 00:00:50,800
+Chaque matin, un briefing de trente secondes me dit par où commencer : mails, réunions, campagnes.
+
+9
+00:00:51,000 --> 00:00:56,400
+Ma boîte arrive déjà triée : ce qui me concerne passe en premier.
+
+10
+00:00:56,600 --> 00:01:01,820
+Aucun fil ne s'endort : chaque relance est à un clic.
+
+11
+00:01:02,200 --> 00:01:12,000
+Et il écrit comme moi : il a appris mon style dans mes mails, et chaque brouillon s'appuie sur les vraies données : résultats DSP, tickets, documentation.
+
+12
+00:01:12,200 --> 00:01:20,600
+Je garde la main : une note rapide, en vrac, en français, et il la réécrit proprement dans le mail.
+
+13
+00:01:20,800 --> 00:01:25,800
+Toutes mes réunions sont sous contrôle, et les invitations oubliées remontent.
+
+14
+00:01:26,000 --> 00:01:33,740
+Mieux : un agent dédié prépare chaque réunion la veille. Contexte, chiffres, points à aborder. J'arrive prêt.
+
+15
+00:01:35,400 --> 00:01:39,780
+Côté campagnes, les exports DSP alimentent le cerveau directement.
+
+16
+00:01:42,400 --> 00:01:50,560
+La carte du pacing montre d'un coup d'œil ce qui décroche. Je vois la sous-livraison avant mon client.
+
+17
+00:01:51,200 --> 00:01:59,600
+Et les chiffres deviennent des actions : deux pour cent livrés, quarante et un mille euros à risque. C'est déjà une tâche, avec la prochaine étape.
+
+18
+00:01:59,800 --> 00:02:08,380
+Quand ça bloque, le troubleshooting est guidé : TWIG, Waypoint, la fenêtre de vingt-quatre heures et chaque ticket SIM.
+
+19
+00:02:09,200 --> 00:02:12,740
+Tout mon portefeuille est classé par urgence.
+
+20
+00:02:15,200 --> 00:02:24,620
+Un clic, et j'ai tout le client sous les yeux : risque, prochaine étape, derniers échanges, campagnes. Sur un seul écran.
+
+21
+00:02:25,800 --> 00:02:36,800
+Sept cents nouveautés produit ? Kiro les résume, signale ce qui demande une action, et prépare un récap chaque jeudi. Slack est connecté : rien ne se perd.
+
+22
+00:02:37,000 --> 00:02:45,000
+Et comme il sait tout, il produit : une phrase, et mon PowerPoint pour la réunion d'équipe est prêt.
+
+23
+00:02:45,200 --> 00:02:52,940
+Même mon WBR s'écrit tout seul, à partir de ce qui s'est vraiment passé dans la semaine.
+
+24
+00:02:53,200 --> 00:02:59,600
+Je garde le contrôle : les brouillons arrivent dans Outlook, mais rien ne part sans moi.
+
+25
+00:02:59,800 --> 00:03:11,320
+Et il apprend en continu : de chaque mail envoyé, chaque document créé, chaque résultat de campagne. Ses réponses et ses alertes s'affinent jour après jour.
+
+26
+00:03:11,800 --> 00:03:16,600
+Prochaine étape : Salesforce, pour les ventes et les objectifs.
+
+27
+00:03:17,000 --> 00:03:21,800
+Puis des cerveaux connectés, pour que toute l'équipe avance ensemble.
+
+28
+00:03:22,200 --> 00:03:25,000
+Moins de temps à chercher. Plus de temps pour conseiller.
+
+29
+00:03:25,200 --> 00:03:28,740
+J.A.R.V.I.S. : le cerveau du consultant programmatique.

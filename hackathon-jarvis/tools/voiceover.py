@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-"""Génère SCRIPT-VOIX-OFF.md et voix-off.srt à partir du découpage réel du film (build/cues.json).
-Usage : node render.cjs --cues build/cues.json && python3 tools/voiceover.py"""
-import json, os
+"""Génère le script de voix off minuté et ses sous-titres à partir du découpage réel du film (build/cues.json).
+  python3 tools/voiceover.py        → SCRIPT-VOIX-OFF.md + voix-off.srt          (anglais, voix enregistrée par toi)
+  python3 tools/voiceover.py fr     → SCRIPT-VOIX-OFF-FR.md + voix-off-fr.srt + build/vo-fr.json (pitch français, synthèse vocale)"""
+import json, os, sys
+LANG = sys.argv[1] if len(sys.argv) > 1 else 'en'
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 TL = json.load(open(os.path.join(ROOT, 'build', 'cues.json')))['tl']
@@ -49,12 +51,57 @@ LINES = [
     ('outro', 3.0, 'This is J.A.R.V.I.S.', 'le nom, le smile qui se dessine, « by amazon ads »'),
 ]
 
+# Pitch français : (scène, décalage, texte affiché, ce qui est à l'écran[, texte prononcé si différent])
+LINES_FR = [
+    ('1. Le problème', None, None, None),
+    ('open', 0.9, 'Imaginez : neuf heures du matin.', '8:59 → 9:00, la pastille de notifications s\'emballe'),
+    ('storm', 0.4, 'Pour un consultant programmatique, la journée démarre en apnée : mails, Slack, invitations, exports DSP, tickets. Tout arrive en même temps.', 'tempête de notifications'),
+    ('avalanche', 0.8, 'Toutes les réponses sont là, quelque part : dans un mail, un fil, un export.', 'zoom arrière : une carte parmi des milliers'),
+    ('avalanche', 7.1, '**Mais personne ne peut tout voir.**', '« No one can see it all. »'),
+    ('2. La solution', None, None, None),
+    ('reveal', 0.5, 'Et si tout convergeait au même endroit ?', 'les sources se relient au cerveau'),
+    ('reveal', 5.4, 'Alors on a créé **J.A.R.V.I.S.**', 'flash, le nom et le smile', 'Alors, on a créé Jarvis.'),
+    ('reveal', 8.0, 'Un cerveau IA, propulsé par **Kiro**, qui transforme tout ce flux en un seul espace de travail.', 'l\'application se lève', 'Un cerveau I.A., propulsé par Kiro, qui transforme tout ce flux en un seul espace de travail.'),
+    ('3. La journée', None, None, None),
+    ('brief', 0.6, 'Chaque matin, un briefing de **trente secondes** me dit par où commencer : mails, réunions, campagnes.', '« Your day, in 30 seconds. »'),
+    ('inbox', 0.6, 'Ma boîte arrive **déjà triée** : ce qui me concerne passe en premier.', 'la boîte se trie'),
+    ('follow', 0.6, 'Aucun fil ne s\'endort : chaque relance est à un clic.', '« No thread goes cold. »'),
+    ('voice', 0.6, 'Et il écrit **comme moi** : il a appris mon style dans mes mails, et chaque brouillon s\'appuie sur les **vraies données** : résultats DSP, tickets, documentation.', 'fiche de style, sources, brouillon sourcé'),
+    ('rewrite', 0.6, 'Je garde la main : une note rapide, en vrac, en français, et il la **réécrit** proprement dans le mail.', 'la note brute devient un paragraphe'),
+    ('agenda', 0.6, 'Toutes mes réunions sont **sous contrôle**, et les invitations oubliées remontent.', 'l\'agenda'),
+    ('meeting', 0.6, 'Mieux : un agent dédié prépare chaque réunion **la veille**. Contexte, chiffres, points à aborder. J\'arrive **prêt**.', 'la veille 17:33 → jeudi 11:00'),
+    ('4. Les campagnes', None, None, None),
+    ('c2', 0.4, 'Côté campagnes, les **exports DSP** alimentent le cerveau directement.', 'l\'export DSP coule vers le cerveau'),
+    ('pacing', 0.6, 'La carte du pacing montre d\'un coup d\'œil ce qui décroche. Je vois la **sous-livraison avant mon client**.', 'la carte du pacing'),
+    ('actions', 0.6, 'Et les **chiffres deviennent des actions** : deux pour cent livrés, quarante et un mille euros à risque. C\'est déjà une tâche, avec la prochaine étape.', '2.3 % · €41,708 → tâche'),
+    ('trouble', 0.6, 'Quand ça bloque, le troubleshooting est **guidé** : TWIG, Waypoint, la fenêtre de vingt-quatre heures et chaque ticket SIM.', 'le parcours TWIG → SIM', 'Quand ça bloque, le troubleshooting est guidé : Twig, Waypoint, la fenêtre de vingt-quatre heures, et chaque ticket SIM.'),
+    ('5. Les clients', None, None, None),
+    ('portfolio', 0.6, 'Tout mon portefeuille est **classé par urgence**.', 'les clients se trient'),
+    ('sheet', 0.6, 'Un clic, et j\'ai tout le client sous les yeux : risque, prochaine étape, derniers échanges, campagnes. **Sur un seul écran**.', 'la fiche BFM'),
+    ('6. La veille', None, None, None),
+    ('news', 0.4, '**Sept cents** nouveautés produit ? Kiro les résume, signale ce qui demande une action, et prépare **un récap** chaque jeudi. Slack est connecté : rien ne se perd.', '739, le récap du jeudi, Slack'),
+    ('7. La production', None, None, None),
+    ('c5', 0.8, 'Et comme il sait tout, il produit : **une phrase**, et mon PowerPoint pour la réunion d\'équipe est prêt.', 'la phrase tapée, 8 slides'),
+    ('wbr', 0.6, 'Même mon WBR **s\'écrit tout seul**, à partir de ce qui s\'est vraiment passé dans la semaine.', 'le WBR s\'écrit', 'Même mon reporting hebdo s\'écrit tout seul, à partir de ce qui s\'est vraiment passé dans la semaine.'),
+    ('8. Confiance et apprentissage', None, None, None),
+    ('control', 0.6, 'Je garde **le contrôle** : les brouillons arrivent dans Outlook, mais rien ne part sans moi.', 'c\'est toi qui cliques « Send »'),
+    ('loop', 0.6, 'Et il apprend en continu : de **chaque mail** envoyé, **chaque document** créé, **chaque résultat** de campagne. Ses réponses et ses alertes s\'affinent jour après jour.', 'la boucle d\'apprentissage'),
+    ('9. La suite', None, None, None),
+    ('sfdc', 0.6, 'Prochaine étape : **Salesforce**, pour les ventes et les objectifs.', 'Salesforce rejoint le cerveau'),
+    ('network', 0.6, 'Puis des **cerveaux connectés**, pour que toute l\'équipe avance ensemble.', 'le réseau de cerveaux'),
+    ('outro', 0.2, '**Moins de temps à chercher. Plus de temps pour conseiller.**', '« Stop searching. Start consulting. »'),
+    ('outro', 3.2, 'J.A.R.V.I.S. : le cerveau du consultant programmatique.', 'le nom, le smile, « by amazon ads »', 'Jarvis : le cerveau du consultant programmatique.'),
+]
+if LANG == 'fr':
+    LINES = LINES_FR
+
 def tc(s, srt=False):
     if srt:
         ms = int(round(s * 1000)); return f"{ms // 3600000:02}:{ms // 60000 % 60:02}:{ms // 1000 % 60:02},{ms % 1000:03}"
     return f"{int(s // 60)}:{s % 60:04.1f}"
 
-rows = [(TL[k][0] + off, txt, scr) if k in TL else (None, k, None) for k, off, txt, scr in LINES]
+rows = [(TL[l[0]][0] + l[1], l[2], l[3]) if l[0] in TL else (None, l[0], None) for l in LINES]
+say = [(TL[l[0]][0] + l[1], (l[4] if len(l) > 4 else l[2]).replace('**', '')) for l in LINES if l[0] in TL]
 timed = [r for r in rows if r[0] is not None]
 plain = lambda t: t.replace('**', '')
 words = sum(len(plain(t).split()) for _, t, _ in timed)
@@ -64,7 +111,9 @@ srt = []
 for i, (a, t, _) in enumerate(timed):
     b = min(timed[i + 1][0] - 0.2 if i + 1 < len(timed) else DUR, a + 0.6 + len(plain(t).split()) * 0.42)
     srt.append(f"{i + 1}\n{tc(a, True)} --> {tc(b, True)}\n{plain(t)}\n")
-open(os.path.join(ROOT, 'voix-off.srt'), 'w').write('\n'.join(srt))
+open(os.path.join(ROOT, 'voix-off-fr.srt' if LANG == 'fr' else 'voix-off.srt'), 'w').write('\n'.join(srt))
+if LANG == 'fr':
+    json.dump([{'t': round(a, 3), 'text': t} for a, t in say], open(os.path.join(ROOT, 'build', 'vo-fr.json'), 'w'), ensure_ascii=False, indent=1)
 
 # --- Markdown
 md = [f"# J.A.R.V.I.S. — script de voix off (anglais)\n",
@@ -93,5 +142,5 @@ md.append("""
 - Dans ton outil de montage, pose la voix vers -16 LUFS. Si la musique te gêne, baisse la piste vidéo de 3 à 6 dB.
 - Les deux moments à ne pas rater : « So we built **J.A.R.V.I.S.** » sur le flash, et « Stop searching. Start consulting. » sur les deux impacts de la fin.
 """)
-open(os.path.join(ROOT, 'SCRIPT-VOIX-OFF.md'), 'w').write('\n'.join(md))
+open(os.path.join(ROOT, 'SCRIPT-VOIX-OFF-FR.md' if LANG == 'fr' else 'SCRIPT-VOIX-OFF.md'), 'w').write('\n'.join(md))
 print(f"{len(timed)} lines · {words} words · {DUR} s")
