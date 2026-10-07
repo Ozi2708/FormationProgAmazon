@@ -1,0 +1,115 @@
+1
+00:00:01,000 --> 00:00:03,800
+Nine a.m.
+
+2
+00:00:04,000 --> 00:00:11,200
+For a Programmatic Solutions Consultant, the day starts with emails, Slack, invites, DSP exports, tickets and product updates. All at once.
+
+3
+00:00:11,600 --> 00:00:13,800
+Every answer already exists.
+
+4
+00:00:14,000 --> 00:00:16,200
+It's just scattered.
+
+5
+00:00:16,400 --> 00:00:21,000
+Sixteen thousand emails. Seven hundred DSP updates. Forty live campaigns.
+
+6
+00:00:21,200 --> 00:00:24,600
+And one consultant.
+
+7
+00:00:25,500 --> 00:00:29,600
+What if all of it lived in one place?
+
+8
+00:00:30,000 --> 00:00:32,800
+So I built J.A.R.V.I.S.
+
+9
+00:00:33,000 --> 00:00:39,500
+One AI brain, powered by Kiro, that turns all of it into a single place to work.
+
+10
+00:00:41,500 --> 00:00:48,400
+Every morning, a thirty-second briefing tells me where to start: mail, meetings, campaigns.
+
+11
+00:00:48,800 --> 00:00:54,200
+My inbox arrives already sorted. What concerns me comes first.
+
+12
+00:00:54,600 --> 00:01:00,600
+Every thread waiting on a reply resurfaces. One click, and Kiro drafts the follow-up, in my voice.
+
+13
+00:01:01,000 --> 00:01:06,400
+And every meeting is linked to its client, with the prep already done.
+
+14
+00:01:06,800 --> 00:01:13,400
+Then, the campaigns. DSP exports feed the brain natively.
+
+15
+00:01:13,800 --> 00:01:22,400
+The pacing map shows at a glance what's behind, what to watch, and what's on pace. I see under-delivery before my client does.
+
+16
+00:01:22,800 --> 00:01:31,200
+And numbers become actions: two percent delivered, forty-one thousand euros at risk, ends November fifteenth. That's now a task, with the next step.
+
+17
+00:01:31,600 --> 00:01:39,200
+When delivery breaks, troubleshooting is guided: TWIG, Waypoint, the twenty-four-hour window, and every SIM ticket tracked.
+
+18
+00:01:40,800 --> 00:01:47,000
+My whole portfolio is ranked by urgency.
+
+19
+00:01:47,400 --> 00:01:56,200
+One click, and I get the full client picture: risk, next step, latest emails, live campaigns and their curves. On one screen.
+
+20
+00:01:58,000 --> 00:02:09,200
+Seven hundred product updates? Kiro summarizes them, flags what needs action from me, and prepares a recap every Thursday. Slack is connected too, so nothing gets lost.
+
+21
+00:02:09,600 --> 00:02:17,600
+And because it knows everything, it produces. One sentence, and my PowerPoint for Thursday's team meeting is ready.
+
+22
+00:02:18,000 --> 00:02:23,400
+Meeting preps are written the night before, without me asking.
+
+23
+00:02:23,800 --> 00:02:31,200
+And my weekly business review writes itself, from what actually happened this week.
+
+24
+00:02:31,800 --> 00:02:37,800
+I stay in control. Drafts land in Outlook, but nothing is ever sent on its own.
+
+25
+00:02:38,200 --> 00:02:44,200
+And every correction I make teaches it how I work.
+
+26
+00:02:44,600 --> 00:02:49,200
+Next: Salesforce, for sales and targets.
+
+27
+00:02:49,600 --> 00:02:54,200
+Then connected brains, sharing what they know, so the whole team moves together.
+
+28
+00:02:54,400 --> 00:02:56,800
+Stop searching. Start consulting.
+
+29
+00:02:57,000 --> 00:02:59,000
+This is J.A.R.V.I.S.
