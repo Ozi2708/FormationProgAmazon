@@ -43,21 +43,28 @@ async function stills() {
   console.log('stills →', outdir);
 }
 
-async function worker(id, frames, fps, from, seg) {
-  const browser = await pw.chromium.launch(LAUNCH);
-  const p = await open(browser);
+// un segment vidéo = une suite d'images consécutives, encodée par son propre ffmpeg
+async function segment(p, frames, fps, from, seg) {
   const ff = spawn('ffmpeg', ['-v', 'error', '-y', '-f', 'image2pipe', '-framerate', String(fps), '-i', '-',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '15', '-pix_fmt', 'yuv420p', '-x264-params', 'aq-mode=3', '-r', String(fps), seg],
     { stdio: ['pipe', 'inherit', 'inherit'] });
   const done = new Promise((res, rej) => ff.on('close', c => (c === 0 ? res() : rej(new Error('ffmpeg ' + c)))));
-  const t0 = Date.now();
-  for (let i = 0; i < frames.length; i++) {
-    const buf = await grab(p, from + frames[i] / fps);
+  for (const f of frames) {
+    const buf = await grab(p, from + f / fps);
     if (!ff.stdin.write(buf)) await new Promise(r => ff.stdin.once('drain', r));
-    if (i % 300 === 0) console.log(`  worker ${id}: ${i}/${frames.length} (${((Date.now() - t0) / 1000).toFixed(0)} s)`);
   }
   ff.stdin.end();
   await done;
+}
+
+// chaque processus pioche le prochain segment libre : les scènes lourdes se répartissent
+async function worker(id, queue, fps, from, t0) {
+  const browser = await pw.chromium.launch(LAUNCH);
+  const p = await open(browser);
+  for (let job = queue.shift(); job; job = queue.shift()) {
+    await segment(p, job.frames, fps, from, job.seg);
+    console.log(`  worker ${id}: segment ${job.i} done (${((Date.now() - t0) / 1000).toFixed(0)} s, ${queue.length} left)`);
+  }
   await browser.close();
 }
 
@@ -72,20 +79,18 @@ async function video() {
   await probe.close();
   const from = Number(arg('from', 0)), to = Math.min(Number(arg('to', duration)), duration);
   const total = Math.round((to - from) * fps);
-  const per = Math.ceil(total / workers);
+  const chunk = Number(arg('chunk', 240));
   console.log(`render ${from}–${to} s · ${total} frames · ${fps} fps · ${workers} workers`);
-  const segs = [];
-  const jobs = [];
-  for (let w = 0; w < workers; w++) {
+  const segs = [], queue = [];
+  for (let i = 0, f0 = 0; f0 < total; i++, f0 += chunk) {
     const frames = [];
-    for (let f = w * per; f < Math.min(total, (w + 1) * per); f++) frames.push(f);
-    if (!frames.length) continue;
-    const seg = path.join(tmp, `seg${w}.mp4`);
+    for (let f = f0; f < Math.min(total, f0 + chunk); f++) frames.push(f);
+    const seg = path.join(tmp, `seg${String(i).padStart(3, '0')}.mp4`);
     segs.push(seg);
-    jobs.push(worker(w, frames, fps, from, seg));
+    queue.push({ i, frames, seg });
   }
   const t0 = Date.now();
-  await Promise.all(jobs);
+  await Promise.all(Array.from({ length: workers }, (_, w) => worker(w, queue, fps, from, t0)));
   fs.writeFileSync(path.join(tmp, 'list.txt'), segs.map(s => `file '${s}'`).join('\n'));
   execSync(`ffmpeg -v error -y -f concat -safe 0 -i "${path.join(tmp, 'list.txt')}" -c copy -movflags +faststart "${out}"`);
   fs.rmSync(tmp, { recursive: true, force: true });
