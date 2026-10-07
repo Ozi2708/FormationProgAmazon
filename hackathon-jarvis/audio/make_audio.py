@@ -358,6 +358,29 @@ def cue_sound(c):
         fx(boom(3.0, 70, 32), t, 0.55, 0, 0.3)
         fx(sparkle(12, 1.2), t + 0.1, 0.14, 0, 1.0)
         fx(chime((587.33, 880.0, 1174.66)), t + 0.15, 0.2, 0, 0.8)
+    elif k == 'logo':
+        fx(whoosh(1.0, 300, 3800, 0.7, 1.0, -0.4, 0.4)[0], t - 0.5, 0.2, 0, 0.3)
+        fx(chime((1174.66, 1760.0)), t + 0.1, 0.16, 0.1, 0.9)
+        fx(sparkle(8, 0.7), t + 0.15, 0.08, 0, 1.0)
+    elif k == 'freeze':
+        fx(boom(2.8, 70, 30), t, 0.42, 0, 0.5)
+        fx(filt(noise(0.25), 'low', 800) * expd(0.25, 18), t, 0.4, 0, 0.6)
+    elif k == 'zoomout':
+        d = c['d']
+        w = whoosh(d, 3200, 260, 0.3, 0.8, -0.2, 0.2)
+        place(SFX, w, t, 0.22); place(SEND, w, t, 0.12)
+        u = np.linspace(0, 1, int(d * SR))
+        gl = np.sin(2 * np.pi * np.cumsum(880 * 2 ** (-u * 2.5)) / SR) * np.sin(np.pi * u) ** 2
+        fx(gl, t, 0.035, 0, 0.8)
+    elif k == 'implode':
+        d = c['d']
+        x = sweep(noise(d), 300, 4500, 1.4) * np.linspace(0, 1, int(d * SR)) ** 2.6
+        fx(x, t, 0.32, 0, 0.4)
+        fx(kick(0.6, 120, 45, 6), t + d, 0.3, 0, 0.5)
+    elif k == 'smile':
+        w = whoosh(0.7, 600, 5200, 0.55, 1.2, -0.5, 0.5)
+        place(SFX, w, t - 0.1, 0.2); place(SEND, w, t - 0.1, 0.08)
+        fx(sparkle(9, 0.8), t + 0.3, 0.1, 0, 1.0)
 
 
 def intro_sounds():
@@ -374,24 +397,15 @@ def intro_sounds():
         fx(ping(note(79 + (i % 3) * 2)), o + ts, 0.14 + i * 0.02, rng.uniform(-0.3, 0.3), 0.3)
     fx(whoosh(0.9, 200, 4000, 0.75, 0.9, 0, 0), o + 3.6, 0.32, 0, 0.1)
     # tempête : une notification par carte
-    s0 = TL['storm'][0]
-    for i, ts in enumerate(data['storm']):
-        if ts - s0 > 7.05:
-            continue
+    for ts in data['storm']:
         f = note(int(rng.choice([76, 79, 81, 83, 84, 86, 88])))
         depth = rng.uniform(0.35, 1.0)
         fx(ping(f), ts, 0.07 + 0.06 * depth, rng.uniform(-0.85, 0.85), 0.35)
-    fx(boom(2.8, 70, 30), s0 + 7.1, 0.42, 0, 0.5)
-    fx(filt(noise(0.25), 'low', 800) * expd(0.25, 18), s0 + 7.1, 0.4, 0, 0.6)
-    fx(whoosh(1.6, 2500, 200, 0.35, 0.9, 0, 0), s0 + 9.5, 0.35, 0, 0.3)  # « scattered »
-    # chiffres
-    st = TL['stats'][0]
-    for i in range(3):
-        a = st + 0.35 + i * 1.5
-        fx(add(kick(0.6, 90, 42, 6), filt(noise(0.2), 'low', 1500) * expd(0.2, 25) * 0.2), a, 0.4, (i - 1) * 0.4, 0.35)
-        count_ticks(a, 1.35, 16)
-    fx(boom(2.4, 58, 30), st + 5.2, 0.36, 0, 0.4)
-    fx(kick(0.9, 130, 38, 4.0), st + 5.2, 0.4, 0, 0.5)
+    # avalanche : une texture de données qui s'étend avec le zoom arrière
+    av = TL['avalanche'][0]
+    for i in range(60):
+        ts = av + 1.0 + (i / 60) ** 0.8 * 8.5
+        fx(tick(rng.uniform(2200, 5200)), ts, 0.03 + 0.03 * rng.random(), rng.uniform(-0.9, 0.9), 0.4)
     # révélation
     rv = TL['reveal'][0]
     for i in range(6):
@@ -402,20 +416,22 @@ def intro_sounds():
     fx(boom(3.5, 75, 30), rv + 6.25, 0.5, 0, 0.5)
     fx(kick(1.0, 150, 36, 3.5), rv + 6.25, 0.5, 0, 0.6)
     fx(filt(noise(1.5), 'high', 3000) * expd(1.5, 3.5), rv + 6.25, 0.12, 0, 1.2)
-    fx(sparkle(10, 1.0), rv + 6.6, 0.12, 0, 1.0)
     fx(whoosh(1.4, 150, 1800, 0.7, 0.8, 0, 0), rv + 10.4, 0.35, 0, 0.2)   # l'application se lève
     fx(whoosh(1.3, 300, 5000, 0.85, 0.9, 0, 0), rv + 13.0, 0.3, 0, 0.15)  # zoom
-    # intertitres
+    # intertitres : impact + le smile qui se dessine
     for c in ('c1', 'c2', 'c3', 'c4', 'c5'):
         a = TL[c][0]
         fx(add(kick(0.7, 100, 40, 6) * 0.7, filt(noise(0.6), 'high', 4000) * expd(0.6, 7) * 0.12), a + 0.15, 0.32, 0, 0.5)
         fx(whoosh(0.8, 300, 3000, 0.7, 1.0, -0.3, 0.3), a - 0.35, 0.18, 0, 0.1)
+        w = whoosh(0.6, 900, 5200, 0.5, 1.4, -0.4, 0.4)
+        place(SFX, w, a + 0.45, 0.1); place(SEND, w, a + 0.45, 0.04)
     # transitions entre scènes
+    skip = ('logo', 'open', 'storm', 'avalanche', 'reveal', 'outro')
     for k, (a, b) in TL.items():
-        if k in ('open', 'storm', 'stats', 'reveal', 'outro') or k.startswith('c'):
+        if k in skip or k.startswith('c'):
             continue
         fx(whoosh(0.6, 400, 2800, 0.6, 1.1, -0.5, 0.5), a - 0.2, 0.1, 0, 0.05)
-    # passage au sombre (confiance) puis vision
+    # passage au sombre (confiance)
     fx(whoosh(1.2, 3000, 250, 0.4, 0.9, 0.4, -0.4), TL['control'][0] - 0.4, 0.25, 0, 0.3)
 
 
@@ -436,50 +452,60 @@ def mus(x, t, g=1.0, p=0.0, rv=0.4):
         place(MSEND, x, t, g * rv, p)
 
 
+S_ = TL['storm'][0]
+F_ = S_ + 7.1                      # gel de la tempête
+A_ = TL['avalanche'][0]
+R_ = TL['reveal'][0]
+FL_ = R_ + 6.25                    # flash de la révélation
+G_ = R_ + 10.7                     # l'application se lève, début du groove
+C_ = TL['control'][0]
+V_ = TL['sfdc'][0]
+O_ = TL['outro'][0]
+
+
 def level(t):
     """Intensité de la musique selon le moment du film (0..1)."""
-    pts = [(0, 0.35), (4.2, 0.5), (11.2, 1.0), (11.35, 0.0), (12.0, 0.35), (16, 0.3), (25, 0.35), (31.0, 1.0), (35, 0.75),
-           (39.6, 0.8), (66.4, 0.85), (99, 0.85), (129, 0.95), (151.2, 0.6), (164, 0.75), (174, 1.0), (179, 0.0)]
+    pts = [(0, 0.35), (S_, 0.5), (F_ - 0.1, 1.0), (F_ + 0.05, 0.0), (F_ + 0.8, 0.35), (R_, 0.4), (FL_ - 0.1, 1.0), (G_, 0.75),
+           (TL['c1'][0], 0.8), (TL['c2'][0], 0.85), (TL['c5'][0], 0.95), (C_, 0.6), (V_, 0.75), (O_, 1.0), (DUR, 0.0)]
     xs, ys = zip(*pts)
     return float(np.interp(t, xs, ys))
 
 
 def section(t):
-    if t < 4.2: return 'open'
-    if t < 11.3: return 'storm'
-    if t < 25.0: return 'calm'
-    if t < 31.05: return 'build'
-    if t < 35.5: return 'bloom'
-    if t < 151.2: return 'groove'
-    if t < 164.0: return 'trust'
-    if t < 174.2: return 'vision'
+    if t < S_: return 'open'
+    if t < F_: return 'storm'
+    if t < R_: return 'calm'
+    if t < FL_: return 'build'
+    if t < G_: return 'bloom'
+    if t < C_: return 'groove'
+    if t < V_: return 'trust'
+    if t < O_: return 'vision'
     return 'outro'
 
 
 def music():
-    # drone grave permanent jusqu'au groove
-    d = 35.5
+    # drone grave jusqu'au groove
+    d = G_
     t = tt(d)
     dr = (0.6 * np.sin(2 * np.pi * note(38) * t) + 0.6 * np.sin(2 * np.pi * note(50) * t + 0.3) + 0.25 * np.sin(2 * np.pi * note(57) * t)) * 0.07
-    dr *= np.interp(t, [0, 2, 11.2, 11.35, 13, 30, 31, 35.5], [0, 1, 1.25, 0, 0.6, 0.8, 0, 0])
-    air = filt(noise(d), 'bp', (300, 1400)) * 0.012 * np.interp(t, [0, 3, 11.2, 11.35, 14, 35.5], [0.3, 0.6, 1.6, 0, 0.4, 0.4])
+    dr *= np.interp(t, [0, 2, F_, F_ + 0.15, A_ + 1.5, FL_ - 0.3, FL_, d], [0, 1, 1.25, 0, 0.6, 0.8, 0, 0])
+    air = filt(noise(d), 'bp', (300, 1400)) * 0.012 * np.interp(t, [0, 3, F_, F_ + 0.15, A_ + 2, d], [0.3, 0.6, 1.6, 0, 0.5, 0.4])
     mus(np.vstack([dr + air, dr + air * 0.9]), 0, 1.0, 0, 0.3)
     # tempête : battements qui accélèrent + grappe dissonante qui s'ouvre
-    s0 = TL['storm'][0]
-    tb = s0 + 0.3
-    while tb < s0 + 7.0:
-        u = (tb - s0) / 7.0
+    tb = S_ + 0.3
+    while tb < F_ - 0.1:
+        u = (tb - S_) / 7.0
         mus(kick(0.5, 70, 38, 8), tb, 0.35 + 0.35 * u, 0, 0.1)
         tb += 0.9 - 0.62 * u
-    cl = sum(pad_note(note(m), 6.9, 5.5, 0.15, 900) for m in [50, 51, 57, 58, 62])
+    cl = sum(pad_note(note(m), F_ - S_ - 0.2, 5.5, 0.15, 900) for m in [50, 51, 57, 58, 62])
     cl = filt(cl, 'low', 2600)
-    mus(cl, s0 + 0.2, 0.5, 0, 0.5)
-    mus(riser(6.9, 120, 3000), s0 + 0.2, 0.12, 0, 0.3)
-    # calme (phrases + chiffres) : Bm9 suspendu
-    for m in [47, 54, 61, 62, 66]:
-        mus(pad_note(note(m), 12.5, 2.5, 3.0, 900), 11.6, 0.34, 0, 0.6)
+    mus(cl, S_ + 0.2, 0.5, 0, 0.5)
+    mus(riser(F_ - S_ - 0.2, 120, 3000), S_ + 0.2, 0.12, 0, 0.3)
+    # avalanche : Bm9 suspendu, vaste
+    for m in [47, 54, 61, 62, 66, 73]:
+        mus(pad_note(note(m), R_ + 1.0 - A_, 2.5, 3.0, 1000), A_ + 0.2, 0.3, 0, 0.7)
     # montée vers la révélation : arpège qui s'éclaire
-    rv = TL['reveal'][0]
+    rv = R_
     k = 0
     ta = rv + 1.0
     while ta < rv + 6.2:
@@ -490,23 +516,26 @@ def music():
         k += 1
     # éclosion : Dmaj9 large
     for m in [38, 50, 57, 61, 64, 66, 69, 73]:
-        mus(pad_note(note(m), 4.6, 0.05, 2.5, 2200), rv + 6.25, 0.32, 0, 0.7)
-    # groove : de 35,5 s à la fin
-    t0 = rv + 10.7
+        mus(pad_note(note(m), 4.6, 0.05, 2.5, 2200), FL_, 0.32, 0, 0.7)
+    # groove, jusqu'à l'accord final
+    fin = O_ + 2.75
     bar = 0
-    tb = t0
-    while tb < DUR - 2.0:
+    tb = G_
+    while tb < fin - 0.3:
         sec = section(tb + 0.01)
         ch = bar % 4
         lv = level(tb)
         bright = {'groove': 1500, 'trust': 1100, 'vision': 2200, 'outro': 2400}.get(sec, 1400)
+        dur_bar = min(BAR + 0.05, fin - tb)
         for m in CHORDS[ch]:
-            mus(pad_note(note(m), BAR + 0.05, 0.6, 1.4, bright), tb, 0.42 * lv, 0, 0.55)
+            mus(pad_note(note(m), dur_bar, 0.6, 1.4, bright), tb, 0.42 * lv, 0, 0.55)
         drums = sec in ('groove', 'vision') and tb >= TL['c1'][0] - 0.2
         bass = sec in ('groove', 'vision') and tb >= TL['c2'][0] - 0.2
         hats = (sec == 'groove' and tb >= TL['c2'][0] - 0.2) or sec == 'vision'
         for b in range(4):
             tq = tb + b * BEAT
+            if tq >= fin - 0.2:
+                break
             if drums and b in (0, 2):
                 mus(kick(0.45, 95, 42, 9), tq, 0.32 * lv, 0, 0.05)
             if bass and b in (0, 2, 3):
@@ -517,20 +546,20 @@ def music():
             for h in range(n8):
                 if hats:
                     mus(hat(0.05, 60, 7500), tq + h * BEAT / n8, (0.05 if h % 2 else 0.035) * lv, 0.3, 0.1)
-        # arpège
         step = BEAT / 2 if sec in ('groove', 'vision') else BEAT
         nsteps = int(round(BAR / step))
         for i in range(nsteps):
+            if tb + i * step >= fin - 0.2:
+                break
             m = ARP[ch][(i * (8 // nsteps if nsteps < 8 else 1)) % 8] + (12 if sec == 'vision' and i % 4 == 3 else 0)
             mus(pluck(note(m), 0.6, 1.1, 7), tb + i * step, 0.055 * lv, -0.35 if i % 2 else 0.35, 0.55)
         bar += 1
         tb += BAR
     # montée finale (vision → fin)
-    mus(riser(4.6, 200, 4500), TL['outro'][0] - 4.4, 0.16, 0, 0.3)
-    # accord final
-    fin = TL['outro'][0] + 2.75
+    mus(riser(4.6, 200, 4500), O_ - 4.4, 0.16, 0, 0.3)
+    # accord final, long, qui s'éteint avec l'image
     for m in [38, 50, 57, 61, 64, 66, 69, 74]:
-        mus(pad_note(note(m), 1.4, 0.03, 1.2, 2600), fin, 0.55, 0, 0.8)
+        mus(pad_note(note(m), 3.8, 0.03, 2.6, 2600), fin, 0.55, 0, 0.85)
 
 
 # ---------------------------------------------------------------- rendu
@@ -548,7 +577,7 @@ def main():
     music_mix = filt(music_mix, 'high', 50)
     sfx_mix = filt(sfx_mix, 'high', 35)
     # fondu final
-    tail = np.interp(np.arange(N) / SR, [0, DUR - 0.9, DUR], [1, 1, 0])
+    tail = np.interp(np.arange(N) / SR, [0, DUR - 2.4, DUR], [1, 1, 0]) ** 1.5
     music_mix *= tail
     sfx_mix *= tail
     mix = 0.8 * music_mix + 1.0 * sfx_mix

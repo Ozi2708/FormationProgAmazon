@@ -333,58 +333,6 @@
     },
   });
 
-  // ------------------------------------------------ préparé la veille
-  const DOCS = [
-    ['brain', 'Meeting AST-PSC Dentsu // Jos-Valentin', 'preparation', 'requested 6 d ago', 'writing'],
-    ['calendar', '2026 H2 FR PSC Meeting + PAM', 'Preparation', '07/10 17:33', 'eve', 'meeting 08/10 11:00'],
-    ['file-text', 'News DSP · week of 30/09 to 07/10', 'Document', '07/10 15:55', ''],
-    ['file-text', 'Weekly PSC FR · October 8, 2026', 'Document', '07/10 15:08', 'deck'],
-    ['file-text', 'Ticket comment P529341292', 'Ticket comment', '07/10 15:01', 'bfm'],
-    ['file-text', 'Mail draft: ENI Plénitude creatives rejected (IAS pixel)', 'Document', '07/10 14:16', 'eni'],
-    ['calendar', 'Nintendo test 3P', 'Preparation', '06/10 17:32', 'eve', 'meeting 07/10 16:00'],
-  ];
-  feature('prep', TL.prep, {
-    kicker: '05 · Create in seconds', head: 'Prepared<br><span class="hl">the night before.</span>',
-    sub: 'Meeting preps are waiting before you need them. Without asking.',
-    css: `
-    #sc-prep .dc{position:absolute;left:0;top:120px;width:1010px;padding:24px 26px 10px}
-    #sc-prep .dc-h{display:flex;align-items:baseline;gap:14px;margin-bottom:10px}
-    #sc-prep .dc-h span:last-of-type{color:var(--mut);font-size:15px}
-    #sc-prep .dr{display:flex;gap:16px;align-items:center;padding:15px 0;border-top:1px solid var(--line2)}
-    #sc-prep .dr .di{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;flex:none}
-    #sc-prep .dr .di.b{background:#2F55D4}
-    #sc-prep .dr .di.g{background:#9AA0A6}
-    #sc-prep .dr .db{flex:1;min-width:0}
-    #sc-prep .dr .dt{font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    #sc-prep .dr .dm{display:flex;gap:10px;align-items:center;margin-top:6px;font-size:13.5px;color:var(--mut);flex-wrap:nowrap;white-space:nowrap}
-    #sc-prep .dr .dm .chip{height:24px;font-size:12.5px}
-    #sc-prep .evetag{background:#FFF0E6;color:#C8510F;font-weight:650;border-radius:999px;padding:3px 10px;display:inline-flex;gap:6px;align-items:center}
-    #sc-prep .wr{color:var(--or);font-weight:650;font-size:14px;display:inline-flex;gap:6px;align-items:center}
-    #sc-prep .rd{display:flex;gap:10px;align-items:center}
-    #sc-prep .rd .btn{height:34px;font-size:13.5px}
-    `,
-  }, {
-    html: `<div class="card dc"><div class="dc-h"><span class="htitle" style="font-size:30px">Documents</span><span>47 produced by Kiro · 8 decks · 1 in progress</span></div>
-      ${DOCS.map(d => `<div class="dr ${d[4]}"><div class="di ${d[0] === 'file-text' ? 'b' : d[4] === 'writing' ? 'g' : ''}">${ic(d[0], 19)}</div><div class="db"><div class="dt">${d[1]}</div>
-        <div class="dm"><span class="chip line">${d[2]}</span><span>${d[3]}</span>${d[4] === 'eve' ? `<span class="evetag">${ic('clock', 13)}prepared the day before, unprompted</span><span>· ${d[5]}</span>` : ''}${d[4] === 'deck' ? `<span class="chip grn">${ic('presentation', 13)}deck · 8 slides</span><span class="chip grn">agent Kiro</span>` : ''}${d[4] === 'bfm' ? '<span><i class="dot" style="background:var(--grn);width:7px;height:7px"></i> BFM · October awareness (Amnet)</span>' : ''}${d[4] === 'eni' ? '<span><i class="dot" style="background:#A0522D;width:7px;height:7px"></i> ENI Plénitude (Amnet)</span>' : ''}</div></div>
-        ${d[4] === 'writing' ? `<span class="wr">${ic('brain', 15)}Kiro is writing<b class="dots">…</b></span>` : `<div class="rd"><span class="btn">${ic('file', 14)}Read</span></div>`}</div>`).join('')}</div>`,
-    build(root, s) {
-      s.rows = $$('.dr', root); s.eves = $$('.evetag', root); s.dots = $('.dots', root);
-      DOCS.forEach((_, i) => cue('tick', s.t0 + 0.5 + i * 0.1, { v: 0.35 }));
-      cue('sparkle', s.t0 + 2.0); cue('sparkle', s.t0 + 2.8, { v: 0.6 });
-    },
-    update(lt, dur, root, s) {
-      s.rows.forEach((r, i) => pop(r, lt, 0.5 + i * 0.1));
-      s.eves.forEach((e, i) => {
-        const a = 2.0 + i * 0.8, k = P(lt, a, 0.5, E.outB);
-        tf(e, { s: 1 + 0.12 * Math.sin(clamp((lt - a) / 0.6) * Math.PI) });
-        e.style.boxShadow = lt > a ? `0 0 0 ${(5 * (1 - clamp((lt - a) / 1.2))).toFixed(1)}px rgba(242,102,27,.25)` : 'none';
-        void k;
-      });
-      s.dots.textContent = ['.', '..', '...'][Math.floor(lt * 3) % 3];
-    },
-  });
-
   // ------------------------------------------------ WBR
   const WBR = [
     ['context', 'valdemo@ manages BFM\'s October awareness campaign through Amnet: a €136,891 video flight, Sep 21 to Nov 15, across Connected TV SVOD, BVOD CUTV, IPTV and AVOD PMP deals. On the Oct 4 export, SVOD was 2% delivered for 25% of the flight and CUTV 8%.'],

@@ -52,59 +52,81 @@
     },
   });
 
-  // ------------------------------------------------ un cerveau qui apprend
-  const LEARN = ["I'm done with the BFM deck", 'File XPENG under Amnet', 'Reply to Matthias', 'Prepare my 2 pm meeting', 'Where am I with Disney?', 'Do my briefing'];
-  const OC = { x: 560, y: 500 };
-  feature('learn', TL.learn, {
-    cls: 'dark', kicker: 'Trust', head: 'It learns<br><span class="hl">how you work.</span>',
-    sub: 'Every correction makes it sharper. Synced every 15 minutes.',
+  // ------------------------------------------------ la boucle d'apprentissage
+  const OC = { x: 578, y: 520 };
+  const INS = [['mail', '#2F6FDE', 'Every email', 'you send', 300], ['file-text', '#16947E', 'Every document', 'you create', 520], ['chart-column', '#F7930F', 'Every campaign', 'result', 740]];
+  const OUTS = [['Sharper answers', 'sparkles', 340], ['Earlier alerts', 'bell', 520], ['Drafts closer to you', 'pen-line', 700]];
+  feature('loop', TL.loop, {
+    cls: 'dark', kicker: 'Always learning', head: 'Every email.<br>Every document.<br><span class="hl">Every result.</span>',
+    sub: 'J.A.R.V.I.S. learns from everything you send, create and deliver. Its answers and alerts get sharper every day.',
     css: `
-    #sc-learn .lc{position:absolute;left:0;top:0;width:1040px;height:1080px}
-    #sc-learn .ow{position:absolute;left:${OC.x}px;top:${OC.y}px}
-    #sc-learn svg.ring{position:absolute;left:${OC.x - 230}px;top:${OC.y - 230}px;width:460px;height:460px;overflow:visible}
-    #sc-learn .cm{position:absolute;left:0;top:0;white-space:nowrap;height:46px;padding:0 18px;border-radius:999px;display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#EEF1F4;font:500 17px Plex,monospace}
-    #sc-learn .cm .ic{color:#FFB547}
-    #sc-learn .cnt{position:absolute;left:${OC.x}px;top:${OC.y + 262}px;transform:translateX(-50%);text-align:center;white-space:nowrap}
-    #sc-learn .cnt b{display:block;font-weight:700;font-size:56px;letter-spacing:-.03em;color:#fff;line-height:1}
-    #sc-learn .cnt span{font:500 15px Plex,monospace;letter-spacing:.14em;text-transform:uppercase;color:#8C96A2}
-    #sc-learn .sy{position:absolute;left:${OC.x}px;top:${OC.y - 300}px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;font:500 15px Plex,monospace;color:#B6BEC8;white-space:nowrap;letter-spacing:.06em}
-    #sc-learn .sy .ic{color:#5DD39E}
-    #sc-learn .stats{position:absolute;left:${OC.x}px;top:${OC.y + 370}px;transform:translateX(-50%);font:500 14px Plex,monospace;color:#6F7985;white-space:nowrap;letter-spacing:.08em}
+    #sc-loop .head{font-size:76px}
+    #sc-loop .ow{position:absolute;left:${OC.x}px;top:${OC.y}px}
+    #sc-loop svg.lp{position:absolute;left:${OC.x - 210}px;top:${OC.y - 210}px;width:420px;height:420px;overflow:visible}
+    #sc-loop .in{position:absolute;left:0;width:250px;display:flex;gap:12px;align-items:center;margin-top:-26px}
+    #sc-loop .in .ii{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;color:#fff;flex:none;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    #sc-loop .in b{display:block;font-size:19px;color:#fff;font-weight:650}
+    #sc-loop .in span{font-size:15px;color:#98A1AC}
+    #sc-loop .pk{position:absolute;left:0;top:0;width:24px;height:24px;margin:-12px 0 0 -12px;border-radius:7px;display:grid;place-items:center;color:#fff}
+    #sc-loop .out{position:absolute;left:800px;margin-top:-24px;display:flex;gap:10px;align-items:center;height:48px;padding:0 18px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,153,0,.45);color:#fff;font-size:16.5px;font-weight:600;white-space:nowrap}
+    #sc-loop .out .ic{color:#FFB547}
+    #sc-loop .em{position:absolute;left:0;top:0;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#FFD08A;box-shadow:0 0 14px 4px rgba(255,153,0,.7)}
+    #sc-loop .days{position:absolute;left:200px;top:880px;width:800px}
+    #sc-loop .days .bar{position:relative;height:3px;border-radius:3px;background:rgba(255,255,255,.12);margin:0 70px}
+    #sc-loop .days .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,#FF9900,#FFC266);transform-origin:0 50%}
+    #sc-loop .days .bar b{position:absolute;top:-6px;width:15px;height:15px;margin-left:-7px;border-radius:50%;background:#FFC266;box-shadow:0 0 14px rgba(255,153,0,.8)}
+    #sc-loop .days span{position:absolute;top:-8px;font:500 14px Plex,monospace;letter-spacing:.12em;text-transform:uppercase;color:#8C96A2}
+    #sc-loop .days .d1{left:0}#sc-loop .days .d2{right:0}
+    #sc-loop .days em{display:block;text-align:center;margin-top:22px;font:500 15px Plex,monospace;letter-spacing:.16em;text-transform:uppercase;color:#C9D1DB;font-style:normal}
     `,
   }, {
-    html: `<div class="lc"><svg class="ring" viewBox="0 0 460 460"><circle cx="230" cy="230" r="215" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="3"/><circle class="arc" cx="230" cy="230" r="215" fill="none" stroke="#FF9A3C" stroke-width="3.5" stroke-linecap="round" transform="rotate(-90 230 230)"/></svg>
-      <div class="ow">${orb(210)}</div>
-      ${LEARN.map(l => `<div class="cm">${ic('sparkles', 16)}${l}</div>`).join('')}
-      <div class="sy">${ic('refresh-cw', 15)}<span class="syt">sync every 15 min · next in 14:59</span></div>
-      <div class="cnt"><b class="cv">3</b><span>corrections learned</span></div>
-      <div class="stats">16,125 emails · 28 events · 570 documents · 42 passes</div></div>`,
+    html: `<svg class="lp" viewBox="-210 -210 420 420"><circle r="196" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="2"/>
+        <g class="arc"><path d="M 196 0 A 196 196 0 1 1 ${(196 * Math.cos(5.6)).toFixed(1)} ${(196 * Math.sin(5.6)).toFixed(1)}" fill="none" stroke="#FF9900" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 10"/>
+        <path d="M ${(196 * Math.cos(5.6)).toFixed(1)} ${(196 * Math.sin(5.6)).toFixed(1)} l 14 -2 M ${(196 * Math.cos(5.6)).toFixed(1)} ${(196 * Math.sin(5.6)).toFixed(1)} l 2 14" stroke="#FF9900" stroke-width="3" stroke-linecap="round" transform="rotate(-38 ${(196 * Math.cos(5.6)).toFixed(1)} ${(196 * Math.sin(5.6)).toFixed(1)})"/></g></svg>
+      <div class="ow">${orb(200)}</div>
+      ${INS.map(n => `<div class="in" style="top:${n[4]}px"><div class="ii" style="background:${n[1]}">${ic(n[0], 24)}</div><div><b>${n[2]}</b><span>${n[3]}</span></div></div>`).join('')}
+      <div class="pks"></div>
+      ${OUTS.map(o => `<div class="out" style="top:${o[2]}px">${ic(o[1], 18)}${o[0]}</div>`).join('')}
+      ${OUTS.map(() => '<div class="em"></div>').join('')}
+      <div class="days"><span class="d1">day 1</span><span class="d2">day 90</span><div class="bar"><i></i><b></b></div><em>every day, a little sharper</em></div>`,
     build(root, s) {
-      s.orb = $('.orb', root); s.arc = $('.arc', root); s.cms = $$('.cm', root); s.cv = $('.cv', root); s.syt = $('.syt', root);
-      s.sy = $('.sy', root); s.cnt = $('.cnt', root); s.stats = $('.stats', root);
-      const r = rng(5);
-      s.fl = s.cms.map((el, i) => ({ el, a: 0.9 + i * 0.62, x0: -40 + r() * 80, y0: 220 + i * 105 + r() * 30 }));
-      s.fl.forEach(f => cue('absorb', s.t0 + f.a + 1.05, { v: 0.5 }));
-      cue('success', s.t0 + 5.3, { v: 0.5 });
+      s.orb = $('.orb', root); s.arc = $('.lp .arc', root); s.ins = $$('.in', root); s.outs = $$('.out', root); s.ems = $$('.em', root);
+      s.bar = $('.days .bar i', root); s.dot = $('.days .bar b', root); s.days = $('.days', root);
+      const pks = $('.pks', root), r = rng(9);
+      s.pk = [];
+      INS.forEach((n, si) => { for (let j = 0; j < 5; j++) { const el = J.h(`<div class="pk" style="background:${n[1]}">${ic(n[0], 14)}</div>`); pks.appendChild(el); s.pk.push({ el, si, y0: n[4], ph: j / 5 + r() * 0.08, sp: 0.42 + r() * 0.08 }); } });
+      INS.forEach((_, i) => cue('pop', s.t0 + 0.7 + i * 0.25, { v: 0.4 }));
+      cue('data', s.t0 + 1.4, { d: 9.0 });
+      OUTS.forEach((_, i) => cue('success', s.t0 + 4.3 + i * 1.3, { v: 0.45 }));
     },
     update(lt, dur, root, s, t) {
-      const L = 2 * Math.PI * 215;
-      s.arc.style.strokeDasharray = `${L}`;
-      s.arc.style.strokeDashoffset = (L * (1 - P(lt, 0.3, 5.0, E.ioC))).toFixed(1);
-      let kick = 0, n = 3;
-      s.fl.forEach(f => {
-        const k = clamp((lt - f.a) / 1.1);
-        const x = lerp(f.x0, OC.x, E.inQ(k)), y = lerp(f.y0, OC.y, E.ioC(k));
-        tf(f.el, { x: x - (1 - k) * 0, y: y - 23, s: 1 - 0.75 * E.inQ(k), o: P(lt, f.a, 0.3) * (1 - P(lt, f.a + 0.85, 0.25)) });
-        f.el.style.marginLeft = `${(-f.el.offsetWidth / 2 * E.inQ(k)).toFixed(1)}px`;
-        const since = lt - (f.a + 1.05);
-        if (since > 0) { n++; kick = Math.max(kick, Math.exp(-since * 5)); }
+      s.ins.forEach((el, i) => vis(el, lt, 0.6 + i * 0.25, Infinity, { dx: -30, dy: 0, blur: 8 }));
+      const on = P(lt, 1.4, 0.8);
+      let kick = 0;
+      for (const p of s.pk) {
+        const ph = ((lt - 1.4) * p.sp + p.ph) % 1;
+        if (lt < 1.4) { p.el.style.opacity = 0; continue; }
+        const u = E.inQ(ph), v = 1 - u, x0 = 262, y0 = p.y0, cx = 430, cy = (p.y0 + OC.y) / 2;
+        const x = v * v * x0 + 2 * v * u * cx + u * u * OC.x, y = v * v * y0 + 2 * v * u * cy + u * u * OC.y;
+        p.el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) scale(${(1 - 0.6 * u).toFixed(3)})`;
+        p.el.style.opacity = (on * Math.min(1, ph * 6) * (1 - P(ph, 0.85, 0.15, E.lin))).toFixed(3);
+        if (ph > 0.9) kick = Math.max(kick, 1 - (ph - 0.9) / 0.1);
+      }
+      const growth = P(lt, 2.0, 8.5, E.ioC);
+      const pulse = orbTick(s.orb, t, { glow: 0.7 + 0.8 * growth + 0.3 * kick });
+      tf(s.orb, { s: pulse * (0.75 + 0.25 * P(lt, 0.2, 1.0, E.outB)) * (1 + 0.14 * growth + 0.04 * kick), o: P(lt, 0.2, 0.5) });
+      s.arc.setAttribute('transform', `rotate(${(lt * 40).toFixed(2)})`);
+      s.arc.style.opacity = P(lt, 1.0, 0.8).toFixed(3);
+      s.outs.forEach((o, i) => {
+        const a = 4.3 + i * 1.3;
+        vis(o, lt, a, Infinity, { dx: -24, dy: 0, ds: -0.1, din: 0.7, ein: E.outB });
+        const k = P(lt, a - 0.55, 0.55, E.inQ), em = s.ems[i], oy = OUTS[i][2];
+        em.style.transform = `translate(${lerp(OC.x + 90, 800, k).toFixed(1)}px,${lerp(OC.y, oy, k).toFixed(1)}px)`;
+        em.style.opacity = (lt > a - 0.55 && lt < a + 0.05 ? 1 : 0).toString();
       });
-      if (s.cv.textContent !== String(n)) s.cv.textContent = n;
-      const pulse = orbTick(s.orb, t, { glow: 0.8 + 0.6 * kick });
-      tf(s.orb, { s: pulse * (1 + 0.12 * kick) * (0.6 + 0.4 * P(lt, 0.2, 1.0, E.outB)), o: P(lt, 0.2, 0.5) });
-      pop(s.cnt, lt, 0.8); pop(s.sy, lt, 0.6); pop(s.stats, lt, 1.2);
-      const synced = lt > 5.3;
-      s.syt.textContent = synced ? 'synced just now · 131 s' : `sync every 15 min · next in 14:${String(59 - Math.floor(Math.max(0, lt - 0.6))).padStart(2, '0')}`;
+      vis(s.days, lt, 1.6, Infinity, { dy: 14, blur: 6 });
+      s.bar.style.transform = `scaleX(${growth.toFixed(4)})`;
+      s.dot.style.left = (100 * growth).toFixed(2) + '%';
     },
   });
 
@@ -229,23 +251,27 @@
     },
   });
 
-  // ------------------------------------------------ fin
+  // ------------------------------------------------ fin : signature
   scene({
     id: 'outro', t0: TL.outro[0], t1: TL.outro[1], cls: 'black',
     css: `
     #sc-outro .l{position:absolute;left:0;right:0;text-align:center;font-weight:700;font-size:150px;letter-spacing:-.055em;line-height:1.05;color:#fff}
     #sc-outro .l1{top:330px}#sc-outro .l2{top:500px}
-    #sc-outro .lo{position:absolute;left:960px;top:360px}
-    #sc-outro .tt{position:absolute;left:0;right:0;top:470px;text-align:center;font-weight:700;font-size:150px;letter-spacing:.16em;padding-left:.16em;color:#fff;line-height:1}
-    #sc-outro .tg{position:absolute;left:0;right:0;top:668px;text-align:center;font:500 20px Plex,monospace;letter-spacing:.2em;text-transform:uppercase;color:#7F8995}
+    #sc-outro .lo{position:absolute;left:960px;top:270px}
+    #sc-outro .tt{position:absolute;left:0;right:0;top:370px;text-align:center;font-weight:700;font-size:150px;letter-spacing:.14em;padding-left:.14em;color:#fff;line-height:1}
+    #sc-outro .sm{position:absolute;left:670px;top:540px;width:640px;filter:drop-shadow(0 0 14px rgba(255,153,0,.85)) drop-shadow(0 0 44px rgba(255,120,0,.4))}
+    #sc-outro .by{position:absolute;left:0;right:0;top:780px;display:flex;justify-content:center;align-items:center;gap:18px}
+    #sc-outro .by span{font:500 20px Plex,monospace;letter-spacing:.24em;text-transform:uppercase;color:#8C96A2}
+    #sc-outro .cr{position:absolute;left:0;right:0;top:900px;text-align:center;font:500 18px Plex,monospace;letter-spacing:.2em;text-transform:uppercase;color:#6F7985}
     #sc-outro .bk{position:absolute;inset:0;background:#000;opacity:0}
     `,
     build(el, s) {
       el.innerHTML = `<div class="l l1">Stop searching.</div><div class="l l2"><span class="hl">Start consulting.</span></div>
-        <div class="lo">${orb(120)}</div><div class="tt">J.A.R.V.I.S.</div><div class="tg">Built with Kiro · Amazon Ads · Programmatic Solutions</div><div class="bk"></div>`;
+        <div class="lo">${orb(100, { nosmile: true })}</div><div class="tt">J.A.R.V.I.S.</div><div class="sm">${BRAND.smile(640)}</div>
+        <div class="by"><span>by</span>${BRAND.logo(230)}</div><div class="cr">Built by Valentin &amp; Diane · PSC France</div><div class="bk"></div>`;
       s.l1 = $('.l1', el); s.l2 = $('.l2', el); s.w1 = splitWords(s.l1); s.w2 = splitWords(s.l2);
-      s.orb = $('.orb', el); s.tt = $('.tt', el); s.tg = $('.tg', el); s.bk = $('.bk', el);
-      cue('hit', s.t0 + 0.25, { v: 0.5 }); cue('hit', s.t0 + 1.05, { v: 0.7 }); cue('final', s.t0 + 2.75);
+      s.orb = $('.orb', el); s.tt = $('.tt', el); s.sm = $('.sm', el); s.by = $('.by', el); s.cr = $('.cr', el); s.bk = $('.bk', el);
+      cue('hit', s.t0 + 0.25, { v: 0.5 }); cue('hit', s.t0 + 1.05, { v: 0.7 }); cue('final', s.t0 + 2.75); cue('smile', s.t0 + 3.3);
     },
     update(lt, dur, s, t) {
       revealWords(s.w1, lt, 0.25, { st: 0.12, dy: 60 });
@@ -255,10 +281,13 @@
       const pulse = orbTick(s.orb, t);
       tf(s.orb, { s: pulse * P(lt, 2.75, 0.9, E.outB), o: P(lt, 2.75, 0.4) });
       const ti = P(lt, 2.85, 1.4, E.outQi);
-      s.tt.style.letterSpacing = `${(0.16 + 0.4 * (1 - ti)).toFixed(4)}em`;
+      s.tt.style.letterSpacing = `${(0.14 + 0.4 * (1 - ti)).toFixed(4)}em`;
       tf(s.tt, { o: P(lt, 2.85, 0.8), b: 20 * (1 - ti) });
-      vis(s.tg, lt, 3.45, Infinity, { dy: 14, blur: 8 });
-      s.bk.style.opacity = P(lt, dur - 0.7, 0.7, E.inQ).toFixed(3);
+      const d = P(lt, 3.3, 0.9, E.outQu);
+      s.sm.style.clipPath = `inset(-30% ${(100 - 100 * d).toFixed(2)}% -30% 0)`;
+      vis(s.by, lt, 4.1, Infinity, { dy: 14, blur: 8 });
+      vis(s.cr, lt, 5.0, Infinity, { dy: 10, blur: 6 });
+      s.bk.style.opacity = P(lt, dur - 1.6, 1.6, E.ioC).toFixed(3);
     },
   });
 })();

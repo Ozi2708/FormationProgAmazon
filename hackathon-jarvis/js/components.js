@@ -3,27 +3,31 @@
   'use strict';
   const { E, P, tf, vis, splitWords, revealWords, ic, $, scene, clamp } = J;
 
-  // Chaque scène : [début, fin]. Les scènes voisines se chevauchent de 0,4 s (fondu).
-  window.TL = {
-    open: [0, 4.6], storm: [4.2, 16.4], stats: [16.0, 25.2], reveal: [24.8, 39.6],
-    c1: [39.2, 41.2], brief: [40.8, 48.6], inbox: [48.2, 54.4], follow: [54.0, 60.8], agenda: [60.4, 66.8],
-    c2: [66.4, 68.4], data: [68.0, 73.6], pacing: [73.2, 82.6], actions: [82.2, 91.4], trouble: [91.0, 99.4],
-    c3: [99.0, 101.0], portfolio: [100.6, 107.2], sheet: [106.8, 116.6],
-    c4: [116.2, 118.2], news: [117.8, 129.6],
-    c5: [129.2, 131.2], deck: [130.8, 137.8], prep: [137.4, 143.6], wbr: [143.2, 151.6],
-    control: [151.2, 158.0], learn: [157.6, 164.4],
-    sfdc: [164.0, 169.4], network: [169.0, 174.6], outro: [174.2, 179.0],
-  };
+  // Enchaînement des scènes et durées (s). Les scènes voisines se chevauchent de 0,4 s (fondu).
+  const SEQ = [
+    ['logo', 3.0], ['open', 4.6], ['storm', 8.6], ['avalanche', 12.4], ['reveal', 15.0],
+    ['c1', 2.0], ['brief', 7.6], ['inbox', 6.0], ['follow', 6.0], ['voice', 10.4], ['rewrite', 9.0], ['agenda', 5.6], ['meeting', 10.0],
+    ['c2', 2.0], ['data', 5.6], ['pacing', 9.2], ['actions', 9.0], ['trouble', 8.2],
+    ['c3', 2.0], ['portfolio', 6.4], ['sheet', 9.6],
+    ['c4', 2.0], ['news', 11.2],
+    ['c5', 2.0], ['deck', 7.2], ['wbr', 8.4],
+    ['control', 7.0], ['loop', 12.4],
+    ['sfdc', 5.6], ['network', 6.0], ['outro', 9.0],
+  ];
+  const OVERLAP = 0.4;
+  window.TL = {};
+  let acc = 0;
+  for (const [k, d] of SEQ) { TL[k] = [+acc.toFixed(2), +(acc + d).toFixed(2)]; acc += d - OVERLAP; }
 
-  // ---------- sphère ----------
-  const orb = (d, extra = '') =>
-    `<div class="orb" style="--d:${d}px;${extra}"><div class="orb-glow"></div><div class="orb-ring"></div><div class="orb-core"></div><div class="orb-swirl"></div><div class="orb-shine"></div></div>`;
+  // ---------- sphère « cerveau » : verre bleu nuit, cœur orange Amazon (smile en option) ----------
+  const orb = (d, o = {}) =>
+    `<div class="orb" style="--d:${d}px"><div class="orb-glow"></div><div class="orb-core"></div><div class="orb-light"></div><div class="orb-shine"></div>${o.smile ? `<div class="orb-sm">${BRAND.smile(Math.round(d * 1.54))}</div>` : ''}</div>`;
   function orbTick(el, t, o = {}) {
-    const [glow, ring, , swirl] = el.children;
-    ring.style.transform = `rotate(${(t * 38).toFixed(2)}deg)`;
-    swirl.style.transform = `rotate(${(-t * 62).toFixed(2)}deg)`;
+    const [glow, , light, , sm] = el.children;
+    light.style.transform = `rotate(${(t * 46).toFixed(2)}deg)`;
     glow.style.opacity = ((o.glow ?? 1) * (0.82 + 0.18 * Math.sin(t * 1.9))).toFixed(3);
-    return 1 + 0.022 * Math.sin(t * 2.3);
+    if (sm) sm.style.transform = `rotate(${(3.5 * Math.sin(t * 0.9)).toFixed(3)}deg)`;
+    return 1 + 0.018 * Math.sin(t * 2.3);
   }
 
   // ---------- sources de données ----------
@@ -65,14 +69,18 @@
     scene({
       id, t0: span[0], t1: span[1], cls: 'light',
       build(el, s) {
-        el.innerHTML = `<div class="chap"><div class="chap-n"><i></i>${num}<i></i></div><div class="chap-t">${title}</div></div>`;
-        s.n = $('.chap-n', el); s.tt = $('.chap-t', el); s.w = splitWords(s.tt);
+        el.innerHTML = `<div class="chap"><div class="chap-n"><i></i>${num}<i></i></div><div class="chap-t">${title}</div><div class="chap-sm">${BRAND.smile(330)}</div></div><div class="chap-logo">${BRAND.logo(140, '#232F3E')}</div>`;
+        s.n = $('.chap-n', el); s.tt = $('.chap-t', el); s.w = splitWords(s.tt); s.sm = $('.chap-sm', el); s.lg = $('.chap-logo', el);
       },
       update(lt, dur, s) {
         vis(s.n, lt, 0.05, dur, { dy: 18, blur: 6 });
         revealWords(s.w, lt, 0.15, { st: 0.09, dy: 60 });
         const q = P(lt, dur - 0.55, 0.55, E.inC);
         tf(s.tt, { y: -34 * q, s: 1 + 0.03 * P(lt, 0, dur, E.lin), o: 1 - q, b: 12 * q });
+        const d = P(lt, 0.5, 0.75, E.outQu);
+        s.sm.style.clipPath = `inset(-20% ${(100 - 100 * d).toFixed(2)}% -20% 0)`;
+        tf(s.sm, { y: -34 * q, o: 1 - q });
+        vis(s.lg, lt, 0.3, dur, { dy: 10, blur: 4 });
       },
     });
   }
@@ -85,7 +93,7 @@
   ];
   function sidebar() {
     return `<div class="am-side">
-      <div class="am-logo"><b>amazon ads</b><span>|</span><em>J.A.R.V.I.S.</em></div>
+      <div class="am-logo">${BRAND.logo(112)}<span>|</span><em>J.A.R.V.I.S.</em></div>
       <div class="am-nav">${NAV.map((n, i) => `<div class="am-it${i === 0 ? ' on' : ''}">${ic(n[0], 19)}<span>${n[1]}</span><b class="${n[3] ? 'o' : ''}">${n[2]}</b></div>`).join('')}</div>
       <div class="am-foot">
         <div>${ic('brain', 14)}<span>Daily briefing</span><b>08:30</b></div>
@@ -140,9 +148,11 @@
 
   const CSS = `
   .chap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-  .chap-n{font:500 22px Plex,monospace;letter-spacing:.32em;color:var(--or);margin-bottom:30px;display:flex;align-items:center;gap:22px}
+  .chap-n{font:500 22px Plex,monospace;letter-spacing:.32em;color:var(--amz-d);margin-bottom:30px;display:flex;align-items:center;gap:22px}
   .chap-n i{width:46px;height:2px;background:currentColor;opacity:.6}
   .chap-t{font-weight:700;font-size:156px;letter-spacing:-.052em;line-height:1;color:var(--ink)}
+  .chap-sm{margin-top:18px;margin-left:220px;filter:drop-shadow(0 6px 14px rgba(255,153,0,.35))}
+  .chap-logo{position:absolute;left:50%;bottom:64px;transform:translateX(-50%);opacity:.9}
   .uiz{position:absolute;left:0;top:0;width:1040px;height:1080px;transform-origin:0 50%}
   .tile{position:absolute;width:var(--ts);margin:calc(var(--ts)/-2) 0 0 calc(var(--ts)/-2);text-align:center}
   .tile-box{width:var(--ts);height:var(--ts);border-radius:27%;display:grid;place-items:center;color:#fff;
@@ -152,7 +162,7 @@
 
   .am{width:1600px;height:930px;border-radius:22px;overflow:hidden;display:flex;background:var(--bg);box-shadow:0 60px 160px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
   .am-side{width:250px;background:var(--navy);color:#C9D1DB;display:flex;flex-direction:column;padding:22px 12px 16px;flex:none}
-  .am-logo{display:flex;align-items:baseline;gap:9px;padding:0 10px 22px;color:#fff}
+  .am-logo{display:flex;align-items:center;gap:10px;padding:0 10px 22px;color:#fff}
   .am-logo b{font-weight:800;font-size:21px;letter-spacing:-.04em}
   .am-logo span{color:#58667A}
   .am-logo em{font:500 12px Plex,monospace;letter-spacing:.14em;font-style:normal;color:#AEB8C4}

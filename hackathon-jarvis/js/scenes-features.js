@@ -179,7 +179,7 @@
     build(root, s) {
       s.items = $$('.fu-it', root); s.late = $('.i0 .fu-late', root); s.kiro = $('.kiro', root);
       s.dr = $('.dr', root); s.body = $('.dr-b', root); s.cur = cursor(root);
-      cue('pulse', s.t0 + 1.25, { v: 0.6 }); cue('click', s.t0 + 2.75); cue('swoosh-up', s.t0 + 3.0); cue('type', s.t0 + 3.35, { d: DRAFT.length / 80 });
+      cue('pulse', s.t0 + 1.25, { v: 0.6 }); cue('click', s.t0 + 2.75); cue('swoosh-up', s.t0 + 3.0); cue('type', s.t0 + 3.35, { d: DRAFT.length / 95 });
     },
     update(lt, dur, root, s) {
       if (!s.m) s.m = rel(s.kiro, root);
@@ -190,7 +190,149 @@
       moveCursor(s.cur, lt, [[1.7, 820, 760], [2.6, s.m.cx + 10, s.m.cy + 6]], [2.75], { hide: 4.2 });
       s.kiro.classList.toggle('on', lt > 2.8);
       vis(s.dr, lt, 3.0, Infinity, { dy: 90, blur: 16, ds: 0.03, din: 0.9, ein: E.outX });
-      type(s.body, DRAFT, lt, 3.35, 80);
+      type(s.body, DRAFT, lt, 3.35, 95);
+    },
+  });
+
+  // ------------------------------------------------ dans ta voix, nourri par tes données
+  const VOICE = [
+    { t: 'Hello Annemarie,', c: 'hs' }, { t: 'style', c: 'tag t-st', k: 'st' }, { t: '\n\nQuick update on BFM: the SVOD line is at ' },
+    { t: '2.3% delivered', c: 'hs' }, { t: 'DSP', c: 'tag t-dsp', k: 0 }, { t: ' for 29% of the flight, so about ' },
+    { t: '€41.7k is at risk', c: 'hs' }, { t: 'DSP', c: 'tag t-dsp', k: 0 }, { t: ' before 15/11.\n\n' },
+    { t: 'Ticket P529341292', c: 'hs' }, { t: 'SIM', c: 'tag t-sim', k: 1 }, { t: ' is open with PSC-T, as discussed in our last ' },
+    { t: 'exchange', c: 'hs' }, { t: 'thread', c: 'tag t-th', k: 2 }, { t: '. On your side, could you check ' },
+    { t: 'the max bid against the deal floor', c: 'hs' }, { t: 'SOP', c: 'tag t-sop', k: 3 }, { t: ' and confirm the PMP creatives are live?\n\n' },
+    { t: 'Thanks!\nValentin', c: 'hs' }, { t: 'style', c: 'tag t-st', k: 'st' },
+  ];
+  const VCPS = 78, VT0 = 2.6;
+  const STYLE = [['opening', '"Hello Annemarie," · "Salut" with close contacts'], ['tone', 'Direct, warm, numbers first'],
+    ['language', 'Matches the thread: French or English'], ['always', 'A next step, with an owner and a date'], ['sign-off', '"Thanks!" · Valentin']];
+  const GROUND = [['chart-column', '#F7930F', 'DSP export 06/10', 'SVOD 2.3% delivered · €41.7k at risk'], ['ticket', '#CF3F37', 'SIM P529341292', 'In progress · PSC-T'],
+    ['mail', '#2F6FDE', 'Thread history', '11 messages with Amnet'], ['file-text', '#16947E', 'Waypoint SOP', 'Escalation checklist']];
+  feature('voice', TL.voice, {
+    kicker: '01 · Start your day', head: 'Your voice.<br><span class="hl">Your data.</span>',
+    sub: 'Replies drafted the way you write, grounded in live results, tickets and docs.',
+    css: `
+    #sc-voice .sty{position:absolute;left:0;top:110px;width:460px;padding:22px 22px 12px}
+    #sc-voice .sty-h{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+    #sc-voice .sty-i{width:42px;height:42px;border-radius:11px;background:var(--ink);color:#fff;display:grid;place-items:center;flex:none}
+    #sc-voice .sty-t{font-weight:700;font-size:18px}
+    #sc-voice .sty-s{font:500 12.5px Plex,monospace;color:var(--mut);margin-top:2px}
+    #sc-voice .sty-r{display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid var(--line2);font-size:14.5px;line-height:1.35}
+    #sc-voice .sty-r .lbl{width:78px;flex:none}
+    #sc-voice .sty-r b{font-weight:600;color:var(--ink2);flex:1}
+    #sc-voice .sty-r .ok{color:var(--grn);flex:none}
+    #sc-voice .gr{position:absolute;left:0;top:560px;width:460px;padding:18px 22px 10px}
+    #sc-voice .gr-r{display:flex;gap:12px;align-items:center;padding:9px 8px;border-radius:12px;margin:0 -8px}
+    #sc-voice .gr-i{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;color:#fff;flex:none}
+    #sc-voice .gr-r b{display:block;font-size:15px}
+    #sc-voice .gr-r span{font-size:13px;color:var(--mut)}
+    #sc-voice .dr{position:absolute;left:486px;top:150px;width:546px;padding:20px 24px 18px}
+    #sc-voice .dr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    #sc-voice .dr-app{display:flex;gap:8px;align-items:center;font-weight:650;color:#2F6FDE}
+    #sc-voice .dr-f{font-size:14px;color:var(--ink2);padding:7px 0;border-bottom:1px solid var(--line2)}
+    #sc-voice .dr-f span{display:inline-block;width:66px;color:var(--mut)}
+    #sc-voice .dr-b{font-size:16px;line-height:1.62;color:var(--ink);padding-top:12px;height:430px}
+    #sc-voice .hs{background:linear-gradient(transparent 60%,rgba(255,153,0,.30) 60%)}
+    #sc-voice .tag{display:inline-block;font:600 10.5px/1 Plex,monospace;letter-spacing:.08em;text-transform:uppercase;padding:4px 6px;border-radius:5px;margin:0 2px 0 5px;vertical-align:2px;color:#fff}
+    #sc-voice .t-st{background:var(--ink)}#sc-voice .t-dsp{background:#F7930F}#sc-voice .t-sim{background:#CF3F37}#sc-voice .t-th{background:#2F6FDE}#sc-voice .t-sop{background:#16947E}
+    #sc-voice .dr-foot{display:flex;gap:8px;align-items:center;font-size:13.5px;color:var(--or);font-weight:600;margin-top:6px}
+    `,
+  }, {
+    html: `<div class="card sty"><div class="sty-h"><div class="sty-i">${ic('pen-line', 20)}</div><div><div class="sty-t">Your writing style</div><div class="sty-s">style.md · learned from your sent emails</div></div></div>
+        ${STYLE.map(r => `<div class="sty-r"><span class="lbl">${r[0]}</span><b>${r[1]}</b><span class="ok">${ic('check', 16)}</span></div>`).join('')}</div>
+      <div class="card gr"><div class="lbl" style="margin-bottom:8px">grounded in</div>${GROUND.map(g => `<div class="gr-r"><div class="gr-i" style="background:${g[1]}">${ic(g[0], 18)}</div><div><b>${g[2]}</b><span>${g[3]}</span></div></div>`).join('')}</div>
+      <div class="card dr"><div class="dr-top"><span class="dr-app">${ic('mail', 17)}Outlook · Drafts</span><span class="chip amb mono">draft · not sent</span></div>
+        <div class="dr-f"><span>To</span>Annemarie Kalinka (Amnetgroup)</div><div class="dr-f"><span>Subject</span>RE: BFM · SVOD delivery</div>
+        <div class="dr-b"></div><div class="dr-foot">${ic('sparkles', 15)}Drafted by Kiro, in your voice</div></div>`,
+    build(root, s) {
+      s.sty = $('.sty', root); s.rows = $$('.sty-r', root); s.gr = $('.gr', root); s.grs = $$('.gr-r', root); s.dr = $('.dr', root); s.body = $('.dr-b', root);
+      // instant où chaque étiquette de source finit de s'écrire
+      let n = 0; s.hits = [];
+      for (const seg of VOICE) { n += seg.t.length; if (seg.k !== undefined) s.hits.push({ k: seg.k, t: VT0 + n / VCPS }); }
+      STYLE.forEach((_, i) => cue('tick', s.t0 + 0.75 + i * 0.18, { v: 0.4 }));
+      GROUND.forEach((_, i) => cue('pop', s.t0 + 1.55 + i * 0.14, { v: 0.35 }));
+      cue('type', s.t0 + VT0, { d: n / VCPS });
+      s.hits.forEach(h => cue('tick', s.t0 + h.t, { v: 0.5 }));
+    },
+    update(lt, dur, root, s) {
+      pop(s.sty, lt, 0.35); s.rows.forEach((r, i) => pop(r, lt, 0.75 + i * 0.18, { dy: 10 }));
+      pop(s.gr, lt, 1.35); s.grs.forEach((r, i) => pop(r, lt, 1.55 + i * 0.14, { dy: 10 }));
+      pop(s.dr, lt, 2.15);
+      type(s.body, VOICE, lt, VT0, VCPS);
+      // la source citée s'allume quand son étiquette apparaît
+      const glow = [0, 0, 0, 0], sg = [0];
+      for (const h of s.hits) { const d = lt - h.t; if (d >= 0 && d < 1.2) { const g = Math.sin(clamp(d / 1.2) * Math.PI); if (h.k === 'st') sg[0] = Math.max(sg[0], g); else glow[h.k] = Math.max(glow[h.k], g); } }
+      s.grs.forEach((r, i) => { r.style.background = `rgba(255,153,0,${(0.16 * glow[i]).toFixed(3)})`; r.style.boxShadow = glow[i] > 0.01 ? `0 0 0 ${(2 * glow[i]).toFixed(1)}px rgba(255,153,0,.55)` : 'none'; });
+      s.sty.style.boxShadow = `0 34px 90px -26px rgba(35,47,62,.26), 0 0 0 ${(3 * sg[0]).toFixed(1)}px rgba(255,153,0,${(0.6 * sg[0]).toFixed(2)})`;
+    },
+  });
+
+  // ------------------------------------------------ une note, et J.A.R.V.I.S. réécrit
+  const NOTE = "dis-lui qu'on passe la ligne CUTV Equativ à 1 € et qu'on relance Equativ demain matin";
+  const POLISHED = "We'll also set the Equativ CUTV line to €1 so the algorithm can reallocate its budget, and I'll follow up with Equativ tomorrow morning.";
+  feature('rewrite', TL.rewrite, {
+    kicker: '01 · Start your day', head: 'Add a note.<br><span class="hl">It rewrites.</span>',
+    sub: 'Jot it down in your own words, French or English. J.A.R.V.I.S. turns it into a clean paragraph, in your voice.',
+    css: `
+    #sc-rewrite .rw{position:absolute;left:30px;top:120px;width:980px;padding:22px 28px 22px}
+    #sc-rewrite .rw-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    #sc-rewrite .rw-app{display:flex;gap:8px;align-items:center;font-weight:650;color:#2F6FDE}
+    #sc-rewrite .rw-f{font-size:14.5px;color:var(--ink2);padding:7px 0;border-bottom:1px solid var(--line2)}
+    #sc-rewrite .rw-f span{display:inline-block;width:72px;color:var(--mut)}
+    #sc-rewrite .rw-b{font-size:17px;line-height:1.6;color:var(--ink);padding:14px 0 6px}
+    #sc-rewrite .rw-b p{margin-bottom:14px}
+    #sc-rewrite .slot{overflow:hidden;height:0}
+    #sc-rewrite .ins{border-radius:8px;margin:0 -8px 14px;padding:2px 8px}
+    #sc-rewrite .note{display:flex;gap:12px;align-items:center;margin-top:8px;height:62px;padding:0 10px 0 18px;border-radius:16px;border:1.5px solid #F2C79A;background:#FFF9F2}
+    #sc-rewrite .note .ic{color:var(--or)}
+    #sc-rewrite .nt{flex:1;font-size:17px;color:var(--ink2);white-space:nowrap;overflow:hidden}
+    #sc-rewrite .nt .ph{color:var(--mut2)}
+    #sc-rewrite .go{width:44px;height:44px;border-radius:50%;background:var(--or);color:#fff;display:grid;place-items:center}
+    #sc-rewrite .bub{position:absolute;left:0;top:0;border-radius:12px;padding:10px 14px;font-size:17px;line-height:1.6;z-index:10}
+    #sc-rewrite .bub div{position:absolute;left:14px;right:14px;top:10px}
+    #sc-rewrite .b-raw{color:#7A4A12;font-style:italic}
+    #sc-rewrite .rw-c{position:absolute;left:30px;top:812px;display:flex;gap:10px}
+    `,
+  }, {
+    html: `<div class="card rw"><div class="rw-top"><span class="rw-app">${ic('mail', 17)}Outlook · Drafts</span><span class="chip amb mono">draft · not sent</span></div>
+        <div class="rw-f"><span>To</span>Annemarie Kalinka (Amnetgroup)</div><div class="rw-f"><span>Subject</span>RE: BFM · SVOD delivery</div>
+        <div class="rw-b"><p>Hello Annemarie,</p><p>Quick update on BFM: the SVOD line is at 2.3% delivered for 29% of the flight, so about €41.7k is at risk before 15/11.</p>
+          <p>Ticket P529341292 is open with PSC-T. On your side, could you check the max bid against the deal floor and confirm the PMP creatives are live?</p>
+          <div class="slot"><p class="ins">${POLISHED}</p></div><p>Thanks!<br>Valentin</p></div>
+        <div class="note">${ic('pen-line', 20)}<div class="nt"></div><span class="go">${ic('arrow-right', 22)}</span></div></div>
+      <div class="bub"><div class="b-raw">${NOTE}</div><div class="b-pol">${POLISHED}</div></div>
+      <div class="rw-c"><span class="chip or">${ic('sparkles', 14)}Rewritten in your style</span><span class="chip line">French → English</span><span class="chip grn">${ic('check', 13)}ready to send, by you</span></div>`,
+    build(root, s) {
+      s.nt = $('.nt', root); s.go = $('.go', root); s.slot = $('.slot', root); s.ins = $('.ins', root); s.note = $('.note', root); s.bub = $('.bub', root);
+      s.raw = $('.b-raw', root); s.pol = $('.b-pol', root); s.chips = $$('.rw-c .chip', root);
+      cue('type', s.t0 + 0.9, { d: NOTE.length / 40 }); cue('click', s.t0 + 3.25); cue('swoosh-up', s.t0 + 3.4, { v: 0.6 }); cue('sparkle', s.t0 + 4.2); cue('success', s.t0 + 5.0, { v: 0.6 });
+    },
+    update(lt, dur, root, s) {
+      if (!s.m) {
+        const b = rel(s.slot, root), n = rel(s.note, root);
+        s.m = { sx: b.x, sy: b.y, w: b.w, h: s.ins.offsetHeight + 14, nx: n.x + 50, ny: n.y + 4 };
+        s.bub.style.width = s.m.w + 16 + 'px';
+        s.bub.style.height = s.m.h + 6 + 'px';
+      }
+      if (lt < 0.9) J.setHTML(s.nt, '<span class="ph">Add a note for Kiro…</span>');
+      else if (lt < 3.3) type(s.nt, NOTE, lt, 0.9, 40);
+      else J.setHTML(s.nt, '<span class="ph">Add a note for Kiro…</span>');
+      tf(s.go, { s: lt > 3.15 && lt < 3.45 ? 1 - 0.12 * Math.sin((lt - 3.15) / 0.3 * Math.PI) : 1 });
+      // la note brute monte dans le mail et se transforme
+      const k = P(lt, 3.35, 1.3, E.ioC);
+      const land = P(lt, 4.6, 0.35);
+      const open = P(lt, 3.9, 0.7, E.ioC);
+      s.slot.style.height = (s.m.h * open).toFixed(1) + 'px';
+      const bx = lerp(s.m.nx, s.m.sx - 8, k), by = lerp(s.m.ny, s.m.sy - 4, k);
+      tf(s.bub, { x: bx, y: by, o: lt < 3.35 ? 0 : 1 - land, s: 1 });
+      s.bub.style.background = `rgba(255,${lerp(243, 240, k).toFixed(0)},${lerp(214, 225, k).toFixed(0)},${(0.95 - 0.5 * k).toFixed(3)})`;
+      s.bub.style.boxShadow = `0 ${(18 * (1 - k)).toFixed(1)}px 40px rgba(35,47,62,${(0.25 * Math.sin(k * Math.PI)).toFixed(3)})`;
+      tf(s.raw, { o: 1 - P(lt, 3.6, 0.6), b: 8 * P(lt, 3.6, 0.6) });
+      tf(s.pol, { o: P(lt, 3.9, 0.6), b: 8 * (1 - P(lt, 3.9, 0.6)) });
+      s.ins.style.opacity = land.toFixed(3);
+      s.ins.style.background = `rgba(255,153,0,${(0.2 * land * (1 - P(lt, 5.2, 2.2))).toFixed(3)})`;
+      s.chips.forEach((c, i) => vis(c, lt, 5.0 + i * 0.15, Infinity, { dy: 12, ds: -0.15, din: 0.6, ein: E.outB }));
     },
   });
 
@@ -205,8 +347,8 @@
   ];
   const HR = 40, H0 = 9, COLW = 182;
   feature('agenda', TL.agenda, {
-    kicker: '01 · Start your day', head: 'Every meeting,<br><span class="hl">already prepared.</span>',
-    sub: 'Unanswered invites flagged. Each meeting linked to its client and its prep.',
+    kicker: '01 · Start your day', head: 'Every meeting,<br><span class="hl">on your radar.</span>',
+    sub: 'Unanswered invites flagged. Each meeting linked to its client.',
     css: `
     #sc-agenda .ag{position:absolute;left:0;top:150px;width:1010px;padding:24px 26px}
     #sc-agenda .ag-h{display:flex;align-items:baseline;gap:12px;margin-bottom:14px}
@@ -258,15 +400,13 @@
         <div class="inv-r">${ic('calendar', 18)}<b>PSC Brainfood Session - Ads Moderation Agent</b><em>16:00–17:00 · 13 participants</em><span class="chip or mono" style="height:24px">to confirm</span></div>
         <div class="inv-r">${ic('calendar', 18)}<b>Ads Tech Talk: Keeping Your Pipelines Green</b><em>21:00–22:00 · 51 participants</em><span class="chip or mono" style="height:24px">to confirm</span></div></div>
     </div>
-    <svg class="lk"><path fill="none" stroke="#F2661B" stroke-width="2.5" stroke-dasharray="6 6"/></svg>
-    <div class="card prep"><div class="pr-h"><div class="pr-i">${ic('calendar-check', 20)}</div><div><div class="pr-t">Prep ready · 2026 H2 FR PSC Meeting + PAM</div><div class="pr-s">Prepared the day before, without asking · Thu 11:00</div></div></div>
-      <div class="pr-c"><span class="chip gray">PSC FR · AST-PSC switch</span><span class="chip grn">${ic('file-text', 13)}brief + talking points</span></div></div>`,
+    `,
     build(root, s) {
       s.evs = $$('.ev', root); s.key = $('.ev.key', root); s.inv = $$('.inv-r', root); s.invh = $('.inv-h', root);
-      s.prep = $('.prep', root); s.path = $('svg.lk path', root); s.now = $('.now', root);
+      s.now = $('.now', root);
       s.order = s.evs.map((e, i) => i).sort((a, b) => EVT[a][0] - EVT[b][0] || EVT[a][1] - EVT[b][1]);
       s.order.forEach((ei, k) => cue('tick', s.t0 + 0.55 + k * 0.045, { v: 0.25 }));
-      cue('pop', s.t0 + 2.5); cue('pulse', s.t0 + 3.5, { v: 0.7 }); cue('swoosh-up', s.t0 + 4.15);
+      cue('pop', s.t0 + 2.5); cue('pulse', s.t0 + 3.5, { v: 0.7 });
     },
     update(lt, dur, root, s) {
       s.order.forEach((ei, k) => { const e = s.evs[ei]; const a = 0.55 + k * 0.045; tf(e, { s: 0.85 + 0.15 * P(lt, a, 0.5, E.outB), o: P(lt, a, 0.3) }); });
@@ -276,17 +416,69 @@
       if (lt > 3.5) { s.key.style.boxShadow = `0 0 0 ${(3 * hk).toFixed(1)}px rgba(242,102,27,.9), 0 8px 24px rgba(242,102,27,${(0.35 * hk).toFixed(2)})`; s.key.style.zIndex = 5; }
       else s.key.style.boxShadow = 'none';
       tf(s.key, { s: 1 + 0.08 * hk, o: P(lt, 0.6, 0.3) });
-      if (!s.m) {
-        const k = rel(s.key, root), p = rel(s.prep, root);
-        s.m = 1;
-        const x0 = k.x + k.w, y0 = k.cy, x1 = p.x, y1 = p.cy + 10;
-        s.path.setAttribute('d', `M${x0},${y0} C${x0 + 120},${y0} ${x1 - 140},${y1} ${x1},${y1}`);
-        s.len = s.path.getTotalLength(); s.path.style.strokeDasharray = `${s.len}`;
-      }
-      const d = P(lt, 3.85, 0.55, E.ioC);
-      s.path.style.strokeDashoffset = (s.len * (1 - d)).toFixed(1);
-      s.path.style.opacity = d > 0 ? 1 : 0;
-      vis(s.prep, lt, 4.15, Infinity, { dy: 30, blur: 12, ds: 0.06, din: 0.8, ein: E.outX });
+    },
+  });
+
+  // ------------------------------------------------ réunions : préparées la veille par un agent dédié
+  const PREP = [
+    ['users', "who's in the room", 'PSC France team · PAM · organizer: PSC lead', ''],
+    ['refresh-cw', 'since last time', 'AST-PSC switch confirmed: one owner per account, last shared day 16/10', ''],
+    ['chart-column', 'numbers to know', '40 live campaigns · 5 to catch up · 2 SIM tickets open on BFM', ''],
+    ['message-square', 'talking points', 'Accounts to hand over before 16/10 · C-SAT signals from Ad Services', ''],
+    ['triangle-alert', 'watch out', 'BFM: ~€51k at risk, no agency thread yet', 'r'],
+    ['target', 'your ask', 'Agree on an owner for the Equativ escalation', ''],
+  ];
+  feature('meeting', TL.meeting, {
+    kicker: '01 · Start your day', head: 'Walk in<br><span class="hl">ready.</span>',
+    sub: 'A dedicated agent prepares every meeting the day before: context, numbers, talking points.',
+    css: `
+    #sc-meeting .tl{position:absolute;left:0;top:170px;width:1010px;height:128px;padding:0 34px}
+    #sc-meeting .tn{position:absolute;top:30px;display:flex;gap:14px;align-items:center}
+    #sc-meeting .tn .ti{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+    #sc-meeting .tn b{display:block;font-family:InterTight;font-size:22px}
+    #sc-meeting .tn span{font-size:14px;color:var(--mut)}
+    #sc-meeting .n1{left:34px}#sc-meeting .n2{right:34px;flex-direction:row-reverse;text-align:right}
+    #sc-meeting .tr{position:absolute;left:330px;right:380px;top:62px;height:3px;border-radius:3px;background:#ECE7E0}
+    #sc-meeting .tr i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,#FF9900,#F26B1D);transform-origin:0 50%}
+    #sc-meeting .tr b{position:absolute;top:-7px;width:17px;height:17px;margin-left:-8px;border-radius:50%;background:#FF9900;box-shadow:0 0 0 6px rgba(255,153,0,.2),0 0 18px rgba(255,153,0,.7)}
+    #sc-meeting .tr em{position:absolute;left:50%;top:-36px;transform:translateX(-50%);font:600 13px Plex,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--amz-d);white-space:nowrap}
+    #sc-meeting .pd{position:absolute;left:0;top:328px;width:1010px;padding:24px 28px 18px}
+    #sc-meeting .pd-h{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+    #sc-meeting .pd-h .sp{flex:1}
+    #sc-meeting .pd-t{font-weight:700;font-size:22px}
+    #sc-meeting .pd-s{font-size:14px;color:var(--mut);margin-bottom:12px}
+    #sc-meeting .pg{display:grid;grid-template-columns:1fr 1fr;gap:0 28px}
+    #sc-meeting .ps{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line2)}
+    #sc-meeting .ps .pi{width:36px;height:36px;border-radius:10px;background:#F3F0EB;color:#4D555D;display:grid;place-items:center;flex:none}
+    #sc-meeting .ps.r .pi{background:var(--redbg);color:var(--red)}
+    #sc-meeting .ps .lbl{margin-bottom:5px}
+    #sc-meeting .ps p{font-size:15.5px;line-height:1.45;color:var(--ink);font-weight:550}
+    #sc-meeting .ps.r p{color:var(--red)}
+    `,
+  }, {
+    html: `<div class="card tl">
+        <div class="tn n1"><div class="ti" style="background:var(--ink)">${ic('brain', 24)}</div><div><b>Wed · 17:33</b><span>Prep agent runs, on its own</span></div></div>
+        <div class="tr"><i></i><b></b><em>prepared 17 h ahead</em></div>
+        <div class="tn n2"><div class="ti" style="background:#E5533D">${ic('calendar', 24)}</div><div><b>Thu · 11:00</b><span>2026 H2 FR PSC Meeting + PAM</span></div></div></div>
+      <div class="card pd"><div class="pd-h"><span class="pd-t">Meeting prep · 2026 H2 FR PSC Meeting + PAM</span><span class="sp"></span><span class="chip or">${ic('brain', 14)}prep agent</span><span class="chip gray">${ic('clock', 13)}ready the day before</span></div>
+        <div class="pd-s">Built from your emails, the campaign data and the last meeting notes. Nobody asked for it.</div>
+        <div class="pg">${PREP.map(p => `<div class="ps ${p[3]}"><div class="pi">${ic(p[0], 18)}</div><div><div class="lbl">${p[1]}</div><p>${p[2]}</p></div></div>`).join('')}</div></div>`,
+    build(root, s) {
+      s.n1 = $('.n1', root); s.n2 = $('.n2', root); s.fill = $('.tr i', root); s.dot = $('.tr b', root); s.em = $('.tr em', root);
+      s.pd = $('.pd', root); s.ps = $$('.ps', root);
+      cue('pop', s.t0 + 0.6, { v: 0.4 }); cue('rise', s.t0 + 0.9, { d: 1.4 }); cue('pop', s.t0 + 2.3, { v: 0.5 });
+      PREP.forEach((_, i) => cue('tick', s.t0 + 2.8 + i * 0.32, { v: 0.45 }));
+      cue('success', s.t0 + 5.0, { v: 0.5 });
+    },
+    update(lt, dur, root, s) {
+      pop(s.n1, lt, 0.45); pop(s.n2, lt, 0.6);
+      const k = P(lt, 0.9, 1.4, E.ioC);
+      s.fill.style.transform = `scaleX(${k.toFixed(4)})`;
+      s.dot.style.left = (100 * k).toFixed(2) + '%';
+      s.dot.style.opacity = P(lt, 0.85, 0.2).toFixed(3);
+      vis(s.em, lt, 1.6, Infinity, { dy: 8, blur: 4 });
+      vis(s.pd, lt, 2.2, Infinity, { dy: 40, blur: 12, din: 0.9, ein: E.outX });
+      s.ps.forEach((p, i) => pop(p, lt, 2.8 + i * 0.32, { dy: 14 }));
     },
   });
 
