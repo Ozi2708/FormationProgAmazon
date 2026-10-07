@@ -180,15 +180,15 @@
     #sc-news .rc-t em{font-style:normal;color:var(--mut);font-size:14px}
     #sc-news .rc-t .sp{flex:1}
     #sc-news .rc-p{font-size:15px;color:var(--ink2);margin-top:6px;max-width:690px;line-height:1.5}
-    #sc-news .fd{position:absolute;left:0;top:432px;width:1010px;height:600px;overflow:hidden;-webkit-mask-image:linear-gradient(#000 82%,transparent)}
-    #sc-news .nw{position:absolute;left:0;right:0;top:0;display:flex;gap:18px;padding:18px 20px}
+    #sc-news .fd{position:absolute;left:0;top:420px;width:1010px;height:610px;overflow:hidden;-webkit-mask-image:linear-gradient(transparent 0,#000 5%,#000 82%,transparent)}
+    #sc-news .nw{position:absolute;left:0;right:0;top:18px;display:flex;gap:18px;padding:18px 20px}
     #sc-news .nw .tg{width:118px;flex:none}
     #sc-news .nw .bd{flex:1;min-width:0}
     #sc-news .nw .tt{font-weight:700;font-size:17px}
     #sc-news .nw .ds{font-size:14.5px;color:var(--mut);margin-top:5px;line-height:1.45}
     #sc-news .nw .ac{width:250px;flex:none;border-radius:12px;background:var(--orbg);border-left:3px solid var(--or);padding:10px 12px;font-size:14px;font-weight:600;color:var(--ink);line-height:1.35}
     #sc-news .nw .ac .lbl{color:var(--or);margin-bottom:4px;font-size:11px}
-    #sc-news .slack{position:absolute;left:760px;top:350px;width:270px;padding:14px 16px;display:flex;gap:12px;align-items:center;z-index:5}
+    #sc-news .slack{position:absolute;left:736px;top:302px;width:270px;padding:14px 16px;display:flex;gap:12px;align-items:center;z-index:5}
     #sc-news .slack .lg{width:46px;height:46px;border-radius:12px;background:#4A154B;color:#fff;display:grid;place-items:center;flex:none}
     #sc-news .slack b{font-size:16px;display:flex;gap:6px;align-items:center}
     #sc-news .slack span{font-size:12.5px;color:var(--mut)}
@@ -214,7 +214,7 @@
       count(s.n739, lt, 0.14, 1.5, 0, 739);
       s.kpis.forEach((k, i) => { pop(k, lt, 0.5 + i * 0.08); const b = $('b', k); count(b, lt, 0.5 + i * 0.08, 1.1, 0, +b.dataset.v); });
       pop(s.rc, lt, 1.2);
-      const scroll = 150 * P(lt, 7.2, 2.6, E.ioC);
+      const scroll = 110 * P(lt, 7.2, 2.6, E.ioC);
       let y = 0;
       s.items.forEach((it, i) => {
         if (!it._h) it._h = it.offsetHeight || 120;
@@ -358,7 +358,7 @@
     #sc-prep .dr .dt{font-weight:700;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     #sc-prep .dr .dm{display:flex;gap:10px;align-items:center;margin-top:6px;font-size:13.5px;color:var(--mut);flex-wrap:nowrap;white-space:nowrap}
     #sc-prep .dr .dm .chip{height:24px;font-size:12.5px}
-    #sc-prep .eve{background:#FFF0E6;color:#C8510F;font-weight:650;border-radius:999px;padding:3px 10px;display:inline-flex;gap:6px;align-items:center}
+    #sc-prep .evetag{background:#FFF0E6;color:#C8510F;font-weight:650;border-radius:999px;padding:3px 10px;display:inline-flex;gap:6px;align-items:center}
     #sc-prep .wr{color:var(--or);font-weight:650;font-size:14px;display:inline-flex;gap:6px;align-items:center}
     #sc-prep .rd{display:flex;gap:10px;align-items:center}
     #sc-prep .rd .btn{height:34px;font-size:13.5px}
@@ -366,10 +366,10 @@
   }, {
     html: `<div class="card dc"><div class="dc-h"><span class="htitle" style="font-size:30px">Documents</span><span>47 produced by Kiro · 8 decks · 1 in progress</span></div>
       ${DOCS.map(d => `<div class="dr ${d[4]}"><div class="di ${d[0] === 'file-text' ? 'b' : d[4] === 'writing' ? 'g' : ''}">${ic(d[0], 19)}</div><div class="db"><div class="dt">${d[1]}</div>
-        <div class="dm"><span class="chip line">${d[2]}</span><span>${d[3]}</span>${d[4] === 'eve' ? `<span class="eve">${ic('clock', 13)}prepared the day before, unprompted</span><span>· ${d[5]}</span>` : ''}${d[4] === 'deck' ? `<span class="chip grn">${ic('presentation', 13)}deck · 8 slides</span><span class="chip grn">agent Kiro</span>` : ''}${d[4] === 'bfm' ? '<span><i class="dot" style="background:var(--grn);width:7px;height:7px"></i> BFM · October awareness (Amnet)</span>' : ''}${d[4] === 'eni' ? '<span><i class="dot" style="background:#A0522D;width:7px;height:7px"></i> ENI Plénitude (Amnet)</span>' : ''}</div></div>
+        <div class="dm"><span class="chip line">${d[2]}</span><span>${d[3]}</span>${d[4] === 'eve' ? `<span class="evetag">${ic('clock', 13)}prepared the day before, unprompted</span><span>· ${d[5]}</span>` : ''}${d[4] === 'deck' ? `<span class="chip grn">${ic('presentation', 13)}deck · 8 slides</span><span class="chip grn">agent Kiro</span>` : ''}${d[4] === 'bfm' ? '<span><i class="dot" style="background:var(--grn);width:7px;height:7px"></i> BFM · October awareness (Amnet)</span>' : ''}${d[4] === 'eni' ? '<span><i class="dot" style="background:#A0522D;width:7px;height:7px"></i> ENI Plénitude (Amnet)</span>' : ''}</div></div>
         ${d[4] === 'writing' ? `<span class="wr">${ic('brain', 15)}Kiro is writing<b class="dots">…</b></span>` : `<div class="rd"><span class="btn">${ic('file', 14)}Read</span></div>`}</div>`).join('')}</div>`,
     build(root, s) {
-      s.rows = $$('.dr', root); s.eves = $$('.eve', root); s.dots = $('.dots', root);
+      s.rows = $$('.dr', root); s.eves = $$('.evetag', root); s.dots = $('.dots', root);
       DOCS.forEach((_, i) => cue('tick', s.t0 + 0.5 + i * 0.1, { v: 0.35 }));
       cue('sparkle', s.t0 + 2.0); cue('sparkle', s.t0 + 2.8, { v: 0.6 });
     },
