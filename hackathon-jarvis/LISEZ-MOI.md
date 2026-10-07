@@ -9,9 +9,12 @@ est déjà mixée assez bas pour la laisser passer.
 
 | Fichier | Contenu |
 |---|---|
-| `JARVIS-hackathon.mp4` | le film avec sa bande-son, prêt à recevoir la voix off |
+| `JARVIS-hackathon.mp4` | le film en qualité finale (1080p, 60 i/s, 68 Mo) avec sa bande-son, prêt à recevoir la voix off |
+| `JARVIS-hackathon-apercu.mp4` | copie légère (1080p, 30 i/s, < 30 Mo) pour la partager facilement |
 | `bande-son-complete.wav` | la bande-son seule (musique + bruitages, -20 LUFS) |
 | `piste-musique.wav` / `piste-bruitages.wav` | les deux pistes séparées, pour remixer autour de la voix |
+
+Seul `JARVIS-hackathon.mp4` est versionné ; l'aperçu et les WAV sont recréés par `./build.sh`.
 
 Le script de voix off, minuté, est dans [`SCRIPT-VOIX-OFF.md`](SCRIPT-VOIX-OFF.md) ;
 `voix-off.srt` contient le même texte en sous-titres pour répéter dans VLC.
