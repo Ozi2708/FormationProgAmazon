@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Voix off française synthétisée, posée sur la bande-son du film.
+"""Voix off synthétisée (pitch français ou anglais), posée sur la bande-son du film.
 
 Lit build/vo-fr.json (produit par `python3 tools/voiceover.py fr`) : une phrase par entrée, avec son instant de départ.
 Chaque phrase est synthétisée séparément puis posée à son instant ; si elle déborde sur la suivante,
@@ -63,13 +63,14 @@ def tts_polly(text, prev, nxt, path):
     polly = boto3.client('polly', region_name=os.environ.get('AWS_REGION', 'eu-west-1'))
     ssml = f'<speak><prosody rate="{os.environ.get("POLLY_RATE", "104%")}">{text}</prosody></speak>'
     r = polly.synthesize_speech(Text=ssml, TextType='ssml', OutputFormat='mp3', SampleRate='24000',
-                                VoiceId=os.environ.get('POLLY_VOICE', 'Remi'), Engine=os.environ.get('POLLY_ENGINE', 'neural'), LanguageCode='fr-FR')
+                                VoiceId=os.environ.get('POLLY_VOICE', 'Remi'), Engine=os.environ.get('POLLY_ENGINE', 'neural'), LanguageCode=os.environ.get('VO_LANG', 'fr-FR'))
     open(path + '.mp3', 'wb').write(r['AudioStream'].read())
     to_wav(path + '.mp3', path)
 
 
 def tts_piper(text, prev, nxt, path):
-    run([sys.executable, '-m', 'piper', '-m', os.environ['PIPER_MODEL'], '-f', path + '.raw.wav'], text.encode())
+    run([sys.executable, '-m', 'piper', '-m', os.environ['PIPER_MODEL'], '--length-scale', os.environ.get('PIPER_SPEED', '1.0'),
+         '--sentence-silence', '0.25', '-f', path + '.raw.wav'], text.encode())
     to_wav(path + '.raw.wav', path)
 
 
@@ -142,12 +143,16 @@ def main():
     wavfile.write(bpath, SR, (np.clip(bed_d, -1, 1) * 32767).astype(np.int16))
     bg = 10 ** ((-22.5 - lufs(bpath)) / 20)
     mix = bed_d * bg + voice[:, None] * np.array([1.0, 1.0])
-    peak = np.max(np.abs(mix))
-    if peak > 0.89:
-        mix = np.tanh(mix / peak * 1.4) / np.tanh(1.4) * 0.89
-    wavfile.write(os.path.join(OUT, 'mix-fr.wav'), SR, (mix * 32767).astype(np.int16))
+    # niveau global à -16 LUFS, puis limiteur doux qui ne touche que les crêtes (plafond -1,5 dBFS)
+    mpath = os.path.join(OUT, 'mix-vo.wav')
+    wavfile.write(mpath, SR, (np.clip(mix, -1, 1) * 32767).astype(np.int16))
+    mix *= 10 ** ((-16.0 - lufs(mpath)) / 20)
+    t, c = 0.55, 0.84
+    ax = np.abs(mix)
+    mix = np.where(ax < t, mix, np.sign(mix) * (t + (c - t) * np.tanh((ax - t) / (c - t))))
+    wavfile.write(mpath, SR, (mix * 32767).astype(np.int16))
     wavfile.write(vpath, SR, (np.clip(voice, -1, 1) * 32767).astype(np.int16))
-    print(f'engine={ENGINE} · mix → {os.path.join(OUT, "mix-fr.wav")}')
+    print(f'engine={ENGINE} · mix → {os.path.join(OUT, "mix-vo.wav")}')
     for t, d, room, sp, over in report:
         flag = '  DÉBORDE' if over else ('  accéléré x%.2f' % sp if sp > 1.0 else '')
         print(f'  {t:7.2f}s  {d:5.2f}s / {room:5.2f}s{flag}')

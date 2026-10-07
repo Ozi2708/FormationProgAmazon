@@ -15,7 +15,18 @@ est déjà mixée assez bas pour la laisser passer.
 | `bande-son-complete.wav` | la bande-son seule (musique + bruitages, -20 LUFS) |
 | `piste-musique.wav` / `piste-bruitages.wav` | les deux pistes séparées, pour remixer autour de la voix |
 
-Seul `JARVIS-hackathon.mp4` est versionné ; l'aperçu et les WAV sont recréés par `./build.sh`.
+| `JARVIS-pitch-EN.mp4` | le même film avec une voix off anglaise de synthèse, en mode pitch (script : `SCRIPT-PITCH-EN.md`) |
+
+Seuls les MP4 en qualité finale sont versionnés ; les aperçus et les WAV sont recréés par `./build.sh` et `./tools/voiced.sh`.
+
+### Versions avec voix off de synthèse
+
+`./tools/voiced.sh en` (ou `fr`) génère la voix phrase par phrase, vérifie que chaque phrase tient dans sa scène,
+abaisse la musique sous la voix et remplace la piste son du film déjà fabriqué (pas de nouveau rendu).
+Le moteur se choisit avec `VO_ENGINE` : `piper` (hors ligne), `polly` (Amazon Polly) ou `elevenlabs` (clé `ELEVENLABS_API_KEY`).
+Les textes sont dans `tools/voiceover.py` (`LINES_ENP` pour l'anglais, `LINES_FR` pour le français).
+
+Voix anglaise actuelle : Piper `en-us-ryan-high`, entraînée sur RyanSpeech (licence CC BY-NC-SA 4.0 : usage non commercial, avec attribution).
 
 Le script de voix off, minuté, est dans [`SCRIPT-VOIX-OFF.md`](SCRIPT-VOIX-OFF.md) ;
 `voix-off.srt` contient le même texte en sous-titres pour répéter dans VLC. Les deux sont générés par
