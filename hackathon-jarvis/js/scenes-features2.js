@@ -2,6 +2,7 @@
 (function () {
   'use strict';
   const { E, P, tf, vis, count, type, rng, ic, $, $$, clamp, lerp, feature, chapter, cursor, moveCursor, cue, rel } = J;
+  const MOD = J.MOD;
   const pop = (el, lt, a, o = {}) => vis(el, lt, a, o.b ?? Infinity, Object.assign({ dy: 18, blur: 8, din: 0.7 }, o));
 
   // =================================================================== 03 · KNOW YOUR CLIENTS
@@ -378,6 +379,22 @@
       const done = lt > 5.6;
       s.cp.classList.toggle('done', done); s.cpt.textContent = done ? 'Copied' : 'Copy row for Excel';
       vis(s.toast, lt, 5.75, Infinity, { dy: 30, blur: 8, din: 0.6, ein: E.outB });
+    },
+  });
+  // ------------------------------------------------ tout-en-un : toutes ces vues, une seule plateforme
+  feature('allinone', TL.allinone, {
+    kicker: 'One platform', head: 'All of this.<br><span class="hl">One platform.</span>',
+    sub: 'Every view you just saw lives in the same app, on the same brain.',
+    css: MOD.css('#sc-allinone'),
+  }, {
+    html: MOD.html(),
+    build(root, s) {
+      MOD.build(root, s);
+      for (let i = 0; i < MOD.n; i++) cue('tick', s.t0 + 0.3 + i * 0.07, { v: 0.35 });
+      cue('hit', s.t0 + 1.3, { v: 0.5 }); cue('sparkle', s.t0 + 1.35);
+    },
+    update(lt, dur, root, s, t) {
+      MOD.update(lt, s, t, { appear: i => 0.1 + i * 0.03, litAt: i => 0.3 + i * 0.07, allAt: 1.3, brainAt: 0.2 });
     },
   });
 })();

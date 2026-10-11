@@ -1,10 +1,127 @@
 /* Chapitres 01 et 02 — démarrer la journée, piloter les campagnes */
 (function () {
   'use strict';
-  const { E, P, tf, vis, count, type, rng, ic, $, $$, clamp, lerp, feature, chapter, cursor, moveCursor, cue, rel, setHTML, orb, orbTick } = J;
+  const { E, P, tf, vis, count, type, rng, ic, $, $$, clamp, lerp, feature, chapter, cursor, moveCursor, cue, rel, setHTML, orb, orbTick, scene, shellHTML, WIN, NAV, NAV_OF } = J;
 
   // petite apparition « pop » d'un élément d'interface
   const pop = (el, lt, a, o = {}) => vis(el, lt, a, o.b ?? Infinity, Object.assign({ dy: 18, blur: 8, din: 0.7 }, o));
+
+  // =================================================================== LA PLATEFORME
+  // Coque persistante : la même fenêtre J.A.R.V.I.S. reste à l'écran du plan « plateforme » jusqu'au
+  // plan « tout-en-un ». Chaque fonctionnalité s'affiche dans sa zone de contenu et la surbrillance de la
+  // barre latérale glisse vers la rubrique correspondante : on navigue dans un seul produit.
+  scene({
+    id: 'shell', t0: TL.platform[0], t1: TL.allinone[1], cls: 'light',
+    css: `#sc-shell .sh-win{position:absolute;left:0;top:0;transform-origin:0 0}`,
+    build(el, s) {
+      el.innerHTML = `<div class="sh-win">${shellHTML()}</div>`;
+      s.win = $('.sh-win', el); s.hl = $('.am-hl', el); s.items = $$('.am-it', el); s.sec = $('.am-sec', el); s.kiro = $('.am-kiro .orb', el);
+      const sch = [];
+      const p0 = TL.platform[0];
+      for (let i = 0; i < 12; i++) sch.push([p0 + 1.0 + i * 0.33, i]);
+      sch.push([p0 + 5.3, 12]);
+      for (const [k, idx] of Object.entries(NAV_OF)) sch.push([TL[k][0] + 0.15, idx]);
+      const a0 = TL.allinone[0];
+      for (let i = 0; i < 13; i++) sch.push([a0 + 0.3 + i * 0.07, i]);
+      s.sch = sch.sort((a, b) => a[0] - b[0]);
+      s.sch.forEach(e => cue('nav', e[0], { v: 0.25 }));
+    },
+    update(lt, dur, s, t) {
+      tf(s.win, { x: WIN.x, y: WIN.y, s: WIN.s });
+      if (!s.ys) s.ys = s.items.map(it => it.offsetTop);
+      let cur = null, prev = null;
+      for (const e of s.sch) { if (e[0] <= t) { prev = cur; cur = e; } else break; }
+      if (cur) {
+        const k = P(t, cur[0], 0.32, E.ioC);
+        const y = lerp(prev ? s.ys[prev[1]] : s.ys[cur[1]], s.ys[cur[1]], k);
+        s.hl.style.transform = `translateY(${y.toFixed(1)}px)`;
+        s.hl.style.opacity = '1';
+        s.items.forEach((it, i) => it.classList.toggle('lit', Math.abs(s.ys[i] - y) < 14));
+        if (s.sec._t !== cur[1]) { s.sec.textContent = NAV[cur[1]][1]; s.sec._t = cur[1]; }
+      } else s.hl.style.opacity = '0';
+      // pendant les intertitres, l'application passe au flou derrière le titre
+      let chap = 0;
+      for (const c of ['c1', 'c2', 'c3', 'c4', 'c5']) { const [a, b] = TL[c]; chap = Math.max(chap, Math.min(P(t, a, 0.4), 1 - P(t, b - 0.5, 0.5))); }
+      s.win.style.filter = chap > 0.01 ? `blur(${(8 * chap).toFixed(2)}px)` : 'none';
+      orbTick(s.kiro, t);
+      // sortie vers la partie sombre
+      const q = P(lt, dur - 0.5, 0.5, E.inC);
+      if (q > 0) tf(s.win, { x: WIN.x, y: WIN.y - 20 * q, s: WIN.s, o: 1 - q, b: 8 * q });
+    },
+  });
+
+  // ---------- carte des modules : tout est relié au même cerveau ----------
+  const MODS = [
+    ['sun', 'Today', 'Morning briefing'], ['inbox', 'To handle', 'Replies & follow-ups'], ['mail', 'Inbox', 'Sorted mail'], ['circle-check', 'Tasks', 'Actions from data'],
+    ['calendar', 'Agenda', 'Meetings & prep agent'], ['user', 'Clients', 'Client 360'], ['folder', 'Projects', 'Tickets, WBR, rituals'], ['file', 'Documents', 'Decks, recaps, preps'],
+    ['trending-up', 'Campaigns', 'DSP pacing'], ['wrench', 'Troubleshooting', 'TWIG → SIM'], ['zap', 'News DSP', 'Summarized updates'], ['flag', 'Impact', 'WBR drafts'],
+  ];
+  const MC = { x: 500, y: 548 }, MRX = 392, MRY = 330;
+  const MOD_CSS = id => `
+    ${id} svg.mm{position:absolute;left:0;top:0;width:1040px;height:1080px;overflow:visible}
+    ${id} .mc{position:absolute;width:200px;height:62px;margin:-31px 0 0 -100px;display:flex;gap:11px;align-items:center;padding:0 12px;border-radius:14px;background:#fff;border:1.5px solid var(--line);box-shadow:0 10px 26px -12px rgba(35,47,62,.25)}
+    ${id} .mc .mi{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;background:#4A5568;flex:none}
+    ${id} .mc b{display:block;font-size:15.5px;font-weight:700;color:var(--ink)}
+    ${id} .mc span{font-size:12.5px;color:var(--mut)}
+    ${id} .mc.on{border-color:#FF9900;box-shadow:0 0 0 4px rgba(255,153,0,.16),0 14px 30px -12px rgba(255,140,0,.45)}
+    ${id} .mc.on .mi{background:linear-gradient(160deg,#FFB547,#F57C00)}
+    ${id} .mb{position:absolute;left:${MC.x}px;top:${MC.y}px}
+    ${id} .ml{position:absolute;left:${MC.x}px;top:${MC.y + 92}px;transform:translateX(-50%);text-align:center;white-space:nowrap}
+    ${id} .ml b{display:block;font-size:19px;font-weight:700;color:var(--ink)}
+    ${id} .ml span{font:500 12.5px Plex,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut)}
+    ${id} .mp{position:absolute;left:0;top:0;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#FF9900;box-shadow:0 0 10px 2px rgba(255,153,0,.6)}`;
+  const modHTML = () => `<svg class="mm">${MODS.map(() => '<line stroke-width="2"/>').join('')}</svg>
+    ${MODS.map(m => `<div class="mc"><div class="mi">${ic(m[0], 19)}</div><div><b>${m[1]}</b><span>${m[2]}</span></div></div>`).join('')}
+    <div class="mb">${orb(150)}</div><div class="ml"><b>Kiro brain</b><span>one memory · every module</span></div>
+    ${MODS.map(() => '<div class="mp"></div><div class="mp"></div>').join('')}`;
+  function modBuild(root, s) {
+    s.mc = $$('.mc', root); s.lines = $$('svg.mm line', root); s.mb = $('.mb .orb', root); s.ml = $('.ml', root); s.mp = $$('.mp', root);
+    s.pos = MODS.map((_, i) => { const a = -Math.PI / 2 + i * Math.PI / 6; return [MC.x + Math.cos(a) * MRX, MC.y + Math.sin(a) * MRY]; });
+    s.mc.forEach((c, i) => { c.style.left = s.pos[i][0] + 'px'; c.style.top = s.pos[i][1] + 'px'; });
+    s.lines.forEach((l, i) => { l.setAttribute('x1', MC.x); l.setAttribute('y1', MC.y); l.setAttribute('x2', s.pos[i][0]); l.setAttribute('y2', s.pos[i][1]); });
+  }
+  // litAt(i) : instant où le module i s'allume · allAt : tout est relié, le cerveau s'illumine
+  function modUpdate(lt, s, t, o) {
+    s.mc.forEach((c, i) => {
+      const a = o.appear(i), on = lt >= o.litAt(i);
+      vis(c, lt, a, Infinity, { dy: 14, blur: 6, din: 0.5, op: on ? 1 : 0.62 });
+      c.classList.toggle('on', on);
+      const l = s.lines[i];
+      l.setAttribute('stroke', on ? 'rgba(255,153,0,.55)' : 'rgba(35,47,62,.12)');
+      l.style.opacity = P(lt, a, 0.5).toFixed(3);
+    });
+    const kick = lt > o.allAt ? Math.exp(-(lt - o.allAt) * 3) : 0;
+    const pulse = orbTick(s.mb, t, { glow: 0.7 + 0.8 * kick });
+    tf(s.mb, { s: pulse * (0.6 + 0.4 * P(lt, o.brainAt, 0.8, E.outB)) * (1 + 0.12 * kick), o: P(lt, o.brainAt, 0.4) });
+    vis(s.ml, lt, o.brainAt + 0.3, Infinity, { dy: 10, blur: 6 });
+    // les données circulent dans les deux sens entre chaque module et le cerveau
+    s.mp.forEach((p, j) => {
+      const i = j >> 1, dir = j & 1;
+      if (lt < o.litAt(i) + 0.2) { p.style.opacity = '0'; return; }
+      let ph = ((lt - o.litAt(i)) * 0.55 + dir * 0.5 + i * 0.07) % 1;
+      if (dir) ph = 1 - ph;
+      const [x, y] = s.pos[i];
+      p.style.transform = `translate(${lerp(x, MC.x, ph).toFixed(1)}px,${lerp(y, MC.y, ph).toFixed(1)}px)`;
+      p.style.opacity = (Math.sin(Math.PI * ph) * (lt > o.allAt ? 1 : 0.6)).toFixed(3);
+    });
+  }
+  J.MOD = { css: MOD_CSS, html: modHTML, build: modBuild, update: modUpdate, n: MODS.length };
+
+  feature('platform', TL.platform, {
+    kicker: 'One platform', head: 'One platform.<br><span class="hl">Everything inside.</span>',
+    sub: 'Mail, calendar, campaigns, clients, DSP news, documents and reporting. One place, one brain.',
+    css: MOD_CSS('#sc-platform'),
+  }, {
+    html: modHTML(),
+    build(root, s) {
+      modBuild(root, s);
+      MODS.forEach((_, i) => cue('tick', s.t0 + 1.0 + i * 0.33, { v: 0.45 }));
+      cue('pop', s.t0 + 0.5, { v: 0.5 }); cue('success', s.t0 + 5.3, { v: 0.6 }); cue('sparkle', s.t0 + 5.4);
+    },
+    update(lt, dur, root, s, t) {
+      modUpdate(lt, s, t, { appear: i => 0.3 + i * 0.04, litAt: i => 1.0 + i * 0.33, allAt: 5.3, brainAt: 0.45 });
+    },
+  });
 
   // =================================================================== 01 · START YOUR DAY
   chapter('c1', TL.c1, '01', 'Start your <span class="hl">day.</span>');
@@ -560,7 +677,7 @@
     kicker: '02 · Run your campaigns', head: 'See under-delivery<br><span class="hl">before your client does.</span>',
     sub: 'The pacing map: catch up, watch, or on pace. At a glance.',
     css: `
-    #sc-pacing .head{font-size:74px}
+    #sc-pacing .copy.in-app .head{font-size:58px}
     #sc-pacing .pc{position:absolute;left:0;top:150px;width:1010px;padding:24px 26px 18px}
     #sc-pacing .pc-bar{display:flex;gap:4px;height:10px;border-radius:9px;overflow:hidden;margin-bottom:14px}
     #sc-pacing .pc-bar i{display:block;height:100%;transform-origin:0 50%}

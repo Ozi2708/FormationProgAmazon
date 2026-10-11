@@ -1,6 +1,6 @@
 # J.A.R.V.I.S. — script de voix off (anglais)
 
-Durée du film : **3:31**. Environ 384 mots, soit un débit posé de ~109 mots/minute.
+Durée du film : **3:43**. Environ 415 mots, soit un débit posé de ~112 mots/minute.
 Les timecodes indiquent **le moment où commencer la phrase** pour qu'elle tombe sur l'image.
 Les mots en **gras** sont ceux qui apparaissent à l'écran au même instant : appuie-les légèrement.
 
@@ -25,63 +25,65 @@ Pour répéter : ouvre `livrables/JARVIS-hackathon.mp4` dans VLC et charge `voix
 | 0:27.5 | *What if it all flowed into one place?* | sources connect to the brain |
 | 0:32.4 | *So we built **J.A.R.V.I.S.*** | flash, name and smile |
 | 0:35.0 | *One AI brain, powered by **Kiro**, that turns all of that noise into a single place to work.* | the app rises |
+| 0:42.2 | *One **single platform**, with everything inside: mail, calendar, campaigns, clients, DSP news, documents and reporting. All wired to **the same brain**.* | module map, all connected to the brain |
 
 ## 3. The day
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 0:43.8 | *Every morning, a **thirty-second** briefing tells me where to start: mail, meetings, campaigns.* | Your day, in 30 seconds |
-| 0:51.0 | *My inbox arrives **already sorted**: what matters to me comes first.* | inbox sorts itself |
-| 0:56.6 | *No thread goes cold: every follow-up is one click away.* | No thread goes cold |
-| 1:02.2 | *And it writes **like me**: it learned my style from my emails, and every draft is grounded in **real data**: DSP results, tickets, documentation.* | style, sources, grounded draft |
-| 1:12.2 | *I stay in charge: a quick, messy note, even in French, and it **rewrites** it cleanly into the email.* | rough note becomes a paragraph |
-| 1:20.8 | *Every meeting is **under control**, and forgotten invites resurface.* | agenda |
-| 1:26.0 | *Even better: a dedicated agent prepares every meeting **the day before**. Context, numbers, talking points. I walk in **ready**.* | prep agent, the day before |
+| 0:51.4 | *Every morning, a **thirty-second** briefing tells me where to start: mail, meetings, campaigns.* | Your day, in 30 seconds |
+| 0:58.6 | *My inbox arrives **already sorted**: what matters to me comes first.* | inbox sorts itself |
+| 1:04.2 | *No thread goes cold: every follow-up is one click away.* | No thread goes cold |
+| 1:09.8 | *And it writes **like me**: it learned my style from my emails, and every draft is grounded in **real data**: DSP results, tickets, documentation.* | style, sources, grounded draft |
+| 1:19.8 | *I stay in charge: a quick, messy note, even in French, and it **rewrites** it cleanly into the email.* | rough note becomes a paragraph |
+| 1:28.4 | *Every meeting is **under control**, and forgotten invites resurface.* | agenda |
+| 1:33.6 | *Even better: a dedicated agent prepares every meeting **the day before**. Context, numbers, talking points. I walk in **ready**.* | prep agent, the day before |
 
 ## 4. Campaigns
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 1:35.4 | *On the campaign side, **DSP exports** feed the brain natively.* | DSP export flows into the brain |
-| 1:42.4 | *The pacing map shows at a glance what is slipping. I see **under-delivery before my client does**.* | pacing map |
-| 1:51.2 | *And **numbers become actions**: two percent delivered, forty-one thousand euros at risk. It is already a task, with the next step.* | 2.3% · €41,708 → task |
-| 1:59.8 | *When delivery breaks, troubleshooting is **guided**: TWIG, Waypoint, the twenty-four-hour window, and every SIM ticket.* | TWIG → SIM |
+| 1:43.0 | *On the campaign side, **DSP exports** feed the brain natively.* | DSP export flows into the brain |
+| 1:50.0 | *The pacing map shows at a glance what is slipping. I see **under-delivery before my client does**.* | pacing map |
+| 1:58.8 | *And **numbers become actions**: two percent delivered, forty-one thousand euros at risk. It is already a task, with the next step.* | 2.3% · €41,708 → task |
+| 2:07.4 | *When delivery breaks, troubleshooting is **guided**: TWIG, Waypoint, the twenty-four-hour window, and every SIM ticket.* | TWIG → SIM |
 
 ## 5. Clients
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:09.2 | *My whole portfolio is **ranked by urgency**.* | clients sort themselves |
-| 2:15.2 | *One click, and the whole client is in front of me: risk, next step, latest emails, campaigns. **On one screen**.* | BFM client sheet |
+| 2:16.8 | *My whole portfolio is **ranked by urgency**.* | clients sort themselves |
+| 2:22.8 | *One click, and the whole client is in front of me: risk, next step, latest emails, campaigns. **On one screen**.* | BFM client sheet |
 
 ## 6. Staying ahead
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:25.8 | ***Seven hundred** product updates? Kiro summarizes them, flags what needs action, and prepares **a recap** every Thursday. Slack is connected: nothing gets lost.* | 739, Thursday recap, Slack |
+| 2:33.4 | ***Seven hundred** product updates? Kiro summarizes them, flags what needs action, and prepares **a recap** every Thursday. Slack is connected: nothing gets lost.* | 739, Thursday recap, Slack |
 
 ## 7. Producing
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:37.0 | *And because it knows everything, it produces: **one sentence**, and my PowerPoint for the team meeting is ready.* | typed request, 8 slides |
-| 2:45.2 | *Even my weekly business review **writes itself**, from what actually happened this week.* | WBR writes itself |
+| 2:44.6 | *And because it knows everything, it produces: **one sentence**, and my PowerPoint for the team meeting is ready.* | typed request, 8 slides |
+| 2:52.8 | *Even my weekly business review **writes itself**, from what actually happened this week.* | WBR writes itself |
+| 3:00.6 | ***All of this, in one platform.** One place, one brain.* | every module lights up together |
 
 ## 8. Trust and learning
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:53.2 | *I stay **in control**: drafts land in Outlook, but nothing goes out without me.* | you click Send |
-| 2:59.8 | *And it keeps learning: from **every email** sent, **every document** created, **every campaign result**. Its answers and alerts get sharper every day.* | learning loop |
+| 3:05.4 | *I stay **in control**: drafts land in Outlook, but nothing goes out without me.* | you click Send |
+| 3:12.0 | *And it keeps learning: from **every email** sent, **every document** created, **every campaign result**. Its answers and alerts get sharper every day.* | learning loop |
 
 ## 9. What is next
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 3:11.8 | *Next: **Salesforce**, for sales and targets.* | Salesforce joins the brain |
-| 3:17.0 | *Then **connected brains**, so the whole team moves forward together.* | brain network |
-| 3:22.2 | ***Stop searching. Start consulting.*** | Stop searching. Start consulting. |
-| 3:25.2 | *J.A.R.V.I.S.: the brain behind every programmatic consultant.* | name, smile, by amazon ads |
+| 3:24.0 | *Next: **Salesforce**, for sales and targets.* | Salesforce joins the brain |
+| 3:29.2 | *Then **connected brains**, so the whole team moves forward together.* | brain network |
+| 3:34.4 | ***Stop searching. Start consulting.*** | Stop searching. Start consulting. |
+| 3:37.4 | *J.A.R.V.I.S.: the brain behind every programmatic consultant.* | name, smile, by amazon ads |
 
 ---
 
@@ -89,7 +91,7 @@ Pour répéter : ouvre `livrables/JARVIS-hackathon.mp4` dans VLC et charge `voix
 
 > Imagine: nine a.m. For a Programmatic Solutions Consultant, the day starts underwater: emails, Slack, invites, DSP exports, tickets. All at once. Every answer is already in there, somewhere: in an email, a thread, an export. But no one can see it all.
 >
-> What if it all flowed into one place? So we built J.A.R.V.I.S. One AI brain, powered by Kiro, that turns all of that noise into a single place to work.
+> What if it all flowed into one place? So we built J.A.R.V.I.S. One AI brain, powered by Kiro, that turns all of that noise into a single place to work. One single platform, with everything inside: mail, calendar, campaigns, clients, DSP news, documents and reporting. All wired to the same brain.
 >
 > Every morning, a thirty-second briefing tells me where to start: mail, meetings, campaigns. My inbox arrives already sorted: what matters to me comes first. No thread goes cold: every follow-up is one click away. And it writes like me: it learned my style from my emails, and every draft is grounded in real data: DSP results, tickets, documentation. I stay in charge: a quick, messy note, even in French, and it rewrites it cleanly into the email. Every meeting is under control, and forgotten invites resurface. Even better: a dedicated agent prepares every meeting the day before. Context, numbers, talking points. I walk in ready.
 >
@@ -99,7 +101,7 @@ Pour répéter : ouvre `livrables/JARVIS-hackathon.mp4` dans VLC et charge `voix
 >
 > Seven hundred product updates? Kiro summarizes them, flags what needs action, and prepares a recap every Thursday. Slack is connected: nothing gets lost.
 >
-> And because it knows everything, it produces: one sentence, and my PowerPoint for the team meeting is ready. Even my weekly business review writes itself, from what actually happened this week.
+> And because it knows everything, it produces: one sentence, and my PowerPoint for the team meeting is ready. Even my weekly business review writes itself, from what actually happened this week. All of this, in one platform. One place, one brain.
 >
 > I stay in control: drafts land in Outlook, but nothing goes out without me. And it keeps learning: from every email sent, every document created, every campaign result. Its answers and alerts get sharper every day.
 >

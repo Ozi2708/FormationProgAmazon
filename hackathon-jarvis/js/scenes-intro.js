@@ -1,7 +1,7 @@
 /* Acte 1 — logo, ouverture, tempête de notifications, avalanche, révélation de J.A.R.V.I.S. */
 (function () {
   'use strict';
-  const { E, P, tf, vis, splitWords, revealWords, rng, ic, $, $$, scene, clamp, lerp, orb, orbTick, SOURCES, tile, appMock, cue } = J;
+  const { E, P, tf, vis, splitWords, revealWords, rng, ic, $, $$, scene, clamp, lerp, orb, orbTick, SOURCES, tile, appMock, cue, WIN } = J;
   const BP = BRAND.paths;
 
   // ---------------------------------------------------------------- 0. Logo Amazon Ads
@@ -300,7 +300,8 @@
     #sc-reveal .rv-pill{position:absolute;left:0;right:0;top:838px;display:flex;justify-content:center;align-items:center;gap:26px}
     #sc-reveal .rv-pill i{width:1px;height:34px;background:rgba(255,255,255,.25)}
     #sc-reveal .rv-pill span{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 22px;border-radius:999px;border:1px solid rgba(255,255,255,.18);font:500 17px Plex,monospace;letter-spacing:.16em;text-transform:uppercase;color:#E6E9ED;background:rgba(255,255,255,.04)}
-    #sc-reveal .rv-app{position:absolute;left:160px;top:75px;transform-origin:52% 26%}
+    #sc-reveal .rv-app{position:absolute;left:0;top:0;transform-origin:0 0}
+    #sc-reveal .rv-light{position:absolute;inset:0;opacity:0;background:radial-gradient(1500px 1000px at 72% 46%,#FFFFFF 0%,#F7F4EF 42%,#ECE6DC 100%)}
     #sc-reveal .rv-floor{position:absolute;left:260px;right:260px;top:620px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,130,40,.38),rgba(255,130,40,0));filter:blur(30px)}
     `,
     build(el, s) {
@@ -308,9 +309,9 @@
         <div class="rv-c">${orb(210)}</div><div class="flash"></div>
         <div class="rv-title">J.A.R.V.I.S.</div><div class="rv-sm">${BRAND.smile(780)}</div><div class="rv-sub">One AI brain for the Programmatic Solutions Consultant.</div>
         <div class="rv-pill">${BRAND.logo(150)}<i></i><span>${ic('sparkles', 18)} Powered by Kiro</span></div>
-        <div class="rv-app">${appMock()}</div>`;
+        <div class="rv-light"></div><div class="rv-app">${appMock()}</div>`;
       s.orb = $('.orb', el); s.flash = $('.flash', el); s.title = $('.rv-title', el); s.sub = $('.rv-sub', el); s.pill = $('.rv-pill', el);
-      s.app = $('.rv-app', el); s.floor = $('.rv-floor', el); s.rvsm = $('.rv-sm', el);
+      s.app = $('.rv-app', el); s.floor = $('.rv-floor', el); s.rvsm = $('.rv-sm', el); s.light = $('.rv-light', el);
       cue('smile', s.t0 + 7.0);
       const svg = $('.rv-lines', el), tiles = $('.rv-tiles', el), pts = $('.rv-pts', el);
       s.tiles = SOURCES.map((src, i) => {
@@ -372,13 +373,16 @@
       tf(s.title, { o: P(lt, 6.55, 0.9) * (1 - tOut), b: 24 * (1 - ti) + 12 * tOut, s: 1.06 - 0.06 * ti, y: -90 * tOut });
       vis(s.sub, lt, 7.6, 11.05, { dy: 24, blur: 10, dout: 0.7, dyo: -90 });
       vis(s.pill, lt, 8.25, 11.05, { dy: 20, blur: 8, dout: 0.7, dyo: -90 });
-      // phase C : l'application se lève
+      // phase C : l'application se lève, puis glisse à sa place définitive (la fenêtre persistante des chapitres)
       const rise = P(lt, 10.7, 1.9, E.outQi);
-      const zoom = P(lt, 13.25, 1.55, E.inQ);
-      const appScale = lerp(0.74, 0.8, P(lt, 10.7, 2.7, E.outC)) + 1.4 * zoom;
-      tf(s.app, { y: 760 * (1 - rise), rx: 42 * (1 - rise) + 3 * (1 - zoom) * rise, s: appScale, o: P(lt, 10.7, 0.6) });
+      const ho = P(lt, 12.9, 1.5, E.ioC);
+      const s0 = lerp(0.68, 0.71, P(lt, 10.7, 2.2, E.outC));
+      const x0 = (1920 - WIN.w * s0) / 2, y0 = (1080 - WIN.h * s0) / 2 + 16;
+      tf(s.app, { x: lerp(x0, WIN.x, ho), y: lerp(y0, WIN.y, ho) + 760 * (1 - rise), rx: 42 * (1 - rise) + 3 * (1 - ho) * rise, s: lerp(s0, WIN.s, ho), o: P(lt, 10.7, 0.6) });
       s.app.style.visibility = lt < 10.6 ? 'hidden' : 'visible';
-      s.floor.style.opacity = (P(lt, 10.9, 1.2) * (1 - zoom)).toFixed(3);
+      s.floor.style.opacity = (P(lt, 10.9, 1.2) * (1 - ho)).toFixed(3);
+      s.light.style.opacity = P(lt, 12.9, 1.3, E.ioC).toFixed(3);
+      s.el.style.opacity = Math.min(P(lt, 0, 0.4), 1 - P(lt, dur - 0.45, 0.45)).toFixed(4);
     },
   });
 })();

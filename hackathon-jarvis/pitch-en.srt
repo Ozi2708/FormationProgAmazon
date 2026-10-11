@@ -23,93 +23,101 @@ What if it all flowed into one place?
 So we built J.A.R.V.I.S.
 
 7
-00:00:35,000 --> 00:00:43,160
+00:00:35,000 --> 00:00:42,000
 One AI brain, powered by Kiro, that turns all of that noise into a single place to work.
 
 8
-00:00:43,800 --> 00:00:49,860
-Every morning, a thirty-second briefing tells me where to start: mail, meetings, campaigns.
+00:00:42,200 --> 00:00:51,200
+One single platform, with everything inside: mail, calendar, campaigns, clients, DSP news, documents and reporting. All wired to the same brain.
 
 9
-00:00:51,000 --> 00:00:56,220
-My inbox arrives already sorted: what matters to me comes first.
+00:00:51,400 --> 00:00:57,460
+Every morning, a thirty-second briefing tells me where to start: mail, meetings, campaigns.
 
 10
-00:00:56,600 --> 00:01:01,400
-No thread goes cold: every follow-up is one click away.
+00:00:58,600 --> 00:01:03,820
+My inbox arrives already sorted: what matters to me comes first.
 
 11
-00:01:02,200 --> 00:01:12,000
-And it writes like me: it learned my style from my emails, and every draft is grounded in real data: DSP results, tickets, documentation.
+00:01:04,200 --> 00:01:09,000
+No thread goes cold: every follow-up is one click away.
 
 12
-00:01:12,200 --> 00:01:20,600
-I stay in charge: a quick, messy note, even in French, and it rewrites it cleanly into the email.
+00:01:09,800 --> 00:01:19,600
+And it writes like me: it learned my style from my emails, and every draft is grounded in real data: DSP results, tickets, documentation.
 
 13
-00:01:20,800 --> 00:01:25,180
-Every meeting is under control, and forgotten invites resurface.
+00:01:19,800 --> 00:01:28,200
+I stay in charge: a quick, messy note, even in French, and it rewrites it cleanly into the email.
 
 14
-00:01:26,000 --> 00:01:34,580
-Even better: a dedicated agent prepares every meeting the day before. Context, numbers, talking points. I walk in ready.
+00:01:28,400 --> 00:01:32,780
+Every meeting is under control, and forgotten invites resurface.
 
 15
-00:01:35,400 --> 00:01:40,200
-On the campaign side, DSP exports feed the brain natively.
+00:01:33,600 --> 00:01:42,180
+Even better: a dedicated agent prepares every meeting the day before. Context, numbers, talking points. I walk in ready.
 
 16
-00:01:42,400 --> 00:01:50,140
-The pacing map shows at a glance what is slipping. I see under-delivery before my client does.
+00:01:43,000 --> 00:01:47,800
+On the campaign side, DSP exports feed the brain natively.
 
 17
-00:01:51,200 --> 00:01:59,600
-And numbers become actions: two percent delivered, forty-one thousand euros at risk. It is already a task, with the next step.
+00:01:50,000 --> 00:01:57,740
+The pacing map shows at a glance what is slipping. I see under-delivery before my client does.
 
 18
-00:01:59,800 --> 00:02:06,700
-When delivery breaks, troubleshooting is guided: TWIG, Waypoint, the twenty-four-hour window, and every SIM ticket.
+00:01:58,800 --> 00:02:07,200
+And numbers become actions: two percent delivered, forty-one thousand euros at risk. It is already a task, with the next step.
 
 19
-00:02:09,200 --> 00:02:12,740
-My whole portfolio is ranked by urgency.
+00:02:07,400 --> 00:02:14,300
+When delivery breaks, troubleshooting is guided: TWIG, Waypoint, the twenty-four-hour window, and every SIM ticket.
 
 20
-00:02:15,200 --> 00:02:24,200
-One click, and the whole client is in front of me: risk, next step, latest emails, campaigns. On one screen.
+00:02:16,800 --> 00:02:20,340
+My whole portfolio is ranked by urgency.
 
 21
-00:02:25,800 --> 00:02:36,060
-Seven hundred product updates? Kiro summarizes them, flags what needs action, and prepares a recap every Thursday. Slack is connected: nothing gets lost.
+00:02:22,800 --> 00:02:31,800
+One click, and the whole client is in front of me: risk, next step, latest emails, campaigns. On one screen.
 
 22
-00:02:37,000 --> 00:02:45,000
-And because it knows everything, it produces: one sentence, and my PowerPoint for the team meeting is ready.
+00:02:33,400 --> 00:02:43,660
+Seven hundred product updates? Kiro summarizes them, flags what needs action, and prepares a recap every Thursday. Slack is connected: nothing gets lost.
 
 23
-00:02:45,200 --> 00:02:51,260
-Even my weekly business review writes itself, from what actually happened this week.
+00:02:44,600 --> 00:02:52,600
+And because it knows everything, it produces: one sentence, and my PowerPoint for the team meeting is ready.
 
 24
-00:02:53,200 --> 00:02:59,600
-I stay in control: drafts land in Outlook, but nothing goes out without me.
+00:02:52,800 --> 00:02:58,860
+Even my weekly business review writes itself, from what actually happened this week.
 
 25
-00:02:59,800 --> 00:03:09,640
-And it keeps learning: from every email sent, every document created, every campaign result. Its answers and alerts get sharper every day.
+00:03:00,600 --> 00:03:05,200
+All of this, in one platform. One place, one brain.
 
 26
-00:03:11,800 --> 00:03:14,920
-Next: Salesforce, for sales and targets.
+00:03:05,400 --> 00:03:11,800
+I stay in control: drafts land in Outlook, but nothing goes out without me.
 
 27
-00:03:17,000 --> 00:03:21,800
-Then connected brains, so the whole team moves forward together.
+00:03:12,000 --> 00:03:21,840
+And it keeps learning: from every email sent, every document created, every campaign result. Its answers and alerts get sharper every day.
 
 28
-00:03:22,200 --> 00:03:24,480
-Stop searching. Start consulting.
+00:03:24,000 --> 00:03:27,120
+Next: Salesforce, for sales and targets.
 
 29
-00:03:25,200 --> 00:03:28,740
+00:03:29,200 --> 00:03:34,000
+Then connected brains, so the whole team moves forward together.
+
+30
+00:03:34,400 --> 00:03:36,680
+Stop searching. Start consulting.
+
+31
+00:03:37,400 --> 00:03:40,940
 J.A.R.V.I.S.: the brain behind every programmatic consultant.

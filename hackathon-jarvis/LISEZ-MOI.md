@@ -1,16 +1,17 @@
 # J.A.R.V.I.S. — film de présentation (hackathon)
 
-Film de motion design de **3:31**, en anglais, 1920×1080 à 60 i/s, aux couleurs Amazon Ads, qui présente
-J.A.R.V.I.S. : le problème (trop d'informations pour tout voir), la révélation, cinq chapitres de
-fonctionnalités (dont les réponses écrites dans ta voix et la préparation des réunions par un agent),
-la confiance, la boucle d'apprentissage et la vision. La voix off se pose par-dessus ; la bande-son (musique + bruitages)
+Film de motion design de **3:43**, en anglais, 1920×1080 à 60 i/s, aux couleurs Amazon Ads, qui présente
+J.A.R.V.I.S. comme **une seule plateforme** : le problème (trop d'informations pour tout voir), la révélation,
+la carte des modules reliés au même cerveau, cinq chapitres de fonctionnalités vus *dans la même fenêtre*
+(la barre latérale suit la navigation), le récapitulatif « All of this. One platform. », la confiance,
+la boucle d'apprentissage et la vision. La voix off se pose par-dessus ; la bande-son (musique + bruitages)
 est déjà mixée assez bas pour la laisser passer.
 
 ## Livrables (`livrables/`)
 
 | Fichier | Contenu |
 |---|---|
-| `JARVIS-hackathon.mp4` | le film en qualité finale (1080p, 60 i/s, 68 Mo) avec sa bande-son, prêt à recevoir la voix off |
+| `JARVIS-hackathon.mp4` | le film en qualité finale (1080p, 60 i/s, < 100 Mo) avec sa bande-son, prêt à recevoir la voix off |
 | `JARVIS-hackathon-apercu.mp4` | copie légère (1080p, 30 i/s, < 30 Mo) pour la partager facilement |
 | `bande-son-complete.wav` | la bande-son seule (musique + bruitages, -20 LUFS) |
 | `piste-musique.wav` / `piste-bruitages.wav` | les deux pistes séparées, pour remixer autour de la voix |
@@ -41,6 +42,9 @@ et `index.html#t=82` démarre directement à 1:22.
 - **Textes et interfaces** : une scène par bloc dans `js/scenes-intro.js` (logo, ouverture, tempête,
   avalanche, révélation), `js/scenes-features.js` (chapitres 01-02), `js/scenes-features2.js`
   (chapitres 03-05) et `js/scenes-end.js` (confiance, apprentissage, vision, fin).
+- **Plateforme** : la fenêtre de l'application (`WIN`, `shellHTML()` dans `js/components.js`) reste à l'écran
+  du plan « platform » au plan « allinone » ; chaque fonctionnalité affiche son contenu dans sa zone de contenu
+  et `NAV_OF` dit quelle rubrique de la barre latérale s'allume pour chaque scène.
 - **Minutage** : l'enchaînement des scènes et leur durée sont dans `SEQ`, en tête de `js/components.js`.
   Les scènes voisines se chevauchent de 0,4 s pour le fondu ; le reste (son, script) suit automatiquement.
 - **Marque** : le logo Amazon Ads et le smile, vectorisés depuis `assets/img/amazon-ads-blanc.png`, sont dans `js/brand.js`.

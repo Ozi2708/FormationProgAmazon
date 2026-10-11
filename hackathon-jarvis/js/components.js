@@ -5,12 +5,12 @@
 
   // Enchaînement des scènes et durées (s). Les scènes voisines se chevauchent de 0,4 s (fondu).
   const SEQ = [
-    ['logo', 3.0], ['open', 4.6], ['storm', 8.6], ['avalanche', 12.4], ['reveal', 15.0],
+    ['logo', 3.0], ['open', 4.6], ['storm', 8.6], ['avalanche', 12.4], ['reveal', 15.0], ['platform', 8.0],
     ['c1', 2.0], ['brief', 7.6], ['inbox', 6.0], ['follow', 6.0], ['voice', 10.4], ['rewrite', 9.0], ['agenda', 5.6], ['meeting', 10.0],
     ['c2', 2.0], ['data', 5.6], ['pacing', 9.2], ['actions', 9.0], ['trouble', 8.2],
     ['c3', 2.0], ['portfolio', 6.4], ['sheet', 9.6],
     ['c4', 2.0], ['news', 11.2],
-    ['c5', 2.0], ['deck', 7.2], ['wbr', 8.4],
+    ['c5', 2.0], ['deck', 7.2], ['wbr', 8.4], ['allinone', 5.0],
     ['control', 7.0], ['loop', 12.4],
     ['sfdc', 5.6], ['network', 6.0], ['outro', 9.0],
   ];
@@ -30,6 +30,19 @@
     return 1 + 0.018 * Math.sin(t * 2.3);
   }
 
+  // ---------- la fenêtre J.A.R.V.I.S. ----------
+  // Le plan héros (révélation) et la coque persistante des chapitres sont le même composant :
+  // 1600 × 1177 px, posé à l'échelle 0,8125 en (676, 62). Le contenu de chaque fonctionnalité
+  // s'affiche dans la zone de contenu de cette fenêtre.
+  const WIN = { x: 676, y: 62, s: 0.8125, w: 1600, h: 1177, side: 250, bar: 56 };
+  WIN.cx = WIN.x + WIN.side * WIN.s;          // 879 : bord gauche de la zone de contenu
+  WIN.cy = WIN.y + WIN.bar * WIN.s;           // 107,5 : bord haut de la zone de contenu
+  WIN.cw = 1920 - WIN.cx;                     // largeur visible (la fenêtre déborde à droite)
+  WIN.ch = (WIN.h - WIN.bar) * WIN.s;         // ≈ 911
+  // rubrique de la barre latérale active pour chaque scène
+  const NAV_OF = { brief: 0, inbox: 2, follow: 1, voice: 1, rewrite: 1, agenda: 4, meeting: 4, data: 8, pacing: 8,
+    actions: 3, trouble: 9, portfolio: 5, sheet: 5, news: 10, deck: 7, wbr: 11 };
+
   // ---------- sources de données ----------
   const SOURCES = [
     { name: 'Outlook', icon: 'mail', c: '#2F6FDE' },
@@ -43,13 +56,16 @@
     `<div class="tile" style="--c:${s.c};--ts:${size}px"><div class="tile-box">${ic(s.icon, Math.round(size * 0.42))}</div><div class="tile-name">${s.name}</div></div>`;
 
   // ---------- scène « fonctionnalité » : titre à gauche, interface à droite ----------
+  // Scènes claires : l'interface s'affiche dans la fenêtre persistante (coque), le fond est celui de la coque.
   function feature(id, span, o, ui) {
+    const app = !o.cls || o.cls === 'light';
     scene({
-      id, t0: span[0], t1: span[1], cls: o.cls || 'light', css: o.css,
+      id, t0: span[0], t1: span[1], cls: app ? 'clear' : o.cls, css: o.css,
       build(el, s) {
-        el.innerHTML = `<div class="copy">${o.kicker ? `<div class="kicker"><i></i>${o.kicker}</div>` : ''}<div class="head">${o.head}</div>${o.sub ? `<div class="sub">${o.sub}</div>` : ''}</div><div class="uiw"><div class="uiz" style="transform:scale(${o.zoom ?? 1.06})">${ui.html}</div></div>`;
-        s.copy = $('.copy', el); s.k = $('.kicker', el); s.hw = splitWords($('.head', el)); s.sub = $('.sub', el); s.ui = $('.uiw', el); s.uiz = $('.uiz', el);
-        el.style.perspective = '2400px';
+        const z = app ? `transform:translate(24px,-70px) scale(0.94)` : `transform:scale(${o.zoom ?? 1.06})`;
+        el.innerHTML = `<div class="copy${app ? ' in-app' : ''}">${o.kicker ? `<div class="kicker"><i></i>${o.kicker}</div>` : ''}<div class="head">${o.head}</div>${o.sub ? `<div class="sub">${o.sub}</div>` : ''}</div><div class="uiw${app ? ' in-app' : ''}"><div class="uim"><div class="uiz${app ? ' in-app' : ''}" style="${z}">${ui.html}</div></div></div>`;
+        s.copy = $('.copy', el); s.k = $('.kicker', el); s.hw = splitWords($('.head', el)); s.sub = $('.sub', el); s.ui = $('.uiw', el); s.uim = $('.uim', el); s.uiz = $('.uiz', el);
+        if (!app) el.style.perspective = '2400px';
         if (ui.build) ui.build(s.uiz, s);
       },
       update(lt, dur, s, t) {
@@ -57,8 +73,11 @@
         revealWords(s.hw, lt, 0.14);
         if (s.sub) vis(s.sub, lt, 0.6, Infinity, { dy: 22, blur: 8 });
         vis(s.copy, lt, -1, dur, { dy: 0, blur: 0, dyo: -24, bo: 10, dout: 0.5 });
-        const drift = (lt / dur) * (o.drift ?? 14);
-        vis(s.ui, lt, o.uiAt ?? 0.2, dur, { dy: 80, blur: 18, ds: 0.04, rx: o.rx ?? 8, din: 1.25, ein: E.outX, y: -drift, dout: 0.5, dyo: -30, bo: 12 });
+        if (app) vis(s.uim, lt, o.uiAt ?? 0.15, dur, { dy: 28, blur: 10, din: 0.9, ein: E.outQu, dout: 0.45, dyo: -18, bo: 8 });
+        else {
+          const drift = (lt / dur) * (o.drift ?? 14);
+          vis(s.ui, lt, o.uiAt ?? 0.2, dur, { dy: 80, blur: 18, ds: 0.04, rx: o.rx ?? 8, din: 1.25, ein: E.outX, y: -drift, dout: 0.5, dyo: -30, bo: 12 });
+        }
         ui.update(lt, dur, s.uiz, s, t);
       },
     });
@@ -67,12 +86,13 @@
   // ---------- intertitre de chapitre ----------
   function chapter(id, span, num, title) {
     scene({
-      id, t0: span[0], t1: span[1], cls: 'light',
+      id, t0: span[0], t1: span[1], cls: 'clear',
       build(el, s) {
-        el.innerHTML = `<div class="chap"><div class="chap-n"><i></i>${num}<i></i></div><div class="chap-t">${title}</div><div class="chap-sm">${BRAND.smile(330)}</div></div><div class="chap-logo">${BRAND.logo(140, '#232F3E')}</div>`;
-        s.n = $('.chap-n', el); s.tt = $('.chap-t', el); s.w = splitWords(s.tt); s.sm = $('.chap-sm', el); s.lg = $('.chap-logo', el);
+        el.innerHTML = `<div class="chap-veil"></div><div class="chap"><div class="chap-n"><i></i>${num}<i></i></div><div class="chap-t">${title}</div><div class="chap-sm">${BRAND.smile(330)}</div></div><div class="chap-logo">${BRAND.logo(140, '#232F3E')}</div>`;
+        s.n = $('.chap-n', el); s.tt = $('.chap-t', el); s.w = splitWords(s.tt); s.sm = $('.chap-sm', el); s.lg = $('.chap-logo', el); s.veil = $('.chap-veil', el);
       },
       update(lt, dur, s) {
+        s.veil.style.opacity = (Math.min(P(lt, 0, 0.35), 1 - P(lt, dur - 0.5, 0.5))).toFixed(3);
         vis(s.n, lt, 0.05, dur, { dy: 18, blur: 6 });
         revealWords(s.w, lt, 0.15, { st: 0.09, dy: 60 });
         const q = P(lt, dur - 0.55, 0.55, E.inC);
@@ -91,10 +111,10 @@
     ['calendar', 'Agenda', '24'], ['user', 'Clients', '4'], ['folder', 'Projects', '8'], ['file', 'Documents', '1'],
     ['trending-up', 'Campaigns', '5', 1], ['wrench', 'Troubleshooting', ''], ['zap', 'News DSP', '495', 1], ['flag', 'Impact', '4', 1], ['brain', 'Brain', '15'],
   ];
-  function sidebar() {
+  function sidebar(on = 0) {
     return `<div class="am-side">
-      <div class="am-logo">${BRAND.logo(112)}<span>|</span><em>J.A.R.V.I.S.</em></div>
-      <div class="am-nav">${NAV.map((n, i) => `<div class="am-it${i === 0 ? ' on' : ''}">${ic(n[0], 19)}<span>${n[1]}</span><b class="${n[3] ? 'o' : ''}">${n[2]}</b></div>`).join('')}</div>
+      <div class="am-logo">${BRAND.logo(100)}<span>|</span><em>J.A.R.V.I.S.</em></div>
+      <div class="am-nav"><div class="am-hl"></div>${NAV.map((n, i) => `<div class="am-it${i === on ? ' on' : ''}">${ic(n[0], 19)}<span>${n[1]}</span><b class="${n[3] ? 'o' : ''}">${n[2]}</b></div>`).join('')}</div>
       <div class="am-foot">
         <div>${ic('brain', 14)}<span>Daily briefing</span><b>08:30</b></div>
         <div>${ic('refresh-cw', 14)}<span>Update the brain</span><b>11 msg</b></div>
@@ -103,8 +123,12 @@
       </div>
     </div>`;
   }
+  const titlebar = (section = 'Today') => `<div class="am-tbar"><i style="background:#FF5F57"></i><i style="background:#FEBC2E"></i><i style="background:#28C840"></i>
+      <span class="am-path"><b>J.A.R.V.I.S.</b><em>›</em><span class="am-sec">${section}</span></span>
+      <span class="am-kiro">${orb(18)}<span>Kiro brain · synced 2 min ago</span><span class="am-me">V</span></span></div>`;
   function appMock() {
     return `<div class="am">
+      ${titlebar()}<div class="am-body">
       ${sidebar()}
       <div class="am-main">
         <div class="am-top">
@@ -143,8 +167,10 @@
           </div>
         </div>
       </div>
-    </div>`;
+    </div></div>`;
   }
+  // coque : même fenêtre, sans contenu (chaque fonctionnalité affiche le sien dans la zone de contenu)
+  const shellHTML = () => `<div class="am am-shell">${titlebar()}<div class="am-body">${sidebar(-1)}<div class="am-main"></div></div></div>`;
 
   const CSS = `
   .chap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
@@ -160,12 +186,34 @@
     box-shadow:0 24px 60px -10px color-mix(in srgb,var(--c) 45%,transparent),0 10px 30px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.35)}
   .tile-name{position:absolute;left:50%;transform:translateX(-50%);margin-top:16px;font-size:20px;font-weight:600;color:#E9ECF0;white-space:nowrap;letter-spacing:-.01em}
 
-  .am{width:1600px;height:930px;border-radius:22px;overflow:hidden;display:flex;background:var(--bg);box-shadow:0 60px 160px -30px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
+  .clear{background:transparent}
+  .chap-veil{position:absolute;inset:0;background:radial-gradient(1400px 900px at 50% 50%,rgba(250,248,244,.86),rgba(240,236,229,.78))}
+  .copy.in-app{left:96px;width:548px}
+  .copy.in-app .head{font-size:66px}
+  .copy.in-app .sub{font-size:24px;max-width:520px}
+  .uiw.in-app{left:${WIN.cx}px;top:${WIN.cy}px;width:${WIN.cw}px;height:${WIN.ch}px;overflow:hidden}
+  .uiz.in-app{transform-origin:0 0}
+  .uim{position:absolute;inset:0}
+  .am{width:1600px;height:1177px;border-radius:22px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg);box-shadow:0 60px 160px -30px rgba(0,0,0,.55),0 0 0 1px rgba(0,0,0,.06)}
+  .am-body{flex:1;display:flex;min-height:0}
+  .am-tbar{height:56px;flex:none;display:flex;align-items:center;gap:9px;padding:0 100px 0 22px;background:#EDEAE4;border-bottom:1px solid #E0DBD2}
+  .am-tbar>i{width:14px;height:14px;border-radius:50%}
+  .am-path{margin-left:18px;display:flex;align-items:center;gap:10px;font:500 15px Plex,monospace;letter-spacing:.06em;color:#6C7279}
+  .am-path b{color:var(--ink);font-weight:600}
+  .am-path em{font-style:normal;color:#A9A49B}
+  .am-sec{color:var(--ink2)}
+  .am-kiro{margin-left:auto;display:flex;align-items:center;gap:12px;font:500 14px Plex,monospace;color:#5D646C;padding-right:4px}
+  .am-kiro .orb{position:relative;margin:0}
+  .am-me{width:32px;height:32px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:600 14px InterV}
+  .am-nav{position:relative}
+  .am-hl{position:absolute;left:0;right:0;top:0;height:39px;border-radius:9px;background:#121A23;opacity:0}
+  .am-hl::before{content:"";position:absolute;left:0;top:7px;bottom:7px;width:3px;border-radius:3px;background:var(--or)}
+  .am-it.lit{color:#fff}.am-it.lit svg{color:var(--or)}
   .am-side{width:250px;background:var(--navy);color:#C9D1DB;display:flex;flex-direction:column;padding:22px 12px 16px;flex:none}
   .am-logo{display:flex;align-items:center;gap:10px;padding:0 10px 22px;color:#fff}
   .am-logo b{font-weight:800;font-size:21px;letter-spacing:-.04em}
   .am-logo span{color:#58667A}
-  .am-logo em{font:500 12px Plex,monospace;letter-spacing:.14em;font-style:normal;color:#AEB8C4}
+  .am-logo em{font:500 11px Plex,monospace;letter-spacing:.1em;font-style:normal;color:#AEB8C4;white-space:nowrap}
   .am-it{display:flex;align-items:center;gap:13px;height:39px;padding:0 12px;border-radius:9px;font-size:15.5px;font-weight:500;color:#D4DAE2;position:relative}
   .am-it svg{color:#AEB8C4}
   .am-it span{flex:1}
@@ -212,5 +260,5 @@
   `;
   const st = document.createElement('style'); st.textContent = CSS; document.head.appendChild(st);
 
-  Object.assign(window.J, { orb, orbTick, SOURCES, tile, feature, chapter, appMock, sidebar });
+  Object.assign(window.J, { orb, orbTick, SOURCES, tile, feature, chapter, appMock, sidebar, shellHTML, WIN, NAV, NAV_OF });
 })();

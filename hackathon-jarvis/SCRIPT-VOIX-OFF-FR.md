@@ -1,6 +1,6 @@
 # J.A.R.V.I.S. — script de voix off (anglais)
 
-Durée du film : **3:31**. Environ 436 mots, soit un débit posé de ~124 mots/minute.
+Durée du film : **3:43**. Environ 470 mots, soit un débit posé de ~126 mots/minute.
 Les timecodes indiquent **le moment où commencer la phrase** pour qu'elle tombe sur l'image.
 Les mots en **gras** sont ceux qui apparaissent à l'écran au même instant : appuie-les légèrement.
 
@@ -25,63 +25,65 @@ Pour répéter : ouvre `livrables/JARVIS-hackathon.mp4` dans VLC et charge `voix
 | 0:27.5 | *Et si tout convergeait au même endroit ?* | les sources se relient au cerveau |
 | 0:32.4 | *Alors on a créé **J.A.R.V.I.S.*** | flash, le nom et le smile |
 | 0:35.0 | *Un cerveau IA, propulsé par **Kiro**, qui transforme tout ce flux en un seul espace de travail.* | l'application se lève |
+| 0:42.2 | *Une **seule plateforme**, et tout est dedans : mails, agenda, campagnes, clients, veille DSP, documents, reporting. Le tout relié au **même cerveau**.* | la carte des modules reliés au cerveau |
 
 ## 3. La journée
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 0:43.8 | *Chaque matin, un briefing de **trente secondes** me dit par où commencer : mails, réunions, campagnes.* | « Your day, in 30 seconds. » |
-| 0:51.0 | *Ma boîte arrive **déjà triée** : ce qui me concerne passe en premier.* | la boîte se trie |
-| 0:56.6 | *Aucun fil ne s'endort : chaque relance est à un clic.* | « No thread goes cold. » |
-| 1:02.2 | *Et il écrit **comme moi** : il a appris mon style dans mes mails, et chaque brouillon s'appuie sur les **vraies données** : résultats DSP, tickets, documentation.* | fiche de style, sources, brouillon sourcé |
-| 1:12.2 | *Je garde la main : une note rapide, en vrac, en français, et il la **réécrit** proprement dans le mail.* | la note brute devient un paragraphe |
-| 1:20.8 | *Toutes mes réunions sont **sous contrôle**, et les invitations oubliées remontent.* | l'agenda |
-| 1:26.0 | *Mieux : un agent dédié prépare chaque réunion **la veille**. Contexte, chiffres, points à aborder. J'arrive **prêt**.* | la veille 17:33 → jeudi 11:00 |
+| 0:51.4 | *Chaque matin, un briefing de **trente secondes** me dit par où commencer : mails, réunions, campagnes.* | « Your day, in 30 seconds. » |
+| 0:58.6 | *Ma boîte arrive **déjà triée** : ce qui me concerne passe en premier.* | la boîte se trie |
+| 1:04.2 | *Aucun fil ne s'endort : chaque relance est à un clic.* | « No thread goes cold. » |
+| 1:09.8 | *Et il écrit **comme moi** : il a appris mon style dans mes mails, et chaque brouillon s'appuie sur les **vraies données** : résultats DSP, tickets, documentation.* | fiche de style, sources, brouillon sourcé |
+| 1:19.8 | *Je garde la main : une note rapide, en vrac, en français, et il la **réécrit** proprement dans le mail.* | la note brute devient un paragraphe |
+| 1:28.4 | *Toutes mes réunions sont **sous contrôle**, et les invitations oubliées remontent.* | l'agenda |
+| 1:33.6 | *Mieux : un agent dédié prépare chaque réunion **la veille**. Contexte, chiffres, points à aborder. J'arrive **prêt**.* | la veille 17:33 → jeudi 11:00 |
 
 ## 4. Les campagnes
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 1:35.4 | *Côté campagnes, les **exports DSP** alimentent le cerveau directement.* | l'export DSP coule vers le cerveau |
-| 1:42.4 | *La carte du pacing montre d'un coup d'œil ce qui décroche. Je vois la **sous-livraison avant mon client**.* | la carte du pacing |
-| 1:51.2 | *Et les **chiffres deviennent des actions** : deux pour cent livrés, quarante et un mille euros à risque. C'est déjà une tâche, avec la prochaine étape.* | 2.3 % · €41,708 → tâche |
-| 1:59.8 | *Quand ça bloque, le troubleshooting est **guidé** : TWIG, Waypoint, la fenêtre de vingt-quatre heures et chaque ticket SIM.* | le parcours TWIG → SIM |
+| 1:43.0 | *Côté campagnes, les **exports DSP** alimentent le cerveau directement.* | l'export DSP coule vers le cerveau |
+| 1:50.0 | *La carte du pacing montre d'un coup d'œil ce qui décroche. Je vois la **sous-livraison avant mon client**.* | la carte du pacing |
+| 1:58.8 | *Et les **chiffres deviennent des actions** : deux pour cent livrés, quarante et un mille euros à risque. C'est déjà une tâche, avec la prochaine étape.* | 2.3 % · €41,708 → tâche |
+| 2:07.4 | *Quand ça bloque, le troubleshooting est **guidé** : TWIG, Waypoint, la fenêtre de vingt-quatre heures et chaque ticket SIM.* | le parcours TWIG → SIM |
 
 ## 5. Les clients
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:09.2 | *Tout mon portefeuille est **classé par urgence**.* | les clients se trient |
-| 2:15.2 | *Un clic, et j'ai tout le client sous les yeux : risque, prochaine étape, derniers échanges, campagnes. **Sur un seul écran**.* | la fiche BFM |
+| 2:16.8 | *Tout mon portefeuille est **classé par urgence**.* | les clients se trient |
+| 2:22.8 | *Un clic, et j'ai tout le client sous les yeux : risque, prochaine étape, derniers échanges, campagnes. **Sur un seul écran**.* | la fiche BFM |
 
 ## 6. La veille
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:25.8 | ***Sept cents** nouveautés produit ? Kiro les résume, signale ce qui demande une action, et prépare **un récap** chaque jeudi. Slack est connecté : rien ne se perd.* | 739, le récap du jeudi, Slack |
+| 2:33.4 | ***Sept cents** nouveautés produit ? Kiro les résume, signale ce qui demande une action, et prépare **un récap** chaque jeudi. Slack est connecté : rien ne se perd.* | 739, le récap du jeudi, Slack |
 
 ## 7. La production
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:37.0 | *Et comme il sait tout, il produit : **une phrase**, et mon PowerPoint pour la réunion d'équipe est prêt.* | la phrase tapée, 8 slides |
-| 2:45.2 | *Même mon WBR **s'écrit tout seul**, à partir de ce qui s'est vraiment passé dans la semaine.* | le WBR s'écrit |
+| 2:44.6 | *Et comme il sait tout, il produit : **une phrase**, et mon PowerPoint pour la réunion d'équipe est prêt.* | la phrase tapée, 8 slides |
+| 2:52.8 | *Même mon WBR **s'écrit tout seul**, à partir de ce qui s'est vraiment passé dans la semaine.* | le WBR s'écrit |
+| 3:00.6 | ***Tout ça, dans une seule plateforme.** Un seul endroit, un seul cerveau.* | tous les modules s'allument ensemble |
 
 ## 8. Confiance et apprentissage
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 2:53.2 | *Je garde **le contrôle** : les brouillons arrivent dans Outlook, mais rien ne part sans moi.* | c'est toi qui cliques « Send » |
-| 2:59.8 | *Et il apprend en continu : de **chaque mail** envoyé, **chaque document** créé, **chaque résultat** de campagne. Ses réponses et ses alertes s'affinent jour après jour.* | la boucle d'apprentissage |
+| 3:05.4 | *Je garde **le contrôle** : les brouillons arrivent dans Outlook, mais rien ne part sans moi.* | c'est toi qui cliques « Send » |
+| 3:12.0 | *Et il apprend en continu : de **chaque mail** envoyé, **chaque document** créé, **chaque résultat** de campagne. Ses réponses et ses alertes s'affinent jour après jour.* | la boucle d'apprentissage |
 
 ## 9. La suite
 
 | Début | Texte (EN) | À l'écran |
 |---|---|---|
-| 3:11.8 | *Prochaine étape : **Salesforce**, pour les ventes et les objectifs.* | Salesforce rejoint le cerveau |
-| 3:17.0 | *Puis des **cerveaux connectés**, pour que toute l'équipe avance ensemble.* | le réseau de cerveaux |
-| 3:22.2 | ***Moins de temps à chercher. Plus de temps pour conseiller.*** | « Stop searching. Start consulting. » |
-| 3:25.2 | *J.A.R.V.I.S. : le cerveau du consultant programmatique.* | le nom, le smile, « by amazon ads » |
+| 3:24.0 | *Prochaine étape : **Salesforce**, pour les ventes et les objectifs.* | Salesforce rejoint le cerveau |
+| 3:29.2 | *Puis des **cerveaux connectés**, pour que toute l'équipe avance ensemble.* | le réseau de cerveaux |
+| 3:34.4 | ***Moins de temps à chercher. Plus de temps pour conseiller.*** | « Stop searching. Start consulting. » |
+| 3:37.4 | *J.A.R.V.I.S. : le cerveau du consultant programmatique.* | le nom, le smile, « by amazon ads » |
 
 ---
 
@@ -89,7 +91,7 @@ Pour répéter : ouvre `livrables/JARVIS-hackathon.mp4` dans VLC et charge `voix
 
 > Imaginez : neuf heures du matin. Pour un consultant programmatique, la journée démarre en apnée : mails, Slack, invitations, exports DSP, tickets. Tout arrive en même temps. Toutes les réponses sont là, quelque part : dans un mail, un fil, un export. Mais personne ne peut tout voir.
 >
-> Et si tout convergeait au même endroit ? Alors on a créé J.A.R.V.I.S. Un cerveau IA, propulsé par Kiro, qui transforme tout ce flux en un seul espace de travail.
+> Et si tout convergeait au même endroit ? Alors on a créé J.A.R.V.I.S. Un cerveau IA, propulsé par Kiro, qui transforme tout ce flux en un seul espace de travail. Une seule plateforme, et tout est dedans : mails, agenda, campagnes, clients, veille DSP, documents, reporting. Le tout relié au même cerveau.
 >
 > Chaque matin, un briefing de trente secondes me dit par où commencer : mails, réunions, campagnes. Ma boîte arrive déjà triée : ce qui me concerne passe en premier. Aucun fil ne s'endort : chaque relance est à un clic. Et il écrit comme moi : il a appris mon style dans mes mails, et chaque brouillon s'appuie sur les vraies données : résultats DSP, tickets, documentation. Je garde la main : une note rapide, en vrac, en français, et il la réécrit proprement dans le mail. Toutes mes réunions sont sous contrôle, et les invitations oubliées remontent. Mieux : un agent dédié prépare chaque réunion la veille. Contexte, chiffres, points à aborder. J'arrive prêt.
 >
@@ -99,7 +101,7 @@ Pour répéter : ouvre `livrables/JARVIS-hackathon.mp4` dans VLC et charge `voix
 >
 > Sept cents nouveautés produit ? Kiro les résume, signale ce qui demande une action, et prépare un récap chaque jeudi. Slack est connecté : rien ne se perd.
 >
-> Et comme il sait tout, il produit : une phrase, et mon PowerPoint pour la réunion d'équipe est prêt. Même mon WBR s'écrit tout seul, à partir de ce qui s'est vraiment passé dans la semaine.
+> Et comme il sait tout, il produit : une phrase, et mon PowerPoint pour la réunion d'équipe est prêt. Même mon WBR s'écrit tout seul, à partir de ce qui s'est vraiment passé dans la semaine. Tout ça, dans une seule plateforme. Un seul endroit, un seul cerveau.
 >
 > Je garde le contrôle : les brouillons arrivent dans Outlook, mais rien ne part sans moi. Et il apprend en continu : de chaque mail envoyé, chaque document créé, chaque résultat de campagne. Ses réponses et ses alertes s'affinent jour après jour.
 >
