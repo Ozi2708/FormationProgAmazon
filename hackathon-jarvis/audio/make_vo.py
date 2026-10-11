@@ -13,6 +13,7 @@ Moteurs (variable VO_ENGINE) :
 
 Usage : VO_ENGINE=elevenlabs python3 audio/make_vo.py [build/vo-fr.json] [build/audio/mix.wav] [build/vo-fr]
 """
+import hashlib
 import json
 import os
 import subprocess
@@ -98,7 +99,10 @@ def main():
     voice = np.zeros(n)
     report = []
     for i, ln in enumerate(lines):
-        clip = os.path.join(OUT, f'{i:02d}.wav')
+        # le cache dépend du texte, du moteur et de la voix : une phrase modifiée ou déplacée est toujours régénérée
+        tag = hashlib.sha1('|'.join([ENGINE, os.environ.get('ELEVEN_VOICE_ID', ''), os.environ.get('POLLY_VOICE', ''),
+                                     os.environ.get('PIPER_MODEL', ''), os.environ.get('PIPER_SPEED', ''), ln['text']]).encode()).hexdigest()[:12]
+        clip = os.path.join(OUT, f'clip-{tag}.wav')
         if not os.path.exists(clip) or os.environ.get('VO_FORCE'):
             prev = lines[i - 1]['text'] if i else ''
             nxt = lines[i + 1]['text'] if i + 1 < len(lines) else ''
@@ -121,7 +125,7 @@ def main():
         i0 = int(ln['t'] * SR)
         seg = x[:max(0, min(len(x), n - i0))]
         voice[i0:i0 + len(seg)] += seg
-        report.append((ln['t'], dur, room, speed, dur > room + 0.05))
+        report.append((ln['t'], dur, room, speed, dur > room + 0.05, ln['text']))
     # ---------------------------------------------- ducking : la bande-son s'efface sous la voix
     env = np.abs(voice)
     win = int(0.03 * SR)
@@ -153,9 +157,9 @@ def main():
     wavfile.write(mpath, SR, (mix * 32767).astype(np.int16))
     wavfile.write(vpath, SR, (np.clip(voice, -1, 1) * 32767).astype(np.int16))
     print(f'engine={ENGINE} · mix → {os.path.join(OUT, "mix-vo.wav")}')
-    for t, d, room, sp, over in report:
+    for t, d, room, sp, over, txt in report:
         flag = '  DÉBORDE' if over else ('  accéléré x%.2f' % sp if sp > 1.0 else '')
-        print(f'  {t:7.2f}s  {d:5.2f}s / {room:5.2f}s{flag}')
+        print(f'  {t:7.2f}s  {d:5.2f}s / {room:5.2f}s{flag:16}  {txt[:60]}')
 
 
 if __name__ == '__main__':
