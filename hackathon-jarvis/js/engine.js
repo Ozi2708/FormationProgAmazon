@@ -259,6 +259,8 @@
     buildAll();
     await Promise.all(['400 20px InterV', '600 20px InterV', '700 80px InterV', '700 30px InterTight',
       '400 16px Plex', '500 16px Plex', '600 16px Plex'].map(f => document.fonts.load(f)));
+    // toutes les polices (y compris les sous-ensembles d'accents) avant la première image : sinon un texte peut rester invisible
+    await Promise.all([...document.fonts].map(f => f.load().catch(() => {})));
     await document.fonts.ready;
     window.__duration = DURATION;
     window.__seek = seek;

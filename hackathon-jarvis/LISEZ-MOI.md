@@ -7,6 +7,35 @@ la carte des modules reliés au même cerveau, cinq chapitres de fonctionnalité
 la boucle d'apprentissage et la vision. La voix off se pose par-dessus ; la bande-son (musique + bruitages)
 est déjà mixée assez bas pour la laisser passer.
 
+## Film jury v2 (90 s) — `pitch-v2.html`
+
+Diffusé juste avant la démo live : il accroche, explique ce que la démo ne montre pas (le problème, l'architecture, l'impact à l'échelle)
+et passe le relais au live.
+
+| Temps | Scène |
+|---|---|
+| 0:00–0:08 | 9:09 AM, les notifications s'empilent : « 90 emails. 14 meetings. 12 campaigns. Before 10 AM. » |
+| 0:08–0:14 | J.A.R.V.I.S. — « Your second brain. It reads, remembers, and acts. » |
+| 0:14–0:24 | How it works : Sources → Connectors → Memory → Agents → You approve |
+| 0:24–0:36 | « 90 emails. 3 lines. » (briefing) → compteur 2h00 |
+| 0:36–0:48 | « Under-delivery? Caught first. » (pacing → KPI → tâche) → 3h30 |
+| 0:48–1:00 | « Your voice. Your data. » + « Never sent automatically » / « Sent by you » → 5h30 |
+| 1:00–1:08 | Montage : réunion préparée la veille (→ 6h30), deck + WBR (→ 8h00) |
+| 1:08–1:18 | « 8h back, every week » → 15 PSC = 3 FTE → 80 PSC = 16 FTE · 29,440 h/an (+ citation pilote si renseignée) |
+| 1:18–1:23 | « Sharper every day. » |
+| 1:23–1:30 | « Stop searching. Start consulting. » → « Let's see it live. » sur l'écran d'accueil |
+
+- **Tous les chiffres et réglages** sont dans `js/pitch-v2/config.js` : comptes de l'accroche, gains de temps, nombre de PSC,
+  heures de travail, semaines par an, citation pilote, `ANONYMIZE` (remplace les noms de clients, agences et personnes partout),
+  `TARGET_DURATION` (90, ou 120 : les trois moments forts passent à 18 s et « Next: Salesforce » revient).
+  Une valeur `TODO` n'est jamais affichée : l'élément est omis.
+- Les écrans de l'application sont les recréations de la v1, inchangées, filmées par une caméra (zooms, recadrages) pour que le texte
+  qui compte fasse au moins 28 px à l'écran.
+- `FILM=v2 ./build.sh` fabrique `livrables/JARVIS-jury-v2.mp4` (1080p30, < 29 Mo) et `JARVIS-jury-v2-apercu.mp4` (720p) ;
+  ces deux fichiers ne sont pas versionnés (le dépôt est public).
+- `node tools/check-v2.cjs` vérifie la durée, les paliers du compteur, les chiffres d'impact, l'absence de `TODO` à l'écran
+  et liste les textes qui restent sous 28 px.
+
 ## Version pitch 2:00 (`pitch.html`)
 
 Une version courte, pensée pour être comprise d'un coup d'œil pendant un pitch en direct :
@@ -86,6 +115,7 @@ Prérequis : Node.js avec Playwright (Chromium), ffmpeg, Python 3 avec numpy et 
 ```bash
 ./build.sh            # film complet à 60 i/s (≈ 10 min sur 4 cœurs)
 FILM=pitch ./build.sh # version pitch 2:00 (≈ 6 min)
+FILM=v2 ./build.sh    # film jury v2, 90 s en 1080p30 (≈ 4 min)
 FPS=30 ./build.sh     # plus rapide, pour vérifier
 node render.cjs --stills 31,82.5,150   # quelques images fixes dans build/stills
 node render.cjs --page pitch.html --stills 29.5,49.6 --outdir build/pitch/stills
