@@ -2,7 +2,8 @@
 /* Rendu du film image par image (Chromium headless + ffmpeg).
    Vidéo :  node render.cjs [--fps 30] [--workers 4] [--from 0] [--to 179] [--out build/jarvis-video.mp4]
    Images : node render.cjs --stills 1.5,10,30 [--outdir build/stills]
-   Repères sonores : node render.cjs --cues build/cues.json                                             */
+   Repères sonores : node render.cjs --cues build/cues.json
+   Autre page (version pitch 2:00) : ajouter --page pitch.html                                           */
 const path = require('path');
 const fs = require('fs');
 const { spawn, execSync } = require('child_process');
@@ -12,7 +13,7 @@ try { pw = require('playwright'); } catch { pw = require(path.join(execSync('npm
 
 const argv = process.argv.slice(2);
 const arg = (k, d) => { const i = argv.indexOf('--' + k); return i >= 0 ? argv[i + 1] : d; };
-const URL = 'file://' + path.join(__dirname, 'index.html') + '?render';
+const URL = 'file://' + path.join(__dirname, arg('page', 'index.html')) + '?render';
 const LAUNCH = { args: ['--force-color-profile=srgb', '--font-render-hinting=none', '--disable-lcd-text', '--hide-scrollbars'] };
 
 async function open(browser) {
@@ -102,7 +103,7 @@ async function cues() {
   const out = path.resolve(arg('cues'));
   const browser = await pw.chromium.launch(LAUNCH);
   const p = await open(browser);
-  const data = await p.page.evaluate(() => ({ duration: window.__duration, tl: window.TL, cues: window.__cues, storm: window.STORM_SPAWNS }));
+  const data = await p.page.evaluate(() => ({ duration: window.__duration, tl: window.TL, cues: window.__cues, storm: window.STORM_SPAWNS, marks: window.MARKS }));
   await browser.close();
   fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, JSON.stringify(data, null, 1));

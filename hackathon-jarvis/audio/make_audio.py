@@ -24,6 +24,7 @@ OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(__file_
 data = json.load(open(CUES))
 DUR = float(data['duration'])
 TL = data['tl']
+MARKS = data.get('marks')  # repères musicaux nommés (version pitch) ; sinon déduits du découpage du film long
 N = int((DUR + 0.5) * SR)
 
 
@@ -129,7 +130,7 @@ def pad_note(f, d, att=1.2, rel=1.8, cutoff=1400):
     x = filt(x, 'low', cutoff, 2)
     n = x.shape[1]
     e = np.ones(n)
-    na = int(att * SR)
+    na = min(n, int(att * SR))
     e[:na] = (np.linspace(0, 1, na)) ** 2
     nd = int(d * SR)
     e[nd:] = np.linspace(1, 0, n - nd) ** 1.5
@@ -367,6 +368,23 @@ def cue_sound(c):
     elif k == 'freeze':
         fx(boom(2.8, 70, 30), t, 0.42, 0, 0.5)
         fx(filt(noise(0.25), 'low', 800) * expd(0.25, 18), t, 0.4, 0, 0.6)
+    elif k == 'clocktick':
+        fx(click(2100 if c.get('n', 0) % 2 else 1700), t, 0.08 * v, 0, 0.05)
+    elif k == 'flash':
+        fx(boom(3.5, 75, 30), t, 0.5 * v, 0, 0.5)
+        fx(filt(noise(1.5), 'high', 3000) * expd(1.5, 3.5), t, 0.12 * v, 0, 1.2)
+    elif k == 'riser':
+        fx(riser(c['d']), t, 0.3 * v, 0, 0.3)
+    elif k == 'tex':
+        d, n = c['d'], c.get('n', 60)
+        for i in range(n):
+            fx(tick(rng.uniform(2200, 5200)), t + (i / n) ** 0.8 * d, 0.03 + 0.03 * rng.random(), rng.uniform(-0.9, 0.9), 0.4)
+    elif k == 'trans':
+        fx(whoosh(0.6, 400, 2800, 0.6, 1.1, -0.5, 0.5), t - 0.2, 0.1 * v, 0, 0.05)
+    elif k == 'darken':
+        fx(whoosh(1.2, 3000, 250, 0.4, 0.9, 0.4, -0.4), t - 0.4, 0.25 * v, 0, 0.3)
+    elif k == 'open':
+        fx(whoosh(1.4, 150, 1800, 0.7, 0.8, 0, 0), t, 0.35 * v, 0, 0.2)
     elif k == 'zoomout':
         d = c['d']
         w = whoosh(d, 3200, 260, 0.3, 0.8, -0.2, 0.2)
@@ -386,6 +404,13 @@ def cue_sound(c):
 
 
 def intro_sounds():
+    # tempête : une notification par carte (les deux films)
+    for ts in data.get('storm') or []:
+        f = note(int(rng.choice([76, 79, 81, 83, 84, 86, 88])))
+        depth = rng.uniform(0.35, 1.0)
+        fx(ping(f), ts, 0.07 + 0.06 * depth, rng.uniform(-0.85, 0.85), 0.35)
+    if MARKS:
+        return  # la version pitch déclare tous ses autres sons par des repères
     o = TL['open'][0]
     # horloge
     for k in range(8):
@@ -398,11 +423,6 @@ def intro_sounds():
     for i, ts in enumerate([2.15, 2.55, 2.9, 3.2, 3.45, 3.68, 3.9]):
         fx(ping(note(79 + (i % 3) * 2)), o + ts, 0.14 + i * 0.02, rng.uniform(-0.3, 0.3), 0.3)
     fx(whoosh(0.9, 200, 4000, 0.75, 0.9, 0, 0), o + 3.6, 0.32, 0, 0.1)
-    # tempête : une notification par carte
-    for ts in data['storm']:
-        f = note(int(rng.choice([76, 79, 81, 83, 84, 86, 88])))
-        depth = rng.uniform(0.35, 1.0)
-        fx(ping(f), ts, 0.07 + 0.06 * depth, rng.uniform(-0.85, 0.85), 0.35)
     # avalanche : une texture de données qui s'étend avec le zoom arrière
     av = TL['avalanche'][0]
     for i in range(60):
@@ -454,22 +474,32 @@ def mus(x, t, g=1.0, p=0.0, rv=0.4):
         place(MSEND, x, t, g * rv, p)
 
 
-S_ = TL['storm'][0]
-F_ = S_ + 7.1                      # gel de la tempête
-A_ = TL['avalanche'][0]
-R_ = TL['reveal'][0]
-FL_ = R_ + 6.25                    # flash de la révélation
-G_ = R_ + 10.7                     # l'application se lève, début du groove
-C_ = TL['control'][0]
-V_ = TL['sfdc'][0]
-O_ = TL['outro'][0]
+if MARKS:
+    M = MARKS
+    S_, F_, A_, B_, R_, FL_, G_ = (M[k] for k in ('storm', 'freeze', 'avalanche', 'build', 'reveal', 'flash', 'groove'))
+    C_, V_, O_, FIN_, DRUMS_, BASS_ = (M[k] for k in ('trust', 'vision', 'outro', 'final', 'drums', 'bass'))
+    LEVELS = [tuple(p) for p in M['levels']]
+else:
+    S_ = TL['storm'][0]
+    F_ = S_ + 7.1                  # gel de la tempête
+    A_ = TL['avalanche'][0]
+    R_ = TL['reveal'][0]
+    B_ = R_ + 1.0                  # l'arpège monte vers la révélation
+    FL_ = R_ + 6.25                # flash de la révélation
+    G_ = R_ + 10.7                 # l'application se lève, début du groove
+    C_ = TL['control'][0]
+    V_ = TL['sfdc'][0]
+    O_ = TL['outro'][0]
+    FIN_ = O_ + 2.75               # accord final
+    DRUMS_, BASS_ = TL['c1'][0], TL['c2'][0]
+    LEVELS = [(0, 0.35), (S_, 0.5), (F_ - 0.1, 1.0), (F_ + 0.05, 0.0), (F_ + 0.8, 0.35), (R_, 0.4), (FL_ - 0.1, 1.0), (G_, 0.75),
+              (TL['c1'][0], 0.8), (TL['c2'][0], 0.85), (TL['c5'][0], 0.95), (C_, 0.6), (V_, 0.75), (O_, 1.0)]
+LEVELS.append((DUR, 0.0))
 
 
 def level(t):
     """Intensité de la musique selon le moment du film (0..1)."""
-    pts = [(0, 0.35), (S_, 0.5), (F_ - 0.1, 1.0), (F_ + 0.05, 0.0), (F_ + 0.8, 0.35), (R_, 0.4), (FL_ - 0.1, 1.0), (G_, 0.75),
-           (TL['c1'][0], 0.8), (TL['c2'][0], 0.85), (TL['c5'][0], 0.95), (C_, 0.6), (V_, 0.75), (O_, 1.0), (DUR, 0.0)]
-    xs, ys = zip(*pts)
+    xs, ys = zip(*LEVELS)
     return float(np.interp(t, xs, ys))
 
 
@@ -496,23 +526,22 @@ def music():
     # tempête : battements qui accélèrent + grappe dissonante qui s'ouvre
     tb = S_ + 0.3
     while tb < F_ - 0.1:
-        u = (tb - S_) / 7.0
+        u = (tb - S_) / (F_ - S_)
         mus(kick(0.5, 70, 38, 8), tb, 0.35 + 0.35 * u, 0, 0.1)
         tb += 0.9 - 0.62 * u
-    cl = sum(pad_note(note(m), F_ - S_ - 0.2, 5.5, 0.15, 900) for m in [50, 51, 57, 58, 62])
+    cl = sum(pad_note(note(m), F_ - S_ - 0.2, min(5.5, 0.9 * (F_ - S_ - 0.2)), 0.15, 900) for m in [50, 51, 57, 58, 62])
     cl = filt(cl, 'low', 2600)
     mus(cl, S_ + 0.2, 0.5, 0, 0.5)
     mus(riser(F_ - S_ - 0.2, 120, 3000), S_ + 0.2, 0.12, 0, 0.3)
     # avalanche : Bm9 suspendu, vaste
     for m in [47, 54, 61, 62, 66, 73]:
-        mus(pad_note(note(m), R_ + 1.0 - A_, 2.5, 3.0, 1000), A_ + 0.2, 0.3, 0, 0.7)
+        mus(pad_note(note(m), B_ - A_, 2.5, 3.0, 1000), A_ + 0.2, 0.3, 0, 0.7)
     # montée vers la révélation : arpège qui s'éclaire
-    rv = R_
     k = 0
-    ta = rv + 1.0
-    while ta < rv + 6.2:
-        u = (ta - rv - 1.0) / 5.2
-        m = ARP[2 if ta < rv + 3.6 else 3][k % 8]
+    ta = B_
+    while ta < FL_ - 0.05:
+        u = (ta - B_) / (FL_ - 0.05 - B_)
+        m = ARP[2 if u < 0.5 else 3][k % 8]
         mus(pluck(note(m), 0.7, 0.8 + 1.4 * u, 6), ta, 0.05 + 0.1 * u, (k % 2) * 0.5 - 0.25, 0.6)
         ta += BEAT / 2 if u < 0.6 else BEAT / 4
         k += 1
@@ -520,7 +549,7 @@ def music():
     for m in [38, 50, 57, 61, 64, 66, 69, 73]:
         mus(pad_note(note(m), 4.6, 0.05, 2.5, 2200), FL_, 0.32, 0, 0.7)
     # groove, jusqu'à l'accord final
-    fin = O_ + 2.75
+    fin = FIN_
     bar = 0
     tb = G_
     while tb < fin - 0.3:
@@ -531,9 +560,9 @@ def music():
         dur_bar = min(BAR + 0.05, fin - tb)
         for m in CHORDS[ch]:
             mus(pad_note(note(m), dur_bar, 0.6, 1.4, bright), tb, 0.42 * lv, 0, 0.55)
-        drums = sec in ('groove', 'vision') and tb >= TL['c1'][0] - 0.2
-        bass = sec in ('groove', 'vision') and tb >= TL['c2'][0] - 0.2
-        hats = (sec == 'groove' and tb >= TL['c2'][0] - 0.2) or sec == 'vision'
+        drums = sec in ('groove', 'vision') and tb >= DRUMS_ - 0.2
+        bass = sec in ('groove', 'vision') and tb >= BASS_ - 0.2
+        hats = (sec == 'groove' and tb >= BASS_ - 0.2) or sec == 'vision'
         for b in range(4):
             tq = tb + b * BEAT
             if tq >= fin - 0.2:
@@ -558,7 +587,7 @@ def music():
         bar += 1
         tb += BAR
     # montée finale (vision → fin)
-    mus(riser(4.6, 200, 4500), O_ - 4.4, 0.16, 0, 0.3)
+    mus(riser(4.6, 200, 4500), FIN_ - 7.15, 0.16, 0, 0.3)
     # accord final, long, qui s'éteint avec l'image
     for m in [38, 50, 57, 61, 64, 66, 69, 74]:
         mus(pad_note(note(m), 3.8, 0.03, 2.6, 2600), fin, 0.55, 0, 0.85)

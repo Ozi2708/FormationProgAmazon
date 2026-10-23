@@ -7,6 +7,33 @@ la carte des modules reliés au même cerveau, cinq chapitres de fonctionnalité
 la boucle d'apprentissage et la vision. La voix off se pose par-dessus ; la bande-son (musique + bruitages)
 est déjà mixée assez bas pour la laisser passer.
 
+## Version pitch 2:00 (`pitch.html`)
+
+Une version courte, pensée pour être comprise d'un coup d'œil pendant un pitch en direct :
+
+1. **Le problème** (0:00–0:17) : 9:00, la tempête de notifications, l'horloge file jusqu'à 11:48, « No one can read it all ».
+2. **Le produit** (0:17–0:33) : J.A.R.V.I.S., *the AI co-pilot of the PSC*, puis le schéma en trois temps :
+   *Reads everything* (les sources) → *Knows what matters* (le cerveau) → *Does the work* (les résultats). « One brain. One platform. »
+3. **Ce qu'il fait** (0:33–1:31) : cinq moments montrés en grand dans la même fenêtre (briefing, pacing → tâche chiffrée,
+   mail dans ta voix + note réécrite, réunion préparée la veille, deck + WBR), puis la grille « One platform. All of it. ».
+   À chaque moment, une puce « avant → après » et un compteur de temps gagné qui monte jusqu'à 8 h par semaine.
+4. **Pourquoi** (1:31–2:00) : 8 h rendues chaque semaine, la confiance (rien ne part tout seul), l'apprentissage, la suite, la signature.
+
+La trame de ce que tu peux dire en direct, minutée, est dans [`PITCH-2MIN.md`](PITCH-2MIN.md) (`pitch-2min.srt` pour répéter dans VLC).
+
+**Temps gagné : ce sont des estimations à valider.** Elles sont réunies dans `GAINS`, en tête de `js/pitch/p-app.js` :
+
+| Moment | Avant → avec J.A.R.V.I.S. | Par semaine | Hypothèse |
+|---|---|---|---|
+| Briefing du matin | 30 min → 5 min par jour | 2 h | 25 min × 5 jours |
+| Suivi du pacing | 20 min → 2 min par jour | 1 h 30 | 18 min × 5 jours |
+| Mail client | 15 min → 3 min par mail | 2 h | 12 min × 10 mails |
+| Prépa de réunion | 20 min → 0 par réunion | 1 h | 20 min × 3 réunions |
+| Deck + WBR | 1 h 45 → 15 min par semaine | 1 h 30 | deck 1 h → 10 min, WBR 45 → 5 min |
+
+Change les valeurs dans `GAINS` (champ `week` en minutes) : les puces, le compteur et l'écran « 8 h » suivent.
+`FILM=pitch ./build.sh` refabrique la vidéo ; `pitch.html` s'ouvre dans Chrome comme `index.html`.
+
 ## Livrables (`livrables/`)
 
 | Fichier | Contenu |
@@ -15,8 +42,9 @@ est déjà mixée assez bas pour la laisser passer.
 | `JARVIS-hackathon-apercu.mp4` | copie légère (1080p, 30 i/s, < 30 Mo) pour la partager facilement |
 | `bande-son-complete.wav` | la bande-son seule (musique + bruitages, -20 LUFS) |
 | `piste-musique.wav` / `piste-bruitages.wav` | les deux pistes séparées, pour remixer autour de la voix |
-
-| `JARVIS-pitch-EN.mp4` | le même film avec une voix off anglaise de synthèse, en mode pitch (script : `SCRIPT-PITCH-EN.md`) |
+| `JARVIS-pitch-EN.mp4` | le film long avec une voix off anglaise de synthèse, en mode pitch (script : `SCRIPT-PITCH-EN.md`) |
+| `JARVIS-pitch-2min.mp4` | **la version pitch de 2:00** (1080p, 60 i/s), avec sa bande-son, sans voix |
+| `JARVIS-pitch-2min-apercu.mp4` | sa copie légère (30 i/s, < 30 Mo) |
 
 Seuls les MP4 en qualité finale sont versionnés ; les aperçus et les WAV sont recréés par `./build.sh` et `./tools/voiced.sh`.
 
@@ -57,8 +85,10 @@ Prérequis : Node.js avec Playwright (Chromium), ffmpeg, Python 3 avec numpy et 
 
 ```bash
 ./build.sh            # film complet à 60 i/s (≈ 10 min sur 4 cœurs)
+FILM=pitch ./build.sh # version pitch 2:00 (≈ 6 min)
 FPS=30 ./build.sh     # plus rapide, pour vérifier
 node render.cjs --stills 31,82.5,150   # quelques images fixes dans build/stills
+node render.cjs --page pitch.html --stills 29.5,49.6 --outdir build/pitch/stills
 ```
 
 `build.sh` enchaîne : export des repères sonores → synthèse de la bande-son → rendu image par

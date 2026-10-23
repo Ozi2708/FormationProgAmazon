@@ -2,13 +2,15 @@
 """Génère le script de voix off minuté et ses sous-titres à partir du découpage réel du film (build/cues.json).
   python3 tools/voiceover.py        → SCRIPT-VOIX-OFF.md + voix-off.srt          (anglais, voix enregistrée par toi)
   python3 tools/voiceover.py fr     → SCRIPT-VOIX-OFF-FR.md + voix-off-fr.srt + build/vo-fr.json (pitch français, synthèse vocale)
-  python3 tools/voiceover.py en-pitch → SCRIPT-PITCH-EN.md + pitch-en.srt + build/vo-en.json (pitch anglais, synthèse vocale)"""
+  python3 tools/voiceover.py en-pitch → SCRIPT-PITCH-EN.md + pitch-en.srt + build/vo-en.json (pitch anglais, synthèse vocale)
+  python3 tools/voiceover.py live   → PITCH-2MIN.md + pitch-2min.srt  (trame du pitch en direct sur la version 2:00, build/pitch/cues.json)"""
 import json, os, sys
 LANG = sys.argv[1] if len(sys.argv) > 1 else 'en'
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-TL = json.load(open(os.path.join(ROOT, 'build', 'cues.json')))['tl']
-DUR = json.load(open(os.path.join(ROOT, 'build', 'cues.json')))['duration']
+CUES = os.path.join(ROOT, 'build', 'pitch' if LANG == 'live' else '', 'cues.json')
+TL = json.load(open(CUES))['tl']
+DUR = json.load(open(CUES))['duration']
 
 # (scène, décalage en s, texte anglais, ce qui est à l'écran) — la ligne commence à TL[scène][0] + décalage
 LINES = [
@@ -140,12 +142,39 @@ LINES_ENP = [
     ('outro', 0.2, '**Stop searching. Start consulting.**', 'Stop searching. Start consulting.'),
     ('outro', 3.2, 'J.A.R.V.I.S.: the brain behind every programmatic consultant.', 'name, smile, by amazon ads', 'Jarvis. The brain behind every programmatic consultant.'),
 ]
-OUTS = {'en': ('SCRIPT-VOIX-OFF.md', 'voix-off.srt', None), 'fr': ('SCRIPT-VOIX-OFF-FR.md', 'voix-off-fr.srt', 'vo-fr.json'),
+# version 2:00 : ce que tu dis en direct, phrase par phrase (le film porte le reste)
+LINES_LIVE = [
+    ('1. Le problème', None, None, None),
+    ('open', 0.3, 'Nine a.m. Emails, Slack, invites, DSP exports, product updates…', '8:59 → 9:00, la pastille s\'emballe'),
+    ('storm', 2.4, 'By eleven, we are **still catching up**.', 'l\'horloge file pendant la tempête'),
+    ('flood', 1.0, 'Everything we need is in there. **No one can read it all.**', 'zoom arrière, le halo « what you can read today »'),
+    ('2. J.A.R.V.I.S.', None, None, None),
+    ('reveal', 0.6, 'So we built **J.A.R.V.I.S.**, the **AI co-pilot** of the PSC.', 'flash, le nom, le smile (vise « J.A.R.V.I.S. » sur le flash)'),
+    ('how', 0.3, 'It **reads everything**: mail, Slack, calendar, DSP exports, tickets, docs.', 'colonne 01 : les sources se branchent'),
+    ('how', 3.0, 'It **knows what matters**. And it **does the work**. **One brain. One platform.**', 'colonnes 02 et 03, puis la phrase du bas'),
+    ('3. Ce qu\'il fait', None, None, None),
+    ('brief', 0.3, 'Every morning, **ninety emails become three lines**.', 'le flux devient le briefing · puce 30 min → 5 min, +2 h'),
+    ('pacing', 0.3, 'Every DSP export is read. Under-delivery is **caught first**, and becomes a costed task.', 'zoom sur BFM, la tâche se crée · +1 h 30'),
+    ('voice', 0.3, 'It writes **like me**, grounded in live data. I add a note in French: **it rewrites it**.', 'brouillon sourcé, la note réécrite · +2 h'),
+    ('meeting', 0.3, 'A dedicated agent preps every meeting **the day before**.', 'la veille 17:33 → jeudi 11:00 · +1 h'),
+    ('deck', 0.3, '**One sentence**: the deck and the WBR are ready.', 'les slides arrivent · le compteur atteint 8 h'),
+    ('bento', 0.3, 'And everything else lives **in the same platform**.', 'la grille des modules'),
+    ('4. Pourquoi c\'est important', None, None, None),
+    ('total', 0.4, 'Add it up: **eight hours back, every week**. One working day per PSC.', '8 h, le détail, une journée'),
+    ('trust', 0.3, 'We stay **in control**: nothing is ever sent on its own.', 'brouillon Outlook, « Sent by you »'),
+    ('trust', 3.7, 'And it **learns** from every email, document and campaign result.', 'la boucle d\'apprentissage'),
+    ('next', 0.3, 'Next: **Salesforce**, then **connected brains** for the whole team.', 'Salesforce rejoint le cerveau, puis le réseau'),
+    ('outro', 0.2, '**Stop searching. Start consulting.**', 'les deux lignes'),
+    ('outro', 2.7, 'This is **J.A.R.V.I.S.**', 'le nom, le smile, « by amazon ads »'),
+]
+OUTS = {'live': ('PITCH-2MIN.md', 'pitch-2min.srt', None), 'en': ('SCRIPT-VOIX-OFF.md', 'voix-off.srt', None), 'fr': ('SCRIPT-VOIX-OFF-FR.md', 'voix-off-fr.srt', 'vo-fr.json'),
         'en-pitch': ('SCRIPT-PITCH-EN.md', 'pitch-en.srt', 'vo-en.json')}
 if LANG == 'en-pitch':
     LINES = LINES_ENP
 if LANG == 'fr':
     LINES = LINES_FR
+if LANG == 'live':
+    LINES = LINES_LIVE
 
 def tc(s, srt=False):
     if srt:
@@ -168,7 +197,11 @@ if OUTS[LANG][2]:
     json.dump([{'t': round(a, 3), 'text': t} for a, t in say], open(os.path.join(ROOT, 'build', OUTS[LANG][2]), 'w'), ensure_ascii=False, indent=1)
 
 # --- Markdown
-md = [f"# J.A.R.V.I.S. — script de voix off (anglais)\n",
+md = [f"# J.A.R.V.I.S. — trame du pitch en direct (2:00)\n",
+      f"Durée du film : **{tc(DUR)[:-2]}**. Environ {words} mots : un débit tranquille, l'image porte le reste.",
+      "Les timecodes indiquent **le moment où commencer la phrase**. Les mots en **gras** apparaissent à l'écran au même instant.\n",
+      "Pour répéter : ouvre `livrables/JARVIS-pitch-2min.mp4` dans VLC et charge `pitch-2min.srt` comme sous-titres.\n", "---"] if LANG == 'live' else [
+      f"# J.A.R.V.I.S. — script de voix off (anglais)\n",
       f"Durée du film : **{tc(DUR)[:-2]}**. Environ {words} mots, soit un débit posé de ~{round(words / DUR * 60)} mots/minute.",
       "Les timecodes indiquent **le moment où commencer la phrase** pour qu'elle tombe sur l'image.",
       "Les mots en **gras** sont ceux qui apparaissent à l'écran au même instant : appuie-les légèrement.\n",
@@ -188,6 +221,12 @@ for a, t, scr in rows:
         para.append(plain(t))
 if para: md.append('> ' + ' '.join(para))
 md.append("""
+### Conseils pour le direct
+
+- Si tu prends du retard, saute une phrase : chaque scène se comprend seule.
+- Les heures gagnées (2 h, 1 h 30, 2 h, 1 h, 1 h 30 = 8 h) sont des **estimations** : dis-le simplement (« on estime… »).
+- Les deux moments à ne pas rater : « So we built **J.A.R.V.I.S.** » sur le flash, et « Stop searching. Start consulting. » sur les deux impacts de la fin.
+""" if LANG == 'live' else """
 ### Conseils d'enregistrement
 
 - Enregistre la voix **en regardant la vidéo** (la bande-son est mixée autour de -20 LUFS pour laisser la place à ta voix).

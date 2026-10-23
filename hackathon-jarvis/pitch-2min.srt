@@ -1,0 +1,71 @@
+1
+00:00:02,300 --> 00:00:06,680
+Nine a.m. Emails, Slack, invites, DSP exports, product updates…
+
+2
+00:00:07,000 --> 00:00:10,540
+By eleven, we are still catching up.
+
+3
+00:00:11,200 --> 00:00:16,840
+Everything we need is in there. No one can read it all.
+
+4
+00:00:17,400 --> 00:00:22,200
+So we built J.A.R.V.I.S., the AI co-pilot of the PSC.
+
+5
+00:00:23,700 --> 00:00:26,200
+It reads everything: mail, Slack, calendar, DSP exports, tickets, docs.
+
+6
+00:00:26,400 --> 00:00:32,460
+It knows what matters. And it does the work. One brain. One platform.
+
+7
+00:00:33,300 --> 00:00:36,840
+Every morning, ninety emails become three lines.
+
+8
+00:00:43,900 --> 00:00:50,380
+Every DSP export is read. Under-delivery is caught first, and becomes a costed task.
+
+9
+00:00:54,500 --> 00:01:02,240
+It writes like me, grounded in live data. I add a note in French: it rewrites it.
+
+10
+00:01:06,100 --> 00:01:10,480
+A dedicated agent preps every meeting the day before.
+
+11
+00:01:14,700 --> 00:01:19,080
+One sentence: the deck and the WBR are ready.
+
+12
+00:01:24,300 --> 00:01:28,260
+And everything else lives in the same platform.
+
+13
+00:01:31,600 --> 00:01:37,660
+Add it up: eight hours back, every week. One working day per PSC.
+
+14
+00:01:39,100 --> 00:01:42,300
+We stay in control: nothing is ever sent on its own.
+
+15
+00:01:42,500 --> 00:01:46,900
+And it learns from every email, document and campaign result.
+
+16
+00:01:47,100 --> 00:01:51,480
+Next: Salesforce, then connected brains for the whole team.
+
+17
+00:01:51,800 --> 00:01:54,080
+Stop searching. Start consulting.
+
+18
+00:01:54,300 --> 00:01:56,160
+This is J.A.R.V.I.S.

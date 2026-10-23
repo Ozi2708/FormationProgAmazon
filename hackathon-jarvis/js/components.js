@@ -4,7 +4,8 @@
   const { E, P, tf, vis, splitWords, revealWords, ic, $, scene, clamp } = J;
 
   // Enchaînement des scènes et durées (s). Les scènes voisines se chevauchent de 0,4 s (fondu).
-  const SEQ = [
+  // Une autre page (pitch.html) peut fournir son propre découpage dans window.FILM_SEQ.
+  const SEQ = window.FILM_SEQ || [
     ['logo', 3.0], ['open', 4.6], ['storm', 8.6], ['avalanche', 12.4], ['reveal', 15.0], ['platform', 8.0],
     ['c1', 2.0], ['brief', 7.6], ['inbox', 6.0], ['follow', 6.0], ['voice', 10.4], ['rewrite', 9.0], ['agenda', 5.6], ['meeting', 10.0],
     ['c2', 2.0], ['data', 5.6], ['pacing', 9.2], ['actions', 9.0], ['trouble', 8.2],
