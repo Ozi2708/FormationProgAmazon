@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jarvis">
+<defs><clipPath id="jc-1-anneau-fond-clair"><circle cx="100" cy="100" r="78"/></clipPath></defs>
+<circle cx="100" cy="100" r="96" fill="#232F3E"/>
+<circle cx="100" cy="100" r="81" fill="none" stroke="#FF9900" stroke-width="3"/>
+<path d="M 20 58 H 180 L 100 174 L 76 128" transform="translate(100 100) scale(0.975) translate(-100 -100)" fill="none" stroke="#FF9900" stroke-width="13" stroke-linejoin="miter" stroke-miterlimit="4" clip-path="url(#jc-1-anneau-fond-clair)"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jarvis">
+<defs><clipPath id="jc-5-triade-fond-clair"><circle cx="100" cy="100" r="92"/></clipPath></defs>
+<circle cx="100" cy="100" r="96" fill="#232F3E"/>
+<path d="M188.44 74.64 A92 92 0 0 1 128.43 187.50 L125.65 178.94 A83 83 0 0 0 179.78 77.12 Z" fill="#37475A"/>
+<path d="M74.64 188.44 A92 92 0 0 1 10.73 77.74 L19.47 79.92 A83 83 0 0 0 77.12 179.78 Z" fill="#37475A"/>
+<path d="M38.44 31.63 A92 92 0 0 1 166.18 36.09 L159.71 42.34 A83 83 0 0 0 44.46 38.32 Z" fill="#37475A"/>
+<path d="M 20 58 H 180 L 100 190 L 75 138" transform="translate(100 100) scale(1.000) translate(-100 -100)" fill="none" stroke="#FF9900" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="4" clip-path="url(#jc-5-triade-fond-clair)"/>
+</svg>

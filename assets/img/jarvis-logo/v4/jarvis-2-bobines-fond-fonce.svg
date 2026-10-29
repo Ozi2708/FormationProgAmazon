@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jarvis">
+<defs><clipPath id="jc-2-bobines-fond-fonce"><circle cx="100" cy="100" r="70"/></clipPath></defs>
+<circle cx="100" cy="100" r="96" fill="#FFFFFF"/>
+<path d="M104.81 8.13 A92 92 0 0 1 150.11 22.84 L141.39 36.26 A76 76 0 0 0 103.98 24.10 Z" fill="#D5D9D9"/>
+<path d="M157.90 28.50 A92 92 0 0 1 185.89 67.03 L170.95 72.76 A76 76 0 0 0 147.83 40.94 Z" fill="#D5D9D9"/>
+<path d="M188.87 76.19 A92 92 0 0 1 188.87 123.81 L173.41 119.67 A76 76 0 0 0 173.41 80.33 Z" fill="#D5D9D9"/>
+<path d="M185.89 132.97 A92 92 0 0 1 157.90 171.50 L147.83 159.06 A76 76 0 0 0 170.95 127.24 Z" fill="#D5D9D9"/>
+<path d="M150.11 177.16 A92 92 0 0 1 104.81 191.87 L103.98 175.90 A76 76 0 0 0 141.39 163.74 Z" fill="#D5D9D9"/>
+<path d="M95.19 191.87 A92 92 0 0 1 49.89 177.16 L58.61 163.74 A76 76 0 0 0 96.02 175.90 Z" fill="#D5D9D9"/>
+<path d="M42.10 171.50 A92 92 0 0 1 14.11 132.97 L29.05 127.24 A76 76 0 0 0 52.17 159.06 Z" fill="#D5D9D9"/>
+<path d="M11.13 123.81 A92 92 0 0 1 11.13 76.19 L26.59 80.33 A76 76 0 0 0 26.59 119.67 Z" fill="#D5D9D9"/>
+<path d="M14.11 67.03 A92 92 0 0 1 42.10 28.50 L52.17 40.94 A76 76 0 0 0 29.05 72.76 Z" fill="#D5D9D9"/>
+<path d="M49.89 22.84 A92 92 0 0 1 95.19 8.13 L96.02 24.10 A76 76 0 0 0 58.61 36.26 Z" fill="#D5D9D9"/>
+<circle cx="100" cy="100" r="72" fill="#EAEDED"/>
+<path d="M 20 58 H 180 L 100 174 L 76 128" transform="translate(100 100) scale(0.875) translate(-100 -100)" fill="none" stroke="#FF9900" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="4" clip-path="url(#jc-2-bobines-fond-fonce)"/>
+</svg>
