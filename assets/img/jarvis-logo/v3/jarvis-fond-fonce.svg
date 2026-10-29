@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jarvis">
+<defs><clipPath id="jc-fonce"><circle cx="100" cy="100" r="200"/></clipPath></defs>
+<circle cx="100" cy="100" r="96" fill="#FFFFFF"/>
+<path d="M 34 56 H 156 L 96 150 L 76 114" fill="none" stroke="#FF9900" stroke-width="14" stroke-linejoin="miter" stroke-miterlimit="4" clip-path="url(#jc-fonce)"/>
+</svg>
