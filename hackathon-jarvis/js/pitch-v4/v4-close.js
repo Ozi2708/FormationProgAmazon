@@ -29,24 +29,23 @@
     #sc-impact .pl .ic{color:${K.or}}
     #sc-impact .hr{left:0;right:0;top:705px;text-align:center;font-size:40px;color:#fff}
     #sc-impact .hr b{font-family:InterTight;font-weight:800;font-size:60px;letter-spacing:-.03em;color:#fff;font-variant-numeric:tabular-nums}
-    #sc-impact .ob{left:0;right:0;top:810px;text-align:center;font-size:88px}
+    #sc-impact .ob{left:0;right:0;top:760px;text-align:center;font-size:88px}
     #sc-impact .fn{left:0;right:0;top:1010px;text-align:center;font-size:22px}`,
     build(el, s) {
       el.innerHTML = `<div class="v4h hd">8h back, <span class="o">every week.</span></div><div class="v4s es">estimated, per PSC</div>
         ${DAYS.map((d, i) => `<div class="dy" style="left:${DX(i)}px"><b>${d}</b><span class="a">${ic('layers', 20)}In the tools</span><span class="b" style="display:none">${ic('users', 20)}With our clients</span></div>`).join('')}
         <div class="v4h l1">One day a week, <span class="o">back with our clients.</span></div>
         <div class="pl"><span>${ic('users', 24)}Client meetings</span><span>${ic('search', 24)}Deep dives</span><span>${ic('target', 24)}Proactive recommendations</span></div>
-        <div class="v4s hr"><b class="hy">0</b> hours a year across ${C.NB_PSC_EU} PSCs, for our clients</div>
         <div class="v4h ob">Even more <span class="o">customer obsessed.</span></div>
-        <div class="v4s fn">Estimated: ${C.HOURS_SAVED_PER_WEEK} h per PSC per week, ${C.WEEKS_PER_YEAR} working weeks.</div>`;
+        <div class="v4s fn">Estimated: ${C.HOURS_SAVED_PER_WEEK} h per PSC per week.</div>`;
       s.hd = splitWords($('.hd', el)); s.es = $('.es', el); s.dy = $$('.dy', el); s.l1 = $('.l1', el); s.pl = $$('.pl span', el);
-      s.hr = $('.hr', el); s.hy = $('.hy', el); s.ob = splitWords($('.ob', el)); s.fn = $('.fn', el);
+      s.ob = splitWords($('.ob', el)); s.fn = $('.fn', el);
       s.fa = $('.dy:last-of-type .a', el); s.fb2 = s.dy[4].querySelector('.b'); s.fa = s.dy[4].querySelector('.a');
       cue('darken', s.t0); cue('hit', s.t0 + 0.2, { v: 0.6 });
       DAYS.forEach((_, i) => cue('tick', s.t0 + 1.1 + i * 0.1, { v: 0.6 }));
       cue('hit', s.t0 + FRI, { v: 0.55 }); cue('success', s.t0 + FRI + 0.1, { v: 0.5 });
       s.pl.forEach((_, i) => cue('pop', s.t0 + 3.6 + i * 0.18, { v: 0.5 }));
-      cue('count', s.t0 + 4.6, { d: 1.2 }); cue('hit', s.t0 + 5.9, { v: 0.6 });
+      cue('hit', s.t0 + 4.9, { v: 0.6 }); cue('sparkle', s.t0 + 5.4);
     },
     update(lt, dur, s) {
       revealWords(s.hd, lt, 0.1, { st: 0.12, dy: 50, d: 0.7 });
@@ -60,9 +59,7 @@
       tf(s.dy[4], { s: 1 + 0.08 * kick, o: P(lt, 1.5, 0.3) });
       vis(s.l1, lt, FRI + 0.3, Infinity, { dy: 20, blur: 8 });
       s.pl.forEach((p, i) => vis(p, lt, 3.6 + i * 0.18, Infinity, { dy: 16, ds: -0.15, ein: E.outB, blur: 4, din: 0.5 }));
-      vis(s.hr, lt, 4.5, Infinity, { dy: 14, blur: 6 });
-      count(s.hy, lt, 4.6, 1.2, 0, HOURS);
-      revealWords(s.ob, lt, 5.9, { st: 0.12, dy: 40, d: 0.6 });
+      revealWords(s.ob, lt, 4.9, { st: 0.12, dy: 40, d: 0.6 });
       vis(s.fn, lt, 1.0, Infinity, { dy: 8, blur: 4 });
     },
   });
@@ -252,7 +249,7 @@
 
   // ---------------------------------------------------------------- repères de la musique (lus par audio/make_audio.py) — 120 BPM
   window.MARKS = {
-    bpm: C.BPM,
+    bpm: C.BPM, music_file: C.MUSIC_FILE,
     storm: 0.3, freeze: 9.5, avalanche: 9.55, build: 9.6, reveal: 10.0, flash: 10.5,
     groove: SH.how[0], drums: SH.briefing[0], bass: SH.pacing[0], trust: SH.sharper[0], vision: SH.sharper[0] + 2.0, outro: SH.handoff[0], final: SH.handoff[0] + IR,
     levels: [[0, 0.4], [0.3, 0.55], [9.4, 1.0], [9.55, 0.0], [10.45, 0.2], [10.5, 1.0], [SH.how[0], 0.7], [SH.briefing[0], 0.8], [SH.pacing[0], 0.85],

@@ -4,13 +4,15 @@
 window.CONFIG = {
   // 12 plans, en secondes (30 i/s : 1 s = 30 images), coupes franches
   SHOTS: {
-    overload: [0, 6], fatigue: [6, 10], reveal: [10, 16], how: [16, 26], briefing: [26, 37], pacing: [37, 48],
-    voice: [48, 59], montage: [59, 66], impact: [66, 74], world: [74, 78.5], sharper: [78.5, 84], handoff: [84, 90],
+    overload: [0, 6], fatigue: [6, 10], reveal: [10, 16], how: [16, 28.5], briefing: [28.5, 39.5], pacing: [39.5, 50.5],
+    voice: [50.5, 61.5], montage: [61.5, 65], impact: [65, 73], world: [73, 78.5], sharper: [78.5, 84], handoff: [84, 90],
   },
   BPM: 120,
+  // bande-son fournie (le .wav voisin, non versionné, est pris s'il existe) ; les bruitages se posent dessus
+  MUSIC_FILE: 'audio/jarvis_intro_soundtrack_90s.mp3',
 
   // compteur « Time back this week · estimated » (minutes) : [début, fin du comptage, valeur atteinte]
-  COUNTER: [[32.0, 36.0, 120], [45.5, 47.0, 210], [54.0, 55.5, 330], [60.8, 61.6, 390], [64.0, 64.8, 480]],
+  COUNTER: [[34.5, 38.5, 120], [48.0, 49.5, 210], [56.5, 58.0, 330], [62.3, 63.0, 390], [63.3, 64.0, 480]],
 
   // impact : du temps rendu aux clients ; heures/an = 80 × 8 × 46
   NB_PSC_EU: 80,

@@ -216,7 +216,7 @@
   });
 
   // ---------------------------------------------------------------- plan 8 · 0:59 montage : réunion préparée, demande routée
-  const MB = 3.5; // second micro-plan
+  const MB = 99; // un seul micro-plan : la réunion préparée
   const F8 = { x: 285, y: 260, w: 1350, h: 760 };
   scene({
     id: 'montage', t0: SH.montage[0], t1: SH.montage[1], cls: 'v4', fin: 0,
@@ -267,7 +267,7 @@
       s.fr8 = $('.fr8', el); s.ui8 = $('.fr8 .ui', el); s.fchip = $('.fchip', el); s.dz = $('.fr8 .dz', el); s.bn = $('.fr8 .bn', el);
       s.tl = $$('.fr8 .tl', el); s.tr = $$('.fr8 .tr', el);
       cue('pop', s.t0 + 0.4, { v: 0.5 }); cue('whoosh', s.t0 + 1.0, { v: 0.5 }); s.rows.forEach((_, i) => cue('tick', s.t0 + 1.7 + i * 0.25, { v: 0.7 }));
-      cue('hit', s.t0 + MB, { v: 0.4 }); cue('swish', s.t0 + MB + 0.3, { v: 0.6 }); cue('alert', s.t0 + MB + 1.1, { v: 0.7 }); J.TROWS.forEach((_, i) => cue('tick', s.t0 + MB + 1.5 + i * 0.1, { v: 0.6 }));
+      
     },
     update(lt, dur, s) {
       // micro-plan A : le rendez-vous se retourne, la préparation est prête

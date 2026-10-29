@@ -90,7 +90,7 @@
       el.innerHTML = `<div class="ct"><div class="k">Time back this week · <b>estimated</b></div><div class="v">0h00</div><div class="c">about one working day</div></div>`;
       s.ct = $('.ct', el); s.v = $('.v', el); s.c = $('.c', el);
       C.COUNTER.forEach(([a, b]) => { cue('rise', a - 0.2, { d: 0.3, v: 0.4 }); cue('count', a, { d: b - a }); cue('ping', b, { v: 0.6 }); });
-      cue('success', 65.0, { v: 0.6 });
+      cue('success', C.COUNTER[C.COUNTER.length - 1][1] + 0.2, { v: 0.6 });
     },
     update(lt, dur, s, t) {
       // il apparaît avec la première estimation et quitte l'écran avec le plan 8
@@ -101,9 +101,9 @@
       // une étape franchie : le chiffre bat ; à 8h00 il passe à l'orange
       let kick = 0;
       for (const [, b] of C.COUNTER) if (t >= b) kick = Math.max(kick, Math.exp(-(t - b) * 5));
-      const full = P(t, 65.0, 0.4);
+      const tf8 = C.COUNTER[C.COUNTER.length - 1][1] + 0.2, full = P(t, tf8, 0.4);
       s.v.style.color = full > 0.5 ? K.or : '#fff';
-      tf(s.v, { s: 1 + 0.08 * kick + 0.06 * full * Math.abs(Math.sin((t - 65) * 4)) * (t < 66 ? 1 : 0) });
+      tf(s.v, { s: 1 + 0.08 * kick + 0.06 * full * Math.abs(Math.sin((t - tf8) * 4)) });
       s.v.style.transformOrigin = '100% 50%';
       tf(s.c, { o: full, y: 8 * (1 - full) });
       s.ct.style.borderColor = full > 0.5 ? 'rgba(255,98,0,.7)' : 'rgba(163,170,181,.28)';

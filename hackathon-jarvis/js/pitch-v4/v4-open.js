@@ -171,6 +171,7 @@
   const AG = [['sun', 'Briefing'], ['trending-up', 'Pacing'], ['wrench', 'Troubleshooting'], ['pen-line', 'Drafting'], ['calendar-check', 'Meeting prep'], ['send', 'Routing']];
   const AG_Y = i => 330 + i * 92;
   const MEM = [['sparkles', 'Claude reads, extracts, summarises'], ['gauge', 'Rules rank urgency x impact'], ['brain', 'Memory: your style, your clients']];
+  const ST = [0.2, 2.6, 5.0, 7.6, 10.2]; // début de chaque étape (s)
   const GX0 = 446, GX1 = 734, AX0 = 1176, AX1 = 1494, VX = 1556;
   const bz = (p, u) => { const v = 1 - u; return v * v * v * p[0] + 3 * v * v * u * p[1] + 3 * v * u * u * p[2] + u * u * u * p[3]; };
   scene({
@@ -228,18 +229,19 @@
       s.l2 = [mk([GX1, 790, 820, 865], [563, 563, OY4, OY4], 'rgba(255,140,60,.6)', 4)];
       s.l3 = AG.map((_, i) => mk([1055, 1110, 1120, AX0], [OY4, OY4, AG_Y(i), AG_Y(i)], 'rgba(255,140,60,.5)', 2));
       s.l4 = AG.map((_, i) => mk([AX1, 1520, 1520, VX], [AG_Y(i), AG_Y(i), OY4, OY4], 'rgba(93,211,158,.45)', 1));
-      SRC.forEach((_, i) => cue('pop', s.t0 + 0.35 + i * 0.1, { v: 0.35 }));
-      cue('pop', s.t0 + 1.45, { v: 0.5 }); cue('pop', s.t0 + 1.6, { v: 0.5 }); cue('data', s.t0 + 1.2, { d: 7.6 });
-      cue('hit', s.t0 + 2.3, { v: 0.4 }); MEM.forEach((_, i) => cue('tick', s.t0 + 2.4 + i * 0.2, { v: 0.5 }));
-      AG.forEach((_, i) => cue('pop', s.t0 + 3.4 + i * 0.15, { v: 0.45 }));
-      cue('lock', s.t0 + 4.8); cue('success', s.t0 + 5.0, { v: 0.5 });
+      SRC.forEach((_, i) => cue('pop', s.t0 + 0.4 + i * 0.18, { v: 0.35 }));
+      cue('swish', s.t0 + ST[1] - 0.2, { v: 0.4 }); s.cn.forEach((_, i) => cue('pop', s.t0 + ST[1] + 0.3 + i * 0.3, { v: 0.5 })); cue('data', s.t0 + 1.8, { d: 10.4 });
+      cue('hit', s.t0 + ST[2] + 0.3, { v: 0.5 }); MEM.forEach((_, i) => cue('tick', s.t0 + ST[2] + 0.8 + i * 0.4, { v: 0.6 }));
+      cue('swish', s.t0 + ST[3] - 0.2, { v: 0.4 }); AG.forEach((_, i) => cue('pop', s.t0 + ST[3] + i * 0.25, { v: 0.45 }));
+      cue('lock', s.t0 + ST[4]); cue('success', s.t0 + ST[4] + 0.2, { v: 0.6 });
     },
     update(lt, dur, s, t) {
       vis(s.kk, lt, 0.1, Infinity, { dy: 12, blur: 6 });
-      s.hh.forEach((h, i) => vis(h, lt, [0.2, 1.2, 2.0, 3.2, 4.6][i], Infinity, { dy: 20, blur: 8 }));
-      s.src.forEach((el, i) => vis(el, lt, 0.35 + i * 0.1, Infinity, { dx: -40, dy: 0, blur: 8, din: 0.7 }));
-      vis(s.grp, lt, 1.25, Infinity, { dy: 0, ds: -0.04, blur: 6 });
-      s.cn.forEach((el, i) => vis(el, lt, 1.45 + i * 0.15, Infinity, { dy: 18, blur: 8 }));
+      // une étape après l'autre ; l'étape en cours est mise en avant, les autres restent visibles mais en retrait
+      s.hh.forEach((h, i) => { vis(h, lt, ST[i], Infinity, { dy: 20, blur: 8 }); h.style.opacity = (+h.style.opacity * (lt >= ST[i] && (i === 4 || lt < ST[i + 1]) ? 1 : 0.55)).toFixed(3); });
+      s.src.forEach((el, i) => vis(el, lt, 0.4 + i * 0.18, Infinity, { dx: -40, dy: 0, blur: 8, din: 0.7 }));
+      vis(s.grp, lt, ST[1] + 0.1, Infinity, { dy: 0, ds: -0.04, blur: 6 });
+      s.cn.forEach((el, i) => vis(el, lt, ST[1] + 0.3 + i * 0.3, Infinity, { dy: 18, blur: 8 }));
       const flow = (arr, draw, start, sp, out) => arr.forEach((o, i) => {
         const d = P(lt, draw + i * 0.06, 0.6, E.ioC);
         o.p.style.strokeDashoffset = (o.len * (1 - d)).toFixed(1);
@@ -251,22 +253,22 @@
           pt.style.opacity = (Math.sin(Math.PI * ph) * P(lt, start, 0.5)).toFixed(3);
         });
       });
-      flow(s.l1, 0.8, 1.2, 0.55, false);
-      flow(s.l2, 1.9, 2.2, 0.6, false);
-      flow(s.l3, 3.3, 3.8, 0.5, true);
-      flow(s.l4, 4.7, 5.2, 0.5, false);
+      flow(s.l1, 1.5, 1.9, 0.55, false);
+      flow(s.l2, ST[2] - 0.6, ST[2] - 0.3, 0.6, false);
+      flow(s.l3, ST[3] - 0.4, ST[3] + 0.1, 0.5, true);
+      flow(s.l4, ST[4] - 0.3, ST[4] + 0.2, 0.5, false);
       // le logo JARVIS au centre : il s'allume quand les données arrivent
-      const kick = lt > 2.3 ? Math.exp(-(lt - 2.3) * 3) : 0;
-      tf(s.core, { s: (0.6 + 0.4 * P(lt, 1.9, 0.6, E.outB)) * (1 + 0.1 * kick + 0.02 * Math.sin(t * 3)), o: P(lt, 1.9, 0.3) });
-      tf(s.halo, { o: P(lt, 2.0, 0.8) * (0.75 + 0.25 * Math.sin(t * 2.2)) + 0.3 * kick, s: 0.85 + 0.15 * P(lt, 2.0, 1.5) });
-      s.mem.forEach((el, i) => vis(el, lt, 2.4 + i * 0.2, Infinity, { dy: 14, blur: 6 }));
+      const K3 = ST[2] + 0.3, kick = lt > K3 ? Math.exp(-(lt - K3) * 3) : 0;
+      tf(s.core, { s: (0.6 + 0.4 * P(lt, ST[2], 0.6, E.outB)) * (1 + 0.1 * kick + 0.02 * Math.sin(t * 3)), o: P(lt, ST[2], 0.3) });
+      tf(s.halo, { o: P(lt, ST[2] + 0.1, 0.8) * (0.75 + 0.25 * Math.sin(t * 2.2)) + 0.3 * kick, s: 0.85 + 0.15 * P(lt, ST[2] + 0.1, 1.5) });
+      s.mem.forEach((el, i) => vis(el, lt, ST[2] + 0.8 + i * 0.4, Infinity, { dy: 14, blur: 6 }));
       s.ag.forEach((el, i) => {
-        const a = 3.4 + i * 0.15;
+        const a = ST[3] + i * 0.25;
         vis(el, lt, a, Infinity, { dx: 30, dy: 0, blur: 8, ds: -0.06, din: 0.6, ein: E.outB });
         const g = P(lt, a, 0.3) * (1 - P(lt, a + 0.3, 0.9));
         el.style.boxShadow = g > 0.01 ? `0 0 0 ${(4 * g).toFixed(1)}px rgba(255,98,0,.25), 0 0 ${(40 * g).toFixed(0)}px rgba(255,98,0,${(0.35 * g).toFixed(2)})` : 'none';
       });
-      vis(s.ap, lt, 4.8, Infinity, { dy: 0, dx: 30, ds: -0.08, blur: 8, ein: E.outB, din: 0.7 });
+      vis(s.ap, lt, ST[4], Infinity, { dy: 0, dx: 30, ds: -0.08, blur: 8, ein: E.outB, din: 0.7 });
     },
   });
 })();

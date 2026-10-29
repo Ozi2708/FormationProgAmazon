@@ -594,12 +594,28 @@ def music():
 
 
 # ---------------------------------------------------------------- rendu
+SFX_REL = 0.6  # crêtes des bruitages par rapport à celles de la bande-son fournie
+
+
+def load_track(path):
+    import subprocess
+    wav = os.path.splitext(path)[0] + '.wav'
+    src = wav if os.path.exists(wav) else path
+    raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', src, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, dtype=np.float32).reshape(-1, 2).T.astype(np.float64)
+    out = np.zeros((2, N))
+    out[:, :min(N, x.shape[1])] = x[:, :N]
+    return out
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     intro_sounds()
     for c in data['cues']:
         cue_sound(c)
-    music()
+    track = (MARKS or {}).get('music_file')
+    if not track:
+        music()
     h1 = ir(2.8, 2.2, 0.02, 5000, 1)
     h2 = ir(1.6, 3.5, 0.01, 7000, 2)
     music_mix = MUS + 0.55 * reverb(MSEND, h1)
@@ -611,7 +627,16 @@ def main():
     tail = np.interp(np.arange(N) / SR, [0, DUR - 2.4, DUR], [1, 1, 0]) ** 1.5
     music_mix *= tail
     sfx_mix *= tail
-    mix = 0.8 * music_mix + 1.0 * sfx_mix
+    if track:
+        # bande-son fournie (le .wav voisin s'il existe, sinon le .mp3) ; les bruitages se posent dessus
+        music_mix = load_track(track)
+        qm = np.percentile(np.abs(music_mix), 99.9)
+        nz = np.abs(sfx_mix[np.abs(sfx_mix) > 1e-6])
+        qs = np.percentile(nz, 99.9) if nz.size else 1.0
+        sfx_mix = sfx_mix * (SFX_REL * qm / qs)
+        mix = music_mix + sfx_mix
+    else:
+        mix = 0.8 * music_mix + 1.0 * sfx_mix
     # limiteur doux puis normalisation
     peak = np.max(np.abs(mix))
     mix = np.tanh(mix / peak * 1.6) / np.tanh(1.6) * 0.7

@@ -11,19 +11,20 @@ est déjà mixée assez bas pour la laisser passer.
 
 Les 90 premières secondes de la vidéo du hackathon (4:59 au total ; la démo de 3:29 qui suit n'est pas ici).
 Il dit à quoi sert JARVIS, pourquoi c'est différent, pour qui, combien de temps il rend, comment il marche et sur quoi il s'appuie.
-Construit d'après le kit du film d'intro (`01_storyboard.md`, `02_on_screen_copy.md`) : 12 plans, textes repris tels quels, musique seule à 120 BPM.
+Construit d'après le kit du film d'intro (`01_storyboard.md`, `02_on_screen_copy.md`). Bande-son fournie : `audio/jarvis_intro_soundtrack_90s.mp3`
+(le `.wav` 48 kHz voisin, non versionné, est pris s'il est présent), avec les bruitages des clics et actions générés par-dessus.
 
 | Temps | Plan |
 |---|---|
 | 0:00 | La matinée qui déborde : 9:09 → 9:58, « 90 emails. 6 meetings. 36 campaigns. Before 10 AM. » |
 | 0:06 | La fatigue des outils : les onglets d'IA se multiplient, « Switching between them costs it. » |
 | 0:10 | Révélation : point orange, halo doux, logo JARVIS, J.A.R.V.I.S. + smile, « Built on Aki · Powered by Claude » |
-| 0:16 | How it works animé : sources → synchro toutes les 15 min → JARVIS (Claude, règles, mémoire) → agents → « Nothing is sent without you. » |
+| 0:16–0:28 | How it works animé, une étape toutes les 2,5 s : sources → synchro toutes les 15 min → JARVIS (Claude, règles, mémoire) → agents → « Nothing is sent without you. » |
 | 0:26 | « 90 emails. 3 lines. » : le flux se replie en briefing → 2h00 |
 | 0:37 | « Under-delivery? Caught first. » : capture Campaigns animée, 27 % / x4.0 / EUR 4,027, tâche créée → 3h30 |
 | 0:48 | « Your voice. Your data. » : notes → brouillon sourcé, « Never sent automatically » → « Sent by you » → 5h30 |
-| 0:59 | « Walk in ready. » (6h30) puis « Setup errors? Caught before launch. » (8h00, about one working day) |
-| 1:06 | « 8h back, every week. » : le vendredi rendu à nos clients (rendez-vous, deep dives, recommandations) · 29,440 h/an · « Even more customer obsessed. » |
+| 1:01 | « Walk in ready. » → 6h30, puis 8h00 « about one working day » |
+| 1:05 | « 8h back, every week. » : le vendredi rendu à nos clients (rendez-vous, deep dives, recommandations) · « Even more customer obsessed. » |
 | 1:14 | « Worldwide from day one. » NA · EMEA · APAC, rôles PSC · AST · AM · AE |
 | 1:18 | « Sharper every day. » : chaque e-mail, document, résultat et correction nourrit le logo JARVIS, qui monte en puissance comme un réacteur |
 | 1:24 | « Stop searching. Start consulting. » → « Let's see it live. » : l'iris s'ouvre sur l'écran d'accueil |
