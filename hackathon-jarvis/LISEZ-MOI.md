@@ -7,6 +7,34 @@ la carte des modules reliés au même cerveau, cinq chapitres de fonctionnalité
 la boucle d'apprentissage et la vision. La voix off se pose par-dessus ; la bande-son (musique + bruitages)
 est déjà mixée assez bas pour la laisser passer.
 
+## Film jury v3 (1:27) — `pitch-v3.html`
+
+Même rôle que la v2 (juste avant la démo live), refait sur la **nouvelle plateforme JARVIS** : son interface est recréée à l'identique
+(barre latérale, briefing de 08:00, tableau Sev 1/2/3, toasts, pages) avec le logo officiel du kit, et filmée par une caméra.
+
+| Temps | Scène |
+|---|---|
+| 0:00–0:08 | 9:09 AM, les notifications s'empilent : « 90 emails. 14 meetings. 12 campaigns. Before 10 AM. » |
+| 0:08–0:14 | Le logo JARVIS se dessine : « Your day, read and ranked. » ; il glisse à sa place dans la barre latérale |
+| 0:14–0:21 | Briefing de 08:00 : « 4 things need you. » → compteur 2h00 |
+| 0:21–0:30 | Tableau Sev 1/2/3 : une tâche cochée (« Done… Undo »), Interbev glissé de Sev 3 à Sev 1 (« JARVIS had it at Sev 3… »), le Top 5 se réordonne |
+| 0:30–0:41 | Tâche Poltronesofa : ce que JARVIS attend de vous, chiffres du DSP, brouillon dans la voix de Val (90/100) → 4h00 |
+| 0:41–0:46 | Campaigns : carte du pacing, 56 campagnes, 4 à rattraper → 5h30 |
+| 0:46–0:51 | Troubleshooting : un export glissé, « 5 errors to fix before launch » |
+| 0:51–0:56 | Agenda : la préparation de la réunion de 09:45 → 6h30 |
+| 0:56–1:00 | WBR Poltronesofa déjà écrit → 8h00 |
+| 1:00–1:09 | « What JARVIS learned about Val » : sa voix, une leçon apprise (« Lesson confirmed ») |
+| 1:09–1:19 | « 8h back, every week » → 15 PSC = 3 FTE → 80 PSC = 16 FTE · 29,440 h/an |
+| 1:19–1:27 | « Stop searching. Start consulting. » → logo JARVIS → « Let's see it live. » |
+
+- Les chiffres (accroche, gains de temps, PSC, heures, semaines) sont dans `js/pitch-v3/config.js`.
+- Annonceurs et agences sont ceux de la plateforme ; **les personnes portent des noms fictifs** et aucune adresse e-mail n'apparaît.
+- `FILM=v3 ./build.sh` fabrique `livrables/JARVIS-jury-v3.mp4` (1080p30, < 29 Mo) et `JARVIS-jury-v3-apercu.mp4` (720p),
+  non versionnés (le dépôt est public). `node tools/check-v3.cjs` vérifie la durée, le compteur, l'impact et l'absence de `TODO` ou d'e-mail.
+- Fichiers : `js/pitch-v3/v3-ui.js` (logo, styles de la plateforme, coquille), `v3-pages.js` (contenu des pages),
+  `v3-intro.js` (accroche, révélation), `v3-app.js` (la scène dans la plateforme : repères, caméra, légendes, toasts),
+  `v3-end.js` (impact, fin, repères de la musique). Script détaillé : `SCRIPT-JURY-V3.md`.
+
 ## Film jury v2 (90 s) — `pitch-v2.html`
 
 Diffusé juste avant la démo live : il accroche, explique ce que la démo ne montre pas (le problème, l'architecture, l'impact à l'échelle)
@@ -115,6 +143,7 @@ Prérequis : Node.js avec Playwright (Chromium), ffmpeg, Python 3 avec numpy et 
 ```bash
 ./build.sh            # film complet à 60 i/s (≈ 10 min sur 4 cœurs)
 FILM=pitch ./build.sh # version pitch 2:00 (≈ 6 min)
+FILM=v3 ./build.sh    # film jury v3, 1:27 en 1080p30 (nouvelle plateforme)
 FILM=v2 ./build.sh    # film jury v2, 90 s en 1080p30 (≈ 4 min)
 FPS=30 ./build.sh     # plus rapide, pour vérifier
 node render.cjs --stills 31,82.5,150   # quelques images fixes dans build/stills

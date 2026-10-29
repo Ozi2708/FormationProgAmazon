@@ -3,6 +3,7 @@
 #   ./build.sh                 film long (3:43, index.html)
 #   FILM=pitch ./build.sh      version pitch (2:00, pitch.html)
 #   FILM=v2 ./build.sh         film jury v2 (90 s, pitch-v2.html, réglages dans js/pitch-v2/config.js) en 1080p30
+#   FILM=v3 ./build.sh         film jury v3 (nouvelle plateforme, ≤ 90 s, pitch-v3.html, réglages dans js/pitch-v3/config.js) en 1080p30
 #   FPS=30 ./build.sh          plus rapide, pour un aperçu
 set -euo pipefail
 cd "$(dirname "$0")"
@@ -13,6 +14,8 @@ FILM=${FILM:-long}
 PREV_H=1080; PREV_MB=29
 if [ "$FILM" = pitch ]; then
   PAGE=pitch.html; B=build/pitch; NAME=JARVIS-pitch-2min; MAIN_MB=70; FPS=${FPS:-60}
+elif [ "$FILM" = v3 ]; then
+  PAGE=pitch-v3.html; B=build/v3; NAME=JARVIS-jury-v3; MAIN_MB=29; PREV_MB=9; PREV_H=720; FPS=${FPS:-30}
 elif [ "$FILM" = v2 ]; then
   PAGE=pitch-v2.html; B=build/v2; NAME=JARVIS-jury-v2; MAIN_MB=29; PREV_MB=9; PREV_H=720; FPS=${FPS:-30}
 else
