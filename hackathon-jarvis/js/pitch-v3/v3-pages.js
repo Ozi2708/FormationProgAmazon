@@ -25,16 +25,14 @@
     midas: ['MIDAS', '1 task', 2, ''],
     disney: ['FR_Disney Studios', '1 order behind', 2, '21.6K €'],
   };
-  J.pageToday = () => {
+  J.pageToday = (o = {}) => {
     const B = J.BOARD;
     return `<div class="pgi">
-      <div class="ab0 kk" style="left:33px;top:29px">Friday 30 Oct · Briefing of 08:00</div>
-      <div class="ab0 hd h1" style="left:31px;top:47px;font-size:50px;line-height:1.1;white-space:nowrap">4 things need you.</div>
-      <div class="ab0 lead para" style="left:33px;top:110px;width:1060px;font-size:17px">Claire (Dentsu) waits for your MIDAS check before the 09:45 weekly, and Poltronesofa SVOD ends today at 46% projected, about 4,000 € at risk: both drafts are ready. Six campaign to-dos are behind pace in the DSP report.</div>
+      <div class="ab0 kk" style="left:33px;top:29px">${o.kicker || 'Friday 30 Oct · Briefing of 08:00'}</div>
+      <div class="ab0 hd h1" style="left:31px;top:47px;font-size:50px;line-height:1.1;white-space:nowrap">${o.h1 || '4 things need you.'}</div>
+      <div class="ab0 lead para" style="left:33px;top:110px;width:1060px;font-size:17px">${o.para || 'Claire (Dentsu) waits for your MIDAS check before the 09:45 weekly, and Poltronesofa SVOD ends today at 46% projected, about 4,000 € at risk: both drafts are ready. Six campaign to-dos are behind pace in the DSP report.'}</div>
       <div class="ab0 chips" style="left:33px;top:176px;display:flex;gap:10px">
-        <span class="chp g" style="height:31px;border-radius:16px;padding:0 13px;font-size:14px">2 drafts ready</span>
-        <span class="chp r" style="height:31px;border-radius:16px;padding:0 13px;font-size:14px">6 about campaigns behind pace</span>
-        <span class="chp n" style="height:31px;border-radius:16px;padding:0 13px;font-size:14px">2 not yours</span></div>
+        ${(o.chips || ['2 drafts ready', '6 about campaigns behind pace', '2 not yours']).map((c, i) => `<span class="chp ${'grn'[i] ? ['g', 'r', 'n'][i] : 'n'}" style="height:31px;border-radius:16px;padding:0 13px;font-size:14px">${c}</span>`).join('')}</div>
       <div class="brd" style="left:${B.x}px;top:${B.y}px;width:${B.w}px;height:${B.h}px">
         <div class="bh"><span class="hd">Your board</span><div class="pb"><i style="width:0%"></i></div><span class="clr"><b>0</b> of 18 cleared today</span></div>
         <span class="btn2 add">${ic('plus', 14)}Add a task</span>

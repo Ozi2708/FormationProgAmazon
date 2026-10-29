@@ -7,6 +7,32 @@ la carte des modules reliés au même cerveau, cinq chapitres de fonctionnalité
 la boucle d'apprentissage et la vision. La voix off se pose par-dessus ; la bande-son (musique + bruitages)
 est déjà mixée assez bas pour la laisser passer.
 
+## Film d'intro v4 (1:30) — `pitch-v4.html`
+
+Les 90 premières secondes de la vidéo du hackathon (4:59 au total ; la démo de 3:29 qui suit n'est pas ici).
+Il dit à quoi sert JARVIS, pourquoi c'est différent, pour qui, combien de temps il rend, comment il marche et sur quoi il s'appuie.
+Construit d'après le kit du film d'intro (`01_storyboard.md`, `02_on_screen_copy.md`) : 12 plans, textes repris tels quels, musique seule à 120 BPM.
+
+| Temps | Plan |
+|---|---|
+| 0:00 | La matinée qui déborde : 9:09 → 9:58, « 90 emails. 6 meetings. 36 campaigns. Before 10 AM. » |
+| 0:06 | La fatigue des outils : les onglets d'IA se multiplient, « Switching between them costs it. » |
+| 0:10 | Révélation : point orange, flash, logo JARVIS, J.A.R.V.I.S. + smile, « Built on Aki · Powered by Claude » |
+| 0:16 | How it works : Connect → Understand → Prioritise → Prepare → You approve |
+| 0:26 | « 90 emails. 3 lines. » : le flux se replie en briefing → 2h00 |
+| 0:37 | « Under-delivery? Caught first. » : capture Campaigns animée, 27 % / x4.0 / EUR 4,027, tâche créée → 3h30 |
+| 0:48 | « Your voice. Your data. » : notes → brouillon sourcé, « Never sent automatically » → « Sent by you » → 5h30 |
+| 0:59 | « Walk in ready. » (6h30) puis « Not yours? Routed. » (8h00, about one working day) |
+| 1:06 | « 8h back, every week. » → 15 = 3 FTE → 80 = 16 FTE · 29,440 hours a year |
+| 1:14 | « Worldwide from day one. » NA · EMEA · APAC, rôles PSC · AST · AM · AE |
+| 1:20 | « Sharper every day. » |
+| 1:24 | « Stop searching. Start consulting. » → « Let's see it live. » : l'iris s'ouvre sur l'écran d'accueil |
+
+- Découpage, compteur et chiffres : `js/pitch-v4/config.js`. Plans : `v4-open.js` (1-4), `v4-proof.js` (5-8), `v4-close.js` (9-12, compteur, musique).
+- Les captures de la plateforme sont les recréations de la v3 (`js/pitch-v3/`), animées ; aucun nom de personne ni adresse e-mail.
+- `FILM=v4 ./build.sh` fabrique `livrables/JARVIS-intro-v4.mp4` (1080p30, 90,0 s, < 29 Mo), non versionné ;
+  `node tools/check-v4.cjs` vérifie la durée, le compteur, l'impact et l'absence de `TODO` ou d'e-mail.
+
 ## Film jury v3 (1:27) — `pitch-v3.html`
 
 Même rôle que la v2 (juste avant la démo live), refait sur la **nouvelle plateforme JARVIS** : son interface est recréée à l'identique

@@ -460,7 +460,7 @@ def intro_sounds():
 # ---------------------------------------------------------------- musique
 MUS = np.zeros((2, N))
 MSEND = np.zeros((2, N))
-BPM = 100
+BPM = (MARKS or {}).get('bpm', 100)
 BEAT = 60 / BPM
 BAR = 4 * BEAT
 # accords (midi) : Dmaj9, Bm9, Gmaj9, A6sus
@@ -520,8 +520,8 @@ def music():
     d = G_
     t = tt(d)
     dr = (0.6 * np.sin(2 * np.pi * note(38) * t) + 0.6 * np.sin(2 * np.pi * note(50) * t + 0.3) + 0.25 * np.sin(2 * np.pi * note(57) * t)) * 0.07
-    dr *= np.interp(t, [0, 2, F_, F_ + 0.15, A_ + 1.5, FL_ - 0.3, FL_, d], [0, 1, 1.25, 0, 0.6, 0.8, 0, 0])
-    air = filt(noise(d), 'bp', (300, 1400)) * 0.012 * np.interp(t, [0, 3, F_, F_ + 0.15, A_ + 2, d], [0.3, 0.6, 1.6, 0, 0.5, 0.4])
+    dr *= np.interp(t, *zip(*sorted(zip([0, 2, F_, F_ + 0.15, A_ + 1.5, FL_ - 0.3, FL_, d], [0, 1, 1.25, 0, 0.6, 0.8, 0, 0]))))
+    air = filt(noise(d), 'bp', (300, 1400)) * 0.012 * np.interp(t, *zip(*sorted(zip([0, 3, F_, F_ + 0.15, A_ + 2, d], [0.3, 0.6, 1.6, 0, 0.5, 0.4]))))
     mus(np.vstack([dr + air, dr + air * 0.9]), 0, 1.0, 0, 0.3)
     # tempête : battements qui accélèrent + grappe dissonante qui s'ouvre
     tb = S_ + 0.3
