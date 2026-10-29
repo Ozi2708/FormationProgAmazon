@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jarvis">
+<defs>
+<mask id="m-b-large-fond-clair" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><path d="M -10 58 H 180 L 100 190 L 75 138" fill="none" stroke="#000" stroke-width="30" stroke-linejoin="miter" stroke-miterlimit="4"/></mask>
+<clipPath id="c-b-large-fond-clair"><circle cx="100" cy="100" r="92"/></clipPath>
+</defs>
+<circle cx="100" cy="100" r="96" fill="#232F3E"/>
+<circle cx="100" cy="100" r="87.5" fill="none" stroke="#37475A" stroke-width="9" mask="url(#m-b-large-fond-clair)"/>
+<path d="M -10 58 H 180 L 100 190 L 75 138" fill="none" stroke="#FF9900" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="4" clip-path="url(#c-b-large-fond-clair)"/>
+</svg>
