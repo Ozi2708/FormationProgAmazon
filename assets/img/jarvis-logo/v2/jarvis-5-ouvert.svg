@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jarvis">
+<defs><clipPath id="jc-5-ouvert"><circle cx="100" cy="100" r="84"/></clipPath></defs>
+<path d="M 97.07 16.05 A 84 84 0 1 0 139.44 25.83" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+<path d="M 20 58 H 180 L 100 174 L 76 128" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="4" clip-path="url(#jc-5-ouvert)"/>
+<circle cx="123.25" cy="19.94" r="5" fill="#FF9900"/>
+</svg>
