@@ -5,18 +5,16 @@ window.CONFIG = {
   // 12 plans, en secondes (30 i/s : 1 s = 30 images), coupes franches
   SHOTS: {
     overload: [0, 6], fatigue: [6, 10], reveal: [10, 16], how: [16, 26], briefing: [26, 37], pacing: [37, 48],
-    voice: [48, 59], montage: [59, 66], impact: [66, 74], world: [74, 80], sharper: [80, 84], handoff: [84, 90],
+    voice: [48, 59], montage: [59, 66], impact: [66, 74], world: [74, 78.5], sharper: [78.5, 84], handoff: [84, 90],
   },
   BPM: 120,
 
   // compteur « Time back this week · estimated » (minutes) : [début, fin du comptage, valeur atteinte]
   COUNTER: [[32.0, 36.0, 120], [45.5, 47.0, 210], [54.0, 55.5, 330], [60.8, 61.6, 390], [64.0, 64.8, 480]],
 
-  // impact à l'échelle : FTE = PSC × 8 h / 40 h ; heures/an = 80 × 8 × 46
-  NB_PSC_TEAM: 15,
+  // impact : du temps rendu aux clients ; heures/an = 80 × 8 × 46
   NB_PSC_EU: 80,
   HOURS_SAVED_PER_WEEK: 8,
-  WORK_HOURS_PER_WEEK: 40,
   WEEKS_PER_YEAR: 46,
 
   // valeurs relevées sur les captures de la plateforme (Poltronesofa SVOD, rapport DSP du 28/10)

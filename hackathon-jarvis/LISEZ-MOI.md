@@ -17,15 +17,15 @@ Construit d'après le kit du film d'intro (`01_storyboard.md`, `02_on_screen_cop
 |---|---|
 | 0:00 | La matinée qui déborde : 9:09 → 9:58, « 90 emails. 6 meetings. 36 campaigns. Before 10 AM. » |
 | 0:06 | La fatigue des outils : les onglets d'IA se multiplient, « Switching between them costs it. » |
-| 0:10 | Révélation : point orange, flash, logo JARVIS, J.A.R.V.I.S. + smile, « Built on Aki · Powered by Claude » |
-| 0:16 | How it works : Connect → Understand → Prioritise → Prepare → You approve |
+| 0:10 | Révélation : point orange, halo doux, logo JARVIS, J.A.R.V.I.S. + smile, « Built on Aki · Powered by Claude » |
+| 0:16 | How it works animé : sources → synchro toutes les 15 min → JARVIS (Claude, règles, mémoire) → agents → « Nothing is sent without you. » |
 | 0:26 | « 90 emails. 3 lines. » : le flux se replie en briefing → 2h00 |
 | 0:37 | « Under-delivery? Caught first. » : capture Campaigns animée, 27 % / x4.0 / EUR 4,027, tâche créée → 3h30 |
 | 0:48 | « Your voice. Your data. » : notes → brouillon sourcé, « Never sent automatically » → « Sent by you » → 5h30 |
-| 0:59 | « Walk in ready. » (6h30) puis « Not yours? Routed. » (8h00, about one working day) |
-| 1:06 | « 8h back, every week. » → 15 = 3 FTE → 80 = 16 FTE · 29,440 hours a year |
+| 0:59 | « Walk in ready. » (6h30) puis « Setup errors? Caught before launch. » (8h00, about one working day) |
+| 1:06 | « 8h back, every week. » : le vendredi rendu à nos clients (rendez-vous, deep dives, recommandations) · 29,440 h/an · « Even more customer obsessed. » |
 | 1:14 | « Worldwide from day one. » NA · EMEA · APAC, rôles PSC · AST · AM · AE |
-| 1:20 | « Sharper every day. » |
+| 1:18 | « Sharper every day. » : chaque e-mail, document, résultat et correction nourrit le logo JARVIS, qui monte en puissance comme un réacteur |
 | 1:24 | « Stop searching. Start consulting. » → « Let's see it live. » : l'iris s'ouvre sur l'écran d'accueil |
 
 - Découpage, compteur et chiffres : `js/pitch-v4/config.js`. Plans : `v4-open.js` (1-4), `v4-proof.js` (5-8), `v4-close.js` (9-12, compteur, musique).

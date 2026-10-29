@@ -115,7 +115,7 @@
     #sc-reveal .bits{position:absolute;inset:0}
     #sc-reveal .bit{position:absolute;left:0;top:0;border-radius:10px;background:#2A3442;border:1px solid rgba(255,255,255,.1)}
     #sc-reveal .dot{position:absolute;left:940px;top:${RY - 20}px;width:40px;height:40px;border-radius:50%;background:${K.or};box-shadow:0 0 40px ${K.or}}
-    #sc-reveal .flash{position:absolute;inset:0;background:${K.or};opacity:0;z-index:20}
+    #sc-reveal .flash{position:absolute;inset:0;background:radial-gradient(900px 700px at 960px ${RY}px,rgba(255,150,70,.55),rgba(255,98,0,.16) 40%,rgba(255,98,0,0) 75%);opacity:0;z-index:0}
     #sc-reveal .lg{position:absolute;left:885px;top:${RY - 75}px}
     #sc-reveal .wm{position:absolute;left:0;right:0;top:${RY + 105}px;text-align:center;font-size:180px;letter-spacing:.08em;padding-left:.08em;line-height:1}
     #sc-reveal .sm{position:absolute;left:700px;top:${RY + 290}px;width:520px}
@@ -129,12 +129,12 @@
         const w = i < 12 ? 150 : 300, h = i < 12 ? 50 : 70, x = 110 + r() * 1650, y = i < 12 ? 165 : 100 + r() * 880;
         const d = J.h(`<div class="bit" style="width:${w}px;height:${h}px"></div>`); return { el: d, x, y, w, h };
       });
-      el.innerHTML = `<div class="bits"></div><div class="dot"></div>
+      el.innerHTML = `<div class="flash"></div><div class="bits"></div><div class="dot"></div>
         <div class="lg">${J.jarvisLogo(150)}</div>
         <div class="v4h wm">J.A.R.V.I.S.</div><div class="sm">${BRAND.smile(520)}</div>
         <div class="v4s s1">One entry point. Your second brain.</div>
         <div class="v4s s2">It reads, remembers, and acts.</div>
-        <div class="ad">${BRAND.logo(220)}</div><div class="v4s cr">Built on Aki · Powered by Claude</div><div class="flash"></div>`;
+        <div class="ad">${BRAND.logo(220)}</div><div class="v4s cr">Built on Aki · Powered by Claude</div>`;
       const bits = $('.bits', el); s.bits.forEach(b => bits.appendChild(b.el));
       s.dot = $('.dot', el); s.flash = $('.flash', el); s.lg = $('.lg', el); s.wm = $('.wm', el); s.sm = $('.sm', el);
       s.s1 = $('.s1', el); s.s2 = $('.s2', el); s.ad = $('.ad', el); s.cr = $('.cr', el);
@@ -147,7 +147,7 @@
       const k = P(lt, 0, 0.5, E.inQ);
       s.bits.forEach(b => tf(b.el, { x: lerp(b.x, 960 - b.w / 2, k), y: lerp(b.y, RY - b.h / 2, k), s: 1 - k, o: 1 - P(lt, 0.4, 0.1) }));
       tf(s.dot, { s: P(lt, 0.15, 0.3, E.outB) * (1 - P(lt, 0.5, 0.05)), o: P(lt, 0.15, 0.1) });
-      s.flash.style.opacity = lt >= 0.5 && lt < 0.7 ? '1' : '0';
+      s.flash.style.opacity = (P(lt, 0.3, 0.35, E.outC) * (1 - 0.65 * P(lt, 0.7, 1.6, E.ioC))).toFixed(3);
       const g = P(lt, 0.7, 0.6, E.outB);
       tf(s.lg, { s: 0.3 + 0.7 * g, o: P(lt, 0.7, 0.2) });
       s.v.style.strokeDashoffset = (s.vlen * (1 - P(lt, 0.8, 0.7, E.ioC))).toFixed(1);
@@ -163,62 +163,110 @@
     },
   });
 
-  // ---------------------------------------------------------------- plan 4 · 0:16 comment ça marche
-  const COLS = [
-    ['link', 'Connect', 'Outlook · Slack · Calendar · Amazon DSP · SIM · Docs'],
-    ['brain', 'Understand', 'Claude reads, extracts, summarises'],
-    ['gauge', 'Prioritise', 'Rules score urgency x business impact'],
-    ['layers', 'Prepare', 'Agents: briefing, pacing, troubleshooting, drafting, meeting prep, routing'],
-    ['shield-check', 'You approve', 'Nothing is sent without you.'],
-  ];
-  const CX = [230, 595, 960, 1325, 1690], IY = 420, LIT = i => 0.4 + i * 1.9;
+  // ---------------------------------------------------------------- plan 4 · 0:16 comment ça marche : les flux, du branchement à votre validation
+  const SRC = J.SOURCES.map(x => Object.assign({}, x, { name: x.name === 'SIM tickets' ? 'SIM' : x.name === 'Documents' ? 'Docs' : x.name }));
+  const COLX = [230, 590, 960, 1330, 1700];
+  const HEAD = ['Connect', 'Sync', 'Understand', 'Prepare', 'You approve'];
+  const OY4 = 560, SRC_Y = i => 330 + i * 92;
+  const AG = [['sun', 'Briefing'], ['trending-up', 'Pacing'], ['wrench', 'Troubleshooting'], ['pen-line', 'Drafting'], ['calendar-check', 'Meeting prep'], ['send', 'Routing']];
+  const AG_Y = i => 330 + i * 92;
+  const MEM = [['sparkles', 'Claude reads, extracts, summarises'], ['gauge', 'Rules rank urgency x impact'], ['brain', 'Memory: your style, your clients']];
+  const GX0 = 446, GX1 = 734, AX0 = 1176, AX1 = 1494, VX = 1556;
+  const bz = (p, u) => { const v = 1 - u; return v * v * v * p[0] + 3 * v * v * u * p[1] + 3 * v * u * u * p[2] + u * u * u * p[3]; };
   scene({
     id: 'how', t0: SH.how[0], t1: SH.how[1], cls: 'v4', fin: 0,
     css: `
-    #sc-how .kk{left:0;right:0;top:120px;text-align:center}
-    #sc-how svg.ln{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
-    #sc-how .ci{position:absolute;top:${IY - 60}px;width:120px;height:120px;margin-left:-60px;border-radius:50%;display:grid;place-items:center;
-      border:2px solid rgba(163,170,181,.45);background:${K.ink};color:${K.cob}}
-    #sc-how .ci.on{background:${K.or};border-color:${K.or};color:${K.ink};box-shadow:0 0 50px rgba(255,98,0,.45)}
-    #sc-how .tt{position:absolute;top:${IY + 90}px;width:340px;margin-left:-170px;text-align:center;font-size:46px}
-    #sc-how .cp{position:absolute;top:${IY + 160}px;width:320px;margin-left:-160px;text-align:center;font-size:27px;line-height:1.35}
-    #sc-how .bd{position:absolute;left:${CX[0] - 130}px;top:${IY - 128}px;width:260px;height:40px;border-radius:20px;border:1.5px solid ${K.or};
-      display:flex;justify-content:center;align-items:center;gap:8px;font:600 18px Plex,monospace;letter-spacing:.04em;color:${K.or}}
-    #sc-how .pd{position:absolute;left:0;right:0;top:860px;text-align:center;font-size:56px}
-    #sc-how .tv{position:absolute;left:0;top:${IY}px;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:${K.or};box-shadow:0 0 24px 6px rgba(255,98,0,.6)}`,
+    #sc-how svg.hln{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+    #sc-how .kk{left:96px;top:56px}
+    #sc-how .hh{position:absolute;top:140px;width:340px;margin-left:-170px;text-align:center}
+    #sc-how .hh .n{font:600 20px Plex,monospace;letter-spacing:.3em;color:${K.or}}
+    #sc-how .hh .t{margin-top:10px;font-family:InterTight;font-weight:800;font-size:40px;letter-spacing:-.03em;color:#fff;white-space:nowrap}
+    #sc-how .src{position:absolute;left:96px;height:64px;margin-top:-32px;display:flex;align-items:center;gap:18px}
+    #sc-how .src .tile{position:relative;margin:0}
+    #sc-how .src .tile-name{display:none}
+    #sc-how .src b{font-size:28px;font-weight:600;color:#E9ECF0;letter-spacing:-.01em;white-space:nowrap}
+    #sc-how .grp{position:absolute;left:${GX0}px;top:404px;width:${GX1 - GX0}px;height:318px;border-radius:24px;border:1.5px dashed rgba(255,140,60,.4);background:rgba(255,255,255,.03)}
+    #sc-how .cn{position:absolute;left:${GX0 + 18}px;width:${GX1 - GX0 - 36}px;height:126px;padding:20px 18px;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14)}
+    #sc-how .cn .ci{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#2B3A4D;color:${K.or};flex:none}
+    #sc-how .cn .cr{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+    #sc-how .cn b{display:block;font-size:30px;font-weight:650;color:#fff;white-space:nowrap}
+    #sc-how .cn span{font-size:28px;color:${K.cob};white-space:nowrap}
+    #sc-how .core{position:absolute;left:${960 - 95}px;top:${OY4 - 95}px;width:190px;height:190px}
+    #sc-how .halo{position:absolute;left:${960 - 260}px;top:${OY4 - 260}px;width:520px;height:520px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,110,20,.42),rgba(255,98,0,.12) 55%,rgba(255,98,0,0))}
+    #sc-how .mem{position:absolute;left:760px;width:400px;text-align:center}
+    #sc-how .mem div{display:inline-flex;gap:10px;align-items:center;height:46px;padding:0 18px;border-radius:999px;background:rgba(255,98,0,.12);border:1.5px solid rgba(255,98,0,.45);color:#fff;font-size:22px;font-weight:600;white-space:nowrap}
+    #sc-how .mem .ic{color:${K.or}}
+    #sc-how .ag{position:absolute;left:${AX0}px;width:${AX1 - AX0}px;height:66px;margin-top:-33px;display:flex;align-items:center;gap:14px;padding:0 18px 0 11px;border-radius:18px;
+      background:rgba(255,255,255,.06);border:1.5px solid rgba(255,98,0,.38);color:#fff;font-size:27px;font-weight:600;white-space:nowrap}
+    #sc-how .ag .oi{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(160deg,#FF9A3D,${K.or});color:#fff;flex:none}
+    #sc-how .ap{position:absolute;left:${VX}px;top:${OY4 - 110}px;width:300px;height:220px;padding:26px 24px;border-radius:24px;background:linear-gradient(160deg,rgba(93,211,158,.16),rgba(93,211,158,.05));border:1.5px solid rgba(93,211,158,.55)}
+    #sc-how .ap .ai{width:54px;height:54px;border-radius:15px;display:grid;place-items:center;background:#1F8A5B;color:#fff;margin-bottom:16px}
+    #sc-how .ap b{display:block;font-size:30px;font-weight:700;color:#fff;line-height:1.2;letter-spacing:-.02em}
+    #sc-how .pt{position:absolute;left:0;top:0;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:#FFC08A;box-shadow:0 0 12px 4px rgba(255,110,30,.75)}`,
     build(el, s) {
-      el.innerHTML = `<div class="v4k kk">How it works</div><svg class="ln">
-          ${CX.slice(0, 4).map((x, i) => `<line x1="${x + 70}" y1="${IY}" x2="${CX[i + 1] - 78}" y2="${IY}" stroke="${K.cob}" stroke-opacity=".55" stroke-width="2"/>
-            <path d="M${CX[i + 1] - 88},${IY - 8} L${CX[i + 1] - 76},${IY} L${CX[i + 1] - 88},${IY + 8}" fill="none" stroke="${K.cob}" stroke-opacity=".55" stroke-width="2"/>`).join('')}</svg>
-        ${COLS.map((c, i) => `<div class="ci" style="left:${CX[i]}px">${ic(c[0], 52)}</div>
-          <div class="v4h tt" style="left:${CX[i]}px">${c[1]}</div><div class="v4s cp" style="left:${CX[i]}px">${c[2]}</div>`).join('')}
-        <div class="bd">${ic('refresh-cw', 16)}Synced every 15 min</div><div class="tv"></div>
-        <div class="v4h pd">Nothing is sent <span class="o">without you.</span></div>`;
-      s.kk = $('.kk', el); s.ci = $$('.ci', el); s.tt = $$('.tt', el); s.cp = $$('.cp', el); s.bd = $('.bd', el); s.tv = $('.tv', el); s.pd = $('.pd', el);
-      s.pw = splitWords(s.pd);
-      COLS.forEach((_, i) => { cue('node', s.t0 + LIT(i), { n: i }); cue('swish', s.t0 + LIT(i) - 0.5, { v: 0.4 }); });
-      cue('lock', s.t0 + LIT(4) + 0.1); cue('success', s.t0 + LIT(4) + 0.3, { v: 0.6 });
+      el.innerHTML = `<div class="halo"></div><svg class="hln"></svg><div class="v4k kk">How it works</div>
+        ${HEAD.map((h, i) => `<div class="hh" style="left:${COLX[i]}px"><div class="n">0${i + 1}</div><div class="t">${h}</div></div>`).join('')}
+        ${SRC.map((src, i) => `<div class="src" style="top:${SRC_Y(i)}px">${J.tile(src, 60)}<b>${src.name}</b></div>`).join('')}
+        <div class="grp"></div>
+        <div class="cn" style="top:424px"><div class="cr"><div class="ci">${ic('refresh-cw', 22)}</div><b>Synced</b></div><span>every 15 minutes</span></div>
+        <div class="cn" style="top:576px"><div class="cr"><div class="ci">${ic('cpu', 22)}</div><b>Built on Aki</b></div><span>in the background</span></div>
+        <div class="pts"></div><div class="core">${J.jarvisLogo(190)}</div>
+        ${MEM.map((m, i) => `<div class="mem" style="top:${700 + i * 58}px"><div>${ic(m[0], 20)}${m[1]}</div></div>`).join('')}
+        ${AG.map((a, i) => `<div class="ag" style="top:${AG_Y(i)}px"><div class="oi">${ic(a[0], 22)}</div>${a[1]}</div>`).join('')}
+        <div class="ap"><div class="ai">${ic('shield-check', 28)}</div><b>Nothing is sent<br><span class="o">without you.</span></b></div>`;
+      s.kk = $('.kk', el); s.hh = $$('.hh', el); s.src = $$('.src', el); s.grp = $('.grp', el); s.cn = $$('.cn', el);
+      s.core = $('.core', el); s.halo = $('.halo', el); s.mem = $$('.mem', el); s.ag = $$('.ag', el); s.ap = $('.ap', el);
+      const svg = $('svg.hln', el), pts = $('.pts', el);
+      const mk = (x, y, stroke, n) => {
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', `M${x[0]},${y[0]} C${x[1]},${y[1]} ${x[2]},${y[2]} ${x[3]},${y[3]}`);
+        p.setAttribute('fill', 'none'); p.setAttribute('stroke', stroke); p.setAttribute('stroke-width', '2'); svg.appendChild(p);
+        const len = p.getTotalLength(); p.style.strokeDasharray = len; p.style.strokeDashoffset = len;
+        return { p, len, x, y, ps: Array.from({ length: n }, () => { const d = J.h('<div class="pt"></div>'); pts.appendChild(d); return d; }) };
+      };
+      s.l1 = SRC.map((_, i) => mk([360, 410, 400, GX0], [SRC_Y(i), SRC_Y(i), 563, 563], 'rgba(255,140,60,.36)', 2));
+      s.l2 = [mk([GX1, 790, 820, 865], [563, 563, OY4, OY4], 'rgba(255,140,60,.6)', 4)];
+      s.l3 = AG.map((_, i) => mk([1055, 1110, 1120, AX0], [OY4, OY4, AG_Y(i), AG_Y(i)], 'rgba(255,140,60,.5)', 2));
+      s.l4 = AG.map((_, i) => mk([AX1, 1520, 1520, VX], [AG_Y(i), AG_Y(i), OY4, OY4], 'rgba(93,211,158,.45)', 1));
+      SRC.forEach((_, i) => cue('pop', s.t0 + 0.35 + i * 0.1, { v: 0.35 }));
+      cue('pop', s.t0 + 1.45, { v: 0.5 }); cue('pop', s.t0 + 1.6, { v: 0.5 }); cue('data', s.t0 + 1.2, { d: 7.6 });
+      cue('hit', s.t0 + 2.3, { v: 0.4 }); MEM.forEach((_, i) => cue('tick', s.t0 + 2.4 + i * 0.2, { v: 0.5 }));
+      AG.forEach((_, i) => cue('pop', s.t0 + 3.4 + i * 0.15, { v: 0.45 }));
+      cue('lock', s.t0 + 4.8); cue('success', s.t0 + 5.0, { v: 0.5 });
     },
-    update(lt, dur, s) {
-      vis(s.kk, lt, 0.05, Infinity, { dy: 12, blur: 6 });
-      COLS.forEach((_, i) => {
-        const a = LIT(i), on = lt >= a;
-        vis(s.ci[i], lt, 0.1 + i * 0.06, Infinity, { dy: 0, ds: -0.3, din: 0.5, ein: E.outB, blur: 4 });
-        s.ci[i].classList.toggle('on', on);
-        const kick = on ? Math.exp(-(lt - a) * 5) : 0;
-        tf(s.ci[i], { s: 1 + 0.15 * kick, o: P(lt, 0.1 + i * 0.06, 0.3) });
-        s.tt[i].style.color = on ? '#fff' : '#566070';
-        tf(s.tt[i], { o: P(lt, 0.2 + i * 0.06, 0.3) });
-        vis(s.cp[i], lt, a + 0.1, Infinity, { dy: 14, blur: 6, din: 0.5 });
+    update(lt, dur, s, t) {
+      vis(s.kk, lt, 0.1, Infinity, { dy: 12, blur: 6 });
+      s.hh.forEach((h, i) => vis(h, lt, [0.2, 1.2, 2.0, 3.2, 4.6][i], Infinity, { dy: 20, blur: 8 }));
+      s.src.forEach((el, i) => vis(el, lt, 0.35 + i * 0.1, Infinity, { dx: -40, dy: 0, blur: 8, din: 0.7 }));
+      vis(s.grp, lt, 1.25, Infinity, { dy: 0, ds: -0.04, blur: 6 });
+      s.cn.forEach((el, i) => vis(el, lt, 1.45 + i * 0.15, Infinity, { dy: 18, blur: 8 }));
+      const flow = (arr, draw, start, sp, out) => arr.forEach((o, i) => {
+        const d = P(lt, draw + i * 0.06, 0.6, E.ioC);
+        o.p.style.strokeDashoffset = (o.len * (1 - d)).toFixed(1);
+        o.ps.forEach((pt, j) => {
+          if (lt < start) { pt.style.opacity = 0; return; }
+          const ph = ((lt - start) * sp + j / o.ps.length + i * 0.13) % 1;
+          const u = out ? E.outQ(ph) : E.inQ(ph);
+          pt.style.transform = `translate(${bz(o.x, u).toFixed(1)}px,${bz(o.y, u).toFixed(1)}px)`;
+          pt.style.opacity = (Math.sin(Math.PI * ph) * P(lt, start, 0.5)).toFixed(3);
+        });
       });
-      // le point orange voyage d'une colonne à l'autre
-      let x = CX[0];
-      for (let i = 1; i < 5; i++) x = lerp(x, CX[i], P(lt, LIT(i) - 0.9, 0.9, E.ioC));
-      tf(s.tv, { x, o: P(lt, 0.3, 0.2) * (1 - P(lt, LIT(4) + 0.2, 0.3)) });
-      const pulse = 0.5 + 0.5 * Math.sin(lt * 5);
-      vis(s.bd, lt, LIT(0) + 0.3, Infinity, { dy: 10, blur: 4 });
-      s.bd.style.boxShadow = `0 0 ${(10 + 18 * pulse).toFixed(0)}px rgba(255,98,0,${(0.2 + 0.3 * pulse).toFixed(2)})`;
-      revealWords(s.pw, lt, LIT(4) + 0.2, { st: 0.08, dy: 30, d: 0.6 });
+      flow(s.l1, 0.8, 1.2, 0.55, false);
+      flow(s.l2, 1.9, 2.2, 0.6, false);
+      flow(s.l3, 3.3, 3.8, 0.5, true);
+      flow(s.l4, 4.7, 5.2, 0.5, false);
+      // le logo JARVIS au centre : il s'allume quand les données arrivent
+      const kick = lt > 2.3 ? Math.exp(-(lt - 2.3) * 3) : 0;
+      tf(s.core, { s: (0.6 + 0.4 * P(lt, 1.9, 0.6, E.outB)) * (1 + 0.1 * kick + 0.02 * Math.sin(t * 3)), o: P(lt, 1.9, 0.3) });
+      tf(s.halo, { o: P(lt, 2.0, 0.8) * (0.75 + 0.25 * Math.sin(t * 2.2)) + 0.3 * kick, s: 0.85 + 0.15 * P(lt, 2.0, 1.5) });
+      s.mem.forEach((el, i) => vis(el, lt, 2.4 + i * 0.2, Infinity, { dy: 14, blur: 6 }));
+      s.ag.forEach((el, i) => {
+        const a = 3.4 + i * 0.15;
+        vis(el, lt, a, Infinity, { dx: 30, dy: 0, blur: 8, ds: -0.06, din: 0.6, ein: E.outB });
+        const g = P(lt, a, 0.3) * (1 - P(lt, a + 0.3, 0.9));
+        el.style.boxShadow = g > 0.01 ? `0 0 0 ${(4 * g).toFixed(1)}px rgba(255,98,0,.25), 0 0 ${(40 * g).toFixed(0)}px rgba(255,98,0,${(0.35 * g).toFixed(2)})` : 'none';
+      });
+      vis(s.ap, lt, 4.8, Infinity, { dy: 0, dx: 30, ds: -0.08, blur: 8, ein: E.outB, din: 0.7 });
     },
   });
 })();

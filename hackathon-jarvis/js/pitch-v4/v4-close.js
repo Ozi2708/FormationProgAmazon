@@ -3,63 +3,67 @@
 (function () {
   'use strict';
   const C = window.CONFIG;
-  const { E, P, tf, vis, splitWords, revealWords, ic, $, $$, scene, clamp, lerp, cue } = J;
+  const { E, P, tf, vis, splitWords, revealWords, ic, $, $$, scene, clamp, lerp, cue, count, rng } = J;
   const K = J.K4, SH = J.SH;
-  const FTE_TEAM = C.NB_PSC_TEAM * C.HOURS_SAVED_PER_WEEK / C.WORK_HOURS_PER_WEEK;
-  const FTE_EU = C.NB_PSC_EU * C.HOURS_SAVED_PER_WEEK / C.WORK_HOURS_PER_WEEK;
   const HOURS = C.NB_PSC_EU * C.HOURS_SAVED_PER_WEEK * C.WEEKS_PER_YEAR;
-  window.IMPACT = { FTE_TEAM, FTE_EU, HOURS };
+  window.IMPACT = { HOURS };
   const fmt = n => new Intl.NumberFormat('en-US').format(n);
   const PERSON = '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.2" fill="currentColor"/><path d="M3.5 21c.6-4.6 4.1-7.4 8.5-7.4s7.9 2.8 8.5 7.4z" fill="currentColor"/></svg>';
 
-  // ---------------------------------------------------------------- plan 9 · 1:06 impact
-  const ROW = Array.from({ length: C.NB_PSC_TEAM }, (_, i) => ({ x: 960 + (i - (C.NB_PSC_TEAM - 1) / 2) * 92, y: 470 }));
-  const GRID = Array.from({ length: C.NB_PSC_EU }, (_, i) => ({ x: 960 + ((i % 10) - 4.5) * 62, y: 312 + Math.floor(i / 10) * 52, c: i % 10, r: Math.floor(i / 10) }));
-  // 16 personnes « rendues » : deux colonnes entières, allumées en vague
-  const LIT_EU = new Set(GRID.map((g, i) => [g, i]).filter(([g]) => g.c < 2).map(([, i]) => i));
-  const G2 = 4.0;
+  // ---------------------------------------------------------------- plan 9 · 1:06 impact : une journée par semaine rendue à nos clients
+  const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], DW = 250, DX = i => 960 + (i - 2) * (DW + 24);
+  const FRI = 1.9;
   scene({
     id: 'impact', t0: SH.impact[0], t1: SH.impact[1], cls: 'v4', fin: 0,
     css: `
-    #sc-impact .hd{left:0;right:0;top:110px;text-align:center;font-size:120px}
-    #sc-impact .es{left:0;right:0;top:250px;text-align:center;font-size:30px}
-    #sc-impact .pp{position:absolute;left:0;top:0;width:70px;height:70px;margin:-35px 0 0 -35px;border-radius:50%;display:grid;place-items:center;background:#222B37;color:#5C6675}
-    #sc-impact .pp svg{width:62%;height:62%}
-    #sc-impact .pp.on{background:${K.or};color:${K.ink};box-shadow:0 0 26px rgba(255,98,0,.55)}
-    #sc-impact .pp.g{width:44px;height:44px;margin:-22px 0 0 -22px}
-    #sc-impact .l2{left:0;right:0;top:580px;text-align:center;font-size:72px}
-    #sc-impact .l3{left:0;right:0;top:830px;text-align:center;font-size:64px}
-    #sc-impact .fn{left:0;right:0;top:1000px;text-align:center;font-size:24px}`,
+    #sc-impact .hd{left:0;right:0;top:100px;text-align:center;font-size:110px}
+    #sc-impact .es{left:0;right:0;top:232px;text-align:center;font-size:28px}
+    #sc-impact .dy{position:absolute;top:310px;width:${DW}px;height:140px;margin-left:-${DW / 2}px;border-radius:18px;background:#222B37;border:1.5px solid rgba(163,170,181,.2);padding:18px 22px}
+    #sc-impact .dy b{display:block;font-family:InterTight;font-weight:800;font-size:40px;letter-spacing:-.02em;color:#fff}
+    #sc-impact .dy span{display:flex;align-items:center;gap:8px;margin-top:12px;font:600 22px InterV;color:${K.cob};white-space:nowrap}
+    #sc-impact .dy.on{background:${K.or};border-color:${K.or};box-shadow:0 0 60px rgba(255,98,0,.45)}
+    #sc-impact .dy.on b,#sc-impact .dy.on span{color:${K.ink}}
+    #sc-impact .l1{left:0;right:0;top:500px;text-align:center;font-size:52px}
+    #sc-impact .pl{position:absolute;left:0;right:0;top:600px;display:flex;justify-content:center;gap:18px}
+    #sc-impact .pl span{height:58px;border-radius:29px;padding:0 24px;display:flex;align-items:center;gap:10px;border:1.5px solid rgba(255,98,0,.55);background:rgba(255,98,0,.1);font:650 26px InterV;color:#fff}
+    #sc-impact .pl .ic{color:${K.or}}
+    #sc-impact .hr{left:0;right:0;top:705px;text-align:center;font-size:40px;color:#fff}
+    #sc-impact .hr b{font-family:InterTight;font-weight:800;font-size:60px;letter-spacing:-.03em;color:#fff;font-variant-numeric:tabular-nums}
+    #sc-impact .ob{left:0;right:0;top:810px;text-align:center;font-size:88px}
+    #sc-impact .fn{left:0;right:0;top:1010px;text-align:center;font-size:22px}`,
     build(el, s) {
       el.innerHTML = `<div class="v4h hd">8h back, <span class="o">every week.</span></div><div class="v4s es">estimated, per PSC</div>
-        ${ROW.map(() => `<div class="pp r">${PERSON}</div>`).join('')}${GRID.map(() => `<div class="pp g">${PERSON}</div>`).join('')}
-        <div class="v4h l2">A team of ${C.NB_PSC_TEAM} = <span class="o">${FTE_TEAM} FTE</span></div>
-        <div class="v4h l3">${C.NB_PSC_EU} PSCs = <span class="o">${FTE_EU} FTE</span> · ${fmt(HOURS)} hours a year</div>
+        ${DAYS.map((d, i) => `<div class="dy" style="left:${DX(i)}px"><b>${d}</b><span class="a">${ic('layers', 20)}In the tools</span><span class="b" style="display:none">${ic('users', 20)}With our clients</span></div>`).join('')}
+        <div class="v4h l1">One day a week, <span class="o">back with our clients.</span></div>
+        <div class="pl"><span>${ic('users', 24)}Client meetings</span><span>${ic('search', 24)}Deep dives</span><span>${ic('target', 24)}Proactive recommendations</span></div>
+        <div class="v4s hr"><b class="hy">0</b> hours a year across ${C.NB_PSC_EU} PSCs, for our clients</div>
+        <div class="v4h ob">Even more <span class="o">customer obsessed.</span></div>
         <div class="v4s fn">Estimated: ${C.HOURS_SAVED_PER_WEEK} h per PSC per week, ${C.WEEKS_PER_YEAR} working weeks.</div>`;
-      s.hd = splitWords($('.hd', el)); s.es = $('.es', el); s.pr = $$('.pp.r', el); s.pg = $$('.pp.g', el); s.l2 = $('.l2', el); s.l3 = $('.l3', el); s.fn = $('.fn', el);
+      s.hd = splitWords($('.hd', el)); s.es = $('.es', el); s.dy = $$('.dy', el); s.l1 = $('.l1', el); s.pl = $$('.pl span', el);
+      s.hr = $('.hr', el); s.hy = $('.hy', el); s.ob = splitWords($('.ob', el)); s.fn = $('.fn', el);
+      s.fa = $('.dy:last-of-type .a', el); s.fb2 = s.dy[4].querySelector('.b'); s.fa = s.dy[4].querySelector('.a');
       cue('darken', s.t0); cue('hit', s.t0 + 0.2, { v: 0.6 });
-      [2.4, 2.7, 3.0].forEach(a => cue('ping', s.t0 + a, { v: 0.5 }));
-      cue('whoosh', s.t0 + G2 - 0.2, { v: 0.5 }); cue('data', s.t0 + G2 + 0.2, { d: 1.2 }); cue('hit', s.t0 + G2 + 1.4, { v: 0.6 });
+      DAYS.forEach((_, i) => cue('tick', s.t0 + 1.1 + i * 0.1, { v: 0.6 }));
+      cue('hit', s.t0 + FRI, { v: 0.55 }); cue('success', s.t0 + FRI + 0.1, { v: 0.5 });
+      s.pl.forEach((_, i) => cue('pop', s.t0 + 3.6 + i * 0.18, { v: 0.5 }));
+      cue('count', s.t0 + 4.6, { d: 1.2 }); cue('hit', s.t0 + 5.9, { v: 0.6 });
     },
     update(lt, dur, s) {
       revealWords(s.hd, lt, 0.1, { st: 0.12, dy: 50, d: 0.7 });
-      vis(s.es, lt, 0.8, Infinity, { dy: 10, blur: 4 });
-      // une équipe de 15 : 3 personnes s'allument une à une
-      const q1 = P(lt, G2 - 0.3, 0.4, E.inC);
-      s.pr.forEach((p, i) => {
-        const a = 2.0 + i * 0.025, on = i < 3 && lt >= 2.4 + i * 0.3;
-        p.classList.toggle('on', on);
-        tf(p, { x: ROW[i].x, y: ROW[i].y, s: P(lt, a, 0.4, E.outB) * (1 - 0.3 * q1), o: P(lt, a, 0.2) * (1 - q1) });
-      });
-      vis(s.l2, lt, 2.5, G2 - 0.1, { dy: 20, blur: 8 });
-      // 80 PSC : 16 s'allument en vague
-      s.pg.forEach((p, i) => {
-        const g = GRID[i], a = G2 + (g.c + g.r) * 0.03, on = LIT_EU.has(i) && lt >= G2 + 1.2 + g.r * 0.05;
-        p.classList.toggle('on', on);
-        tf(p, { x: g.x, y: g.y, s: P(lt, a, 0.4, E.outB), o: P(lt, a, 0.2) });
-      });
-      vis(s.l3, lt, G2 + 1.3, Infinity, { dy: 20, blur: 8 });
-      vis(s.fn, lt, G2 + 2.0, Infinity, { dy: 8, blur: 4 });
+      vis(s.es, lt, 0.7, Infinity, { dy: 10, blur: 4 });
+      // la semaine : le vendredi passe de « dans les outils » à « avec nos clients »
+      s.dy.forEach((d, i) => vis(d, lt, 1.1 + i * 0.1, Infinity, { dy: 30, blur: 6, din: 0.6 }));
+      const on = lt >= FRI;
+      s.dy[4].classList.toggle('on', on);
+      s.fa.style.display = on ? 'none' : ''; s.fb2.style.display = on ? '' : 'none';
+      const kick = on ? Math.exp(-(lt - FRI) * 4) : 0;
+      tf(s.dy[4], { s: 1 + 0.08 * kick, o: P(lt, 1.5, 0.3) });
+      vis(s.l1, lt, FRI + 0.3, Infinity, { dy: 20, blur: 8 });
+      s.pl.forEach((p, i) => vis(p, lt, 3.6 + i * 0.18, Infinity, { dy: 16, ds: -0.15, ein: E.outB, blur: 4, din: 0.5 }));
+      vis(s.hr, lt, 4.5, Infinity, { dy: 14, blur: 6 });
+      count(s.hy, lt, 4.6, 1.2, 0, HOURS);
+      revealWords(s.ob, lt, 5.9, { st: 0.12, dy: 40, d: 0.6 });
+      vis(s.fn, lt, 1.0, Infinity, { dy: 8, blur: 4 });
     },
   });
 
@@ -89,7 +93,7 @@
     for (const [reg, polys] of Object.entries(LAND)) if (polys.some(pl => inside([lon, lat], pl))) { DOTS.push({ reg, p: px(lon, lat) }); break; }
   }
   const HUB = { NA: px(-98, 42), EMEA: px(8, 47), APAC: px(112, 28) }, REG = ['NA', 'EMEA', 'APAC'];
-  const RL = [0.6, 1.1, 1.6], BADGE = 4.0;
+  const RL = [0.5, 1.0, 1.5], BADGE = 3.0;
   scene({
     id: 'world', t0: SH.world[0], t1: SH.world[1], cls: 'v4', fin: 0,
     css: `
@@ -133,33 +137,79 @@
     },
   });
 
-  // ---------------------------------------------------------------- plan 11 · 1:20 plus juste chaque jour
-  const ICONS = [['mail', -1, -0.6], ['file-text', 1, -0.5], ['chart-column', -1, 0.6], ['circle-check', 1, 0.55], ['mail', 0, -1], ['pen-line', 0, 1]];
-  const ARR = i => 0.5 + i * 0.5;
+  // ---------------------------------------------------------------- plan 11 · 1:18 plus juste chaque jour : le logo JARVIS monte en puissance
+  const INS = [['mail', '#2F6FDE', 'Every email you send'], ['file-text', '#16947E', 'Every document you create'], ['chart-column', K.or, 'Every campaign result'], ['circle-check', '#5D6B7C', 'Every correction you make']];
+  const RC = { x: 1500, y: 540 }, IY = i => 400 + i * 112;
+  const SEGR = 168, NSEG = 12, SEGL = 2 * Math.PI * SEGR / NSEG;
   scene({
     id: 'sharper', t0: SH.sharper[0], t1: SH.sharper[1], cls: 'v4', fin: 0,
     css: `
-    #sc-sharper .lk{position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center;align-items:center;gap:30px}
-    #sc-sharper .lk b{font-family:InterTight;font-weight:800;font-size:110px;letter-spacing:-.01em;color:#fff}
-    #sc-sharper .fl{position:absolute;left:0;top:0;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:16px;background:#222B37;border:1.5px solid rgba(163,170,181,.35);display:grid;place-items:center;color:${K.or}}
-    #sc-sharper .hd{left:0;right:0;top:560px;text-align:center;font-size:96px}
-    #sc-sharper .cp{left:0;right:0;top:700px;text-align:center;font-size:32px}`,
+    #sc-sharper .kk{left:120px;top:110px}
+    #sc-sharper .hd{left:120px;top:150px;font-size:110px}
+    #sc-sharper .cp{left:124px;top:290px;font-size:28px}
+    #sc-sharper .in{position:absolute;left:120px;display:flex;gap:18px;align-items:center;margin-top:-30px}
+    #sc-sharper .in .ii{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;color:#fff;flex:none;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+    #sc-sharper .in b{font-size:34px;color:#fff;font-weight:650;letter-spacing:-.02em;white-space:nowrap}
+    #sc-sharper .glow{position:absolute;left:${RC.x - 450}px;top:${RC.y - 450}px;width:900px;height:900px;border-radius:50%;
+      background:radial-gradient(closest-side,rgba(255,170,90,.75),rgba(255,98,0,.35) 30%,rgba(255,98,0,.08) 60%,rgba(255,98,0,0))}
+    #sc-sharper svg.rx{position:absolute;left:${RC.x - 260}px;top:${RC.y - 260}px;width:520px;height:520px;overflow:visible}
+    #sc-sharper .core{position:absolute;left:${RC.x - 100}px;top:${RC.y - 100}px;width:200px;height:200px}
+    #sc-sharper .pk{position:absolute;left:0;top:0;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:7px;display:grid;place-items:center;color:#fff}
+    #sc-sharper .days{position:absolute;left:120px;top:930px;width:1680px}
+    #sc-sharper .days .bar{position:relative;height:4px;border-radius:3px;background:rgba(255,255,255,.12);margin:0 200px}
+    #sc-sharper .days .bar i{position:absolute;left:0;top:0;bottom:0;width:100%;border-radius:3px;background:linear-gradient(90deg,${K.or},#FFB066);transform-origin:0 50%}
+    #sc-sharper .days .bar b{position:absolute;top:-7px;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:#FFB066;box-shadow:0 0 14px rgba(255,98,0,.8)}
+    #sc-sharper .days span{position:absolute;top:-16px;font:600 28px Plex,monospace;letter-spacing:.12em;text-transform:uppercase;color:#C9D1DB}
+    #sc-sharper .days .d1{left:0}#sc-sharper .days .d2{right:0}`,
     build(el, s) {
-      el.innerHTML = `<div class="lk">${J.jarvisLogo(130)}<b>JARVIS</b></div>${ICONS.map(i => `<div class="fl">${ic(i[0], 30)}</div>`).join('')}
-        <div class="v4h hd">Sharper every day.</div><div class="v4s cp">It learns from every email, correction and campaign result.</div>`;
-      s.lk = $('.lk', el); s.fl = $$('.fl', el); s.hd = splitWords($('.hd', el)); s.cp = $('.cp', el);
-      ICONS.forEach((_, i) => cue('absorb', s.t0 + ARR(i), { v: 0.5 }));
+      el.innerHTML = `<div class="v4k kk">Always learning</div><div class="v4h hd">Sharper <span class="o">every day.</span></div>
+        <div class="v4s cp">It learns from every email, correction and campaign result.</div>
+        ${INS.map((n, i) => `<div class="in" style="top:${IY(i)}px"><div class="ii" style="background:${n[1]}">${ic(n[0], 28)}</div><b>${n[2]}</b></div>`).join('')}
+        <div class="glow"></div>
+        <svg class="rx" viewBox="-260 -260 520 520">
+          <g class="r1"><circle r="238" fill="none" stroke="${K.or}" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round"/></g>
+          <circle r="212" fill="none" stroke="rgba(255,176,102,.35)" stroke-width="1.5"/>
+          <g class="r2"><circle class="seg" r="${SEGR}" fill="none" stroke="${K.or}" stroke-width="24" stroke-dasharray="${(SEGL - 9).toFixed(2)} 9"/></g>
+          <circle class="ring" r="128" fill="none" stroke="#FFD1A6" stroke-width="3"/></svg>
+        <div class="core">${J.jarvisLogo(200)}</div>
+        <div class="pks"></div><div class="days"><span class="d1">day 1</span><span class="d2">day 90</span><div class="bar"><i></i><b></b></div></div>`;
+      s.kk = $('.kk', el); s.hd = splitWords($('.hd', el)); s.cp = $('.cp', el); s.ins = $$('.in', el);
+      s.glow = $('.glow', el); s.r1 = $('.r1', el); s.r2 = $('.r2', el); s.seg = $('.seg', el); s.ring = $('.ring', el); s.rx = $('svg.rx', el); s.core = $('.core', el);
+      s.bar = $('.days .bar i', el); s.dot = $('.days .bar b', el); s.days = $('.days', el);
+      const pks = $('.pks', el), rr = rng(9);
+      s.pk = [];
+      INS.forEach((n, si) => { for (let j = 0; j < 3; j++) { const d = J.h(`<div class="pk" style="background:${n[1]}">${ic(n[0], 15)}</div>`); pks.appendChild(d); s.pk.push({ el: d, y0: IY(si), ph: j / 3 + rr() * 0.08, sp: 0.75 + rr() * 0.1 }); } });
+      INS.forEach((_, i) => cue('pop', s.t0 + 0.5 + i * 0.15, { v: 0.4 })); cue('data', s.t0 + 0.9, { d: 4.0 }); cue('riser', s.t0 + 1.0, { d: 4.0 }); cue('sparkle', s.t0 + 4.4);
     },
-    update(lt, dur, s) {
+    update(lt, dur, s, t) {
+      vis(s.kk, lt, 0.05, Infinity, { dy: 14, blur: 6 }); revealWords(s.hd, lt, 0.12, { st: 0.08, dy: 40 });
+      vis(s.cp, lt, 0.7, Infinity, { dy: 10, blur: 4 });
+      s.ins.forEach((el, i) => vis(el, lt, 0.5 + i * 0.15, Infinity, { dx: -30, dy: 0, blur: 8 }));
+      // chaque donnée apprise nourrit le réacteur
       let kick = 0;
-      s.fl.forEach((f, i) => {
-        const a = ARR(i), k = P(lt, a - 0.6, 0.6, E.inQ), [, dx, dy] = ICONS[i];
-        tf(f, { x: lerp(960 + dx * 860, 960, k), y: lerp(365 + dy * 330, 365, k), s: 1 - 0.7 * k, o: P(lt, a - 0.7, 0.2) * (1 - P(lt, a - 0.05, 0.1)) });
-        if (lt >= a) kick = Math.max(kick, Math.exp(-(lt - a) * 7));
-      });
-      tf(s.lk, { s: (0.9 + 0.1 * P(lt, 0, 0.4, E.outB)) * (1 + 0.04 * kick), o: P(lt, 0, 0.3) });
-      revealWords(s.hd, lt, 1.2, { st: 0.1, dy: 40, d: 0.6 });
-      vis(s.cp, lt, 1.8, Infinity, { dy: 10, blur: 4 });
+      for (const p of s.pk) {
+        if (lt < 0.9) { p.el.style.opacity = 0; continue; }
+        const ph = ((lt - 0.9) * p.sp + p.ph) % 1;
+        const u = E.inQ(ph), v = 1 - u, x0 = 720, y0 = p.y0, cx = 1100, cy = (p.y0 + RC.y) / 2;
+        p.el.style.transform = `translate(${(v * v * x0 + 2 * v * u * cx + u * u * RC.x).toFixed(1)}px,${(v * v * y0 + 2 * v * u * cy + u * u * RC.y).toFixed(1)}px) scale(${(1 - 0.6 * u).toFixed(3)})`;
+        p.el.style.opacity = (P(lt, 0.9, 0.4) * Math.min(1, ph * 6) * (1 - P(ph, 0.85, 0.15, E.lin))).toFixed(3);
+        if (ph > 0.9) kick = Math.max(kick, 1 - (ph - 0.9) / 0.1);
+      }
+      // la puissance monte : halo, anneaux qui accélèrent, segments qui s'allument
+      const g = P(lt, 0.6, 4.4, E.ioC);
+      const flick = 0.04 * Math.sin(t * 23) + 0.03 * Math.sin(t * 37);
+      tf(s.glow, { o: Math.min(1, 0.25 + 0.75 * g + 0.15 * kick + flick), s: 0.6 + 0.6 * g + 0.05 * kick });
+      s.r1.setAttribute('transform', `rotate(${(lt * (25 + 140 * g)).toFixed(2)})`);
+      s.r2.setAttribute('transform', `rotate(${(-lt * (15 + 90 * g)).toFixed(2)})`);
+      s.seg.setAttribute('stroke-opacity', (0.25 + 0.75 * g).toFixed(3));
+      s.ring.setAttribute('stroke-opacity', (0.3 + 0.7 * g + 0.2 * kick).toFixed(3));
+      s.rx.style.filter = `drop-shadow(0 0 ${(6 + 30 * g).toFixed(1)}px rgba(255,120,30,${(0.4 + 0.5 * g).toFixed(2)}))`;
+      tf(s.rx, { o: P(lt, 0.2, 0.5), s: 0.85 + 0.15 * P(lt, 0.2, 0.8, E.outB) });
+      tf(s.core, { s: (0.8 + 0.2 * P(lt, 0.2, 0.6, E.outB)) * (1 + 0.05 * kick + 0.06 * g), o: P(lt, 0.2, 0.3) });
+      s.core.style.filter = `drop-shadow(0 0 ${(10 + 40 * g).toFixed(1)}px rgba(255,140,40,${(0.5 + 0.5 * g).toFixed(2)}))`;
+      vis(s.days, lt, 0.8, Infinity, { dy: 14, blur: 6 });
+      s.bar.style.transform = `scaleX(${g.toFixed(4)})`;
+      s.dot.style.left = (100 * g).toFixed(2) + '%';
     },
   });
 

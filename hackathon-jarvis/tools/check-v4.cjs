@@ -19,7 +19,7 @@ try { pw = require('playwright'); } catch { pw = require(path.join(execSync('npm
     for (const [, b, v] of CONFIG.COUNTER) { window.__seek(b + 0.05); res.steps.push([b, J.hm(v), document.querySelector('#sc-counter .v').textContent]); }
     window.__seek(CONFIG.SHOTS.impact[1] - 0.2);
     const q = s => document.querySelector(s)?.textContent.trim();
-    res.impact = { team: q('#sc-impact .l2'), eu: q('#sc-impact .l3'), calc: window.IMPACT };
+    res.impact = { hours: q('#sc-impact .hr'), calc: window.IMPACT };
     const visible = el => { for (let e = el; e && e.id !== 'stage'; e = e.parentElement) { const cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden' || +cs.opacity < 0.05) return false; } return true; };
     for (let t = 0.1; t < dur; t += 0.25) {
       window.__seek(t);

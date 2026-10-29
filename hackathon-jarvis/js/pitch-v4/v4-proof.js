@@ -217,11 +217,12 @@
 
   // ---------------------------------------------------------------- plan 8 · 0:59 montage : réunion préparée, demande routée
   const MB = 3.5; // second micro-plan
+  const F8 = { x: 285, y: 260, w: 1350, h: 760 };
   scene({
     id: 'montage', t0: SH.montage[0], t1: SH.montage[1], cls: 'v4', fin: 0,
     css: `
     #sc-montage .ha{left:120px;top:110px;font-size:96px}
-    #sc-montage .hb{left:120px;top:110px;font-size:96px}
+    #sc-montage .hb{left:120px;top:118px;font-size:78px}
     #sc-montage .cal{position:absolute;left:180px;top:330px;width:560px;height:600px;border-radius:16px;background:#1F2833;border:1.5px solid rgba(163,170,181,.25);padding:20px 24px}
     #sc-montage .cal .hh{font:600 22px InterV;color:${K.cob}}
     #sc-montage .cal .sl{position:absolute;left:24px;right:24px;height:1px;background:rgba(163,170,181,.18)}
@@ -246,6 +247,9 @@
     #sc-montage .rq,#sc-montage .rp{position:absolute;left:0;top:0;width:480px;border-radius:14px;background:#F4F2EE;color:#15191E;padding:18px 22px;box-shadow:0 24px 60px rgba(0,0,0,.45)}
     #sc-montage .rq b,#sc-montage .rp b{display:block;font:750 25px InterV;margin-top:8px}
     #sc-montage .rp{background:#FFF4EC}
+    #sc-montage .fr8{left:${F8.x}px;top:${F8.y}px;width:${F8.w}px;height:${F8.h}px}
+    #sc-montage .fchip{position:absolute;left:0;top:0;display:flex;gap:10px;align-items:center;height:44px;padding:0 16px;border-radius:9px;background:#fff;box-shadow:0 16px 40px rgba(0,0,0,.2);font-size:15px;font-weight:600}
+    #sc-montage .fchip i{width:26px;height:30px;border-radius:4px;background:#1F7A3D;color:#fff;display:grid;place-items:center;font:700 10px InterV;font-style:normal}
     #sc-montage .arw{position:absolute;left:640px;top:540px;width:640px;height:4px;border-radius:2px;background:linear-gradient(90deg,rgba(255,98,0,0),${K.or});transform-origin:0 50%}`,
     build(el, s) {
       el.innerHTML = `<div class="ma"><div class="v4h ha">Walk in ready.</div>
@@ -256,17 +260,14 @@
               <div class="r"><i>${ic('users', 26)}</i><div><b>Who's who</b><span>Client lead, agency trader, account manager</span></div></div>
               <div class="r"><i>${ic('inbox', 26)}</i><div><b>Open requests</b><span>Deal floor check · Q4 recap deck</span></div></div>
               <div class="r"><i>${ic('clock', 26)}</i><div><b>Past engagements</b><span>Last review 12 Sep · 3 follow-ups closed</span></div></div></div></div></div>
-        <div class="mbb"><div class="v4h hb">Not yours? <span class="o">Routed.</span></div>
-          <div class="av me" style="left:520px"><i>${ic('user', 70)}</i><b>You</b><span>PSC</span></div>
-          <div class="av ow" style="left:1400px"><i>${ic('user', 70)}</i><b>Owner</b><span>AM · from the RACI</span></div>
-          <div class="arw"></div>
-          <div class="rq"><span class="chp k" style="font:650 15px InterV;height:26px;border-radius:13px;padding:0 10px;background:#14181D;color:#fff;display:inline-flex;align-items:center">Not yours</span><b>Invoice copy for Q3</b></div>
-          <div class="rp"><span style="font:650 15px InterV;color:#B23F00">${ic('pen-line', 14)} Reply drafted</span><b>“Looping in the account owner, who handles billing.”</b></div></div>`;
+        <div class="mbb"><div class="v4h hb">Setup errors? <span class="o">Caught before launch.</span></div>
+          <div class="v4frame fr8"><div class="ui">${J.shell()}<div class="pg">${J.pageTrouble()}<div class="fchip"><i>XLS</i>Q4_campaign_setup.xlsx</div></div></div></div></div>`;
       s.ma = $('.ma', el); s.mbb = $('.mbb', el); s.ha = splitWords($('.ha', el)); s.hb = splitWords($('.hb', el));
       s.cal = $('.cal', el); s.blk = $('.blk', el); s.flip = $('.flip', el); s.fa = $('.fa', el); s.fb = $('.fb', el); s.rows = $$('.fb .r', el);
-      s.me = $('.av.me', el); s.ow = $('.av.ow', el); s.rq = $('.rq', el); s.rp = $('.rp', el); s.arw = $('.arw', el);
+      s.fr8 = $('.fr8', el); s.ui8 = $('.fr8 .ui', el); s.fchip = $('.fchip', el); s.dz = $('.fr8 .dz', el); s.bn = $('.fr8 .bn', el);
+      s.tl = $$('.fr8 .tl', el); s.tr = $$('.fr8 .tr', el);
       cue('pop', s.t0 + 0.4, { v: 0.5 }); cue('whoosh', s.t0 + 1.0, { v: 0.5 }); s.rows.forEach((_, i) => cue('tick', s.t0 + 1.7 + i * 0.25, { v: 0.7 }));
-      cue('hit', s.t0 + MB, { v: 0.4 }); cue('swish', s.t0 + MB + 0.7, { v: 0.6 }); cue('pop', s.t0 + MB + 1.6, { v: 0.5 });
+      cue('hit', s.t0 + MB, { v: 0.4 }); cue('swish', s.t0 + MB + 0.3, { v: 0.6 }); cue('alert', s.t0 + MB + 1.1, { v: 0.7 }); J.TROWS.forEach((_, i) => cue('tick', s.t0 + MB + 1.5 + i * 0.1, { v: 0.6 }));
     },
     update(lt, dur, s) {
       // micro-plan A : le rendez-vous se retourne, la préparation est prête
@@ -282,15 +283,17 @@
         s.rows.forEach((r, i) => vis(r, lt, 1.7 + i * 0.25, Infinity, { dx: -20, dy: 0, blur: 4, din: 0.5 }));
         return;
       }
-      // micro-plan B : la demande glisse vers son responsable, la réponse suit
+      // micro-plan B : un export de setup tombe dans Troubleshooting, les erreurs sortent avant le lancement
       const l = lt - MB;
       revealWords(s.hb, l, 0.0, { st: 0.1, dy: 40, d: 0.6 });
-      vis(s.me, l, 0.0, Infinity, { dy: 20, blur: 6 }); vis(s.ow, l, 0.15, Infinity, { dy: 20, blur: 6 });
-      const m = P(l, 0.7, 0.8, E.ioC), m2 = P(l, 1.6, 0.6, E.ioC);
-      s.arw.style.transform = `scaleX(${P(l, 0.6, 0.9, E.ioC).toFixed(3)})`;
-      tf(s.rq, { x: lerp(280, 1160, m), y: 300 + 40 * Math.sin(Math.PI * m) * -1, o: P(l, 0.3, 0.2) });
-      tf(s.rp, { x: lerp(280, 1160, m2), y: 760, o: P(l, 1.6, 0.2) });
-      s.ow.querySelector('i').style.boxShadow = m > 0.95 ? '0 0 40px rgba(255,98,0,.55)' : 'none';
+      tf(s.fr8, { y: 60 * (1 - P(l, 0, 0.5, E.outQi)), o: P(l, 0, 0.25) });
+      J.camApply(s.ui8, { s: F8.w / 2000 * 1.22, x: 1010, y: 610 }, F8.w, F8.h);
+      const f = P(l, 0.25, 0.6, E.ioC);
+      tf(s.fchip, { x: lerp(1150, 640, f), y: lerp(-60, 186, f), rz: -4 * (1 - f), o: P(l, 0.25, 0.15) * (1 - P(l, 0.9, 0.2)) });
+      s.dz.style.borderColor = l > 0.85 && l < 1.4 ? '#F26B0F' : '#9AA0A6';
+      vis(s.bn, l, 1.0, Infinity, { dy: 14, blur: 6 });
+      s.tl.forEach((t, i) => vis(t, l, 1.2 + i * 0.06, Infinity, { dy: 12, blur: 4 }));
+      s.tr.forEach((t, i) => vis(t, l, 1.5 + i * 0.1, Infinity, { dx: -20, dy: 0, blur: 4 }));
     },
   });
 })();
