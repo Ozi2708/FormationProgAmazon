@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Jarvis">
+<defs>
+<mask id="m-3-effilee-fond-fonce" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="200"><rect width="200" height="200" fill="#fff"/><path d="M -10 58 H 180 L 100 190 L 87.00 162.96" fill="none" stroke="#000" stroke-width="20" stroke-linejoin="miter" stroke-miterlimit="4"/></mask>
+<clipPath id="c-3-effilee-fond-fonce"><circle cx="100" cy="100" r="92"/></clipPath>
+</defs>
+<circle cx="100" cy="100" r="96" fill="#FFFFFF"/>
+<circle cx="100" cy="100" r="87.5" fill="none" stroke="#D5D9D9" stroke-width="9" mask="url(#m-3-effilee-fond-fonce)"/>
+<g clip-path="url(#c-3-effilee-fond-fonce)"><path d="M -10 58 H 180 L 100 190 L 90.03 169.27" fill="none" stroke="#FF9900" stroke-width="12" stroke-linejoin="miter" stroke-miterlimit="4"/><path d="M 95.88 167.57 Q 81.82 139.72 62.74 112.50 Q 74.29 151.76 85.06 172.77 Z" fill="#FF9900"/></g>
+</svg>
