@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512">
+<defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><radialGradient id="core"><stop offset="0" stop-color="#00A8E1" stop-opacity=".55"/><stop offset=".7" stop-color="#00A8E1" stop-opacity=".18"/><stop offset="1" stop-color="#131921"/></radialGradient></defs>
+  <circle cx="100" cy="100" r="96" fill="#232F3E"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#8D99A6" stroke-width="3"/>
+  <path d="M104.40 16.12 A84 84 0 0 1 145.75 29.55 L133.77 48.00 A62 62 0 0 0 103.24 38.08 Z" fill="#3A4B5E"/>
+  <path d="M152.86 34.72 A84 84 0 0 1 178.42 69.90 L157.88 77.78 A62 62 0 0 0 139.02 51.82 Z" fill="#3A4B5E"/>
+  <path d="M181.14 78.26 A84 84 0 0 1 181.14 121.74 L159.89 116.05 A62 62 0 0 0 159.89 83.95 Z" fill="#3A4B5E"/>
+  <path d="M178.42 130.10 A84 84 0 0 1 152.86 165.28 L139.02 148.18 A62 62 0 0 0 157.88 122.22 Z" fill="#3A4B5E"/>
+  <path d="M145.75 170.45 A84 84 0 0 1 104.40 183.88 L103.24 161.92 A62 62 0 0 0 133.77 152.00 Z" fill="#3A4B5E"/>
+  <path d="M95.60 183.88 A84 84 0 0 1 54.25 170.45 L66.23 152.00 A62 62 0 0 0 96.76 161.92 Z" fill="#3A4B5E"/>
+  <path d="M47.14 165.28 A84 84 0 0 1 21.58 130.10 L42.12 122.22 A62 62 0 0 0 60.98 148.18 Z" fill="#3A4B5E"/>
+  <path d="M18.86 121.74 A84 84 0 0 1 18.86 78.26 L40.11 83.95 A62 62 0 0 0 40.11 116.05 Z" fill="#3A4B5E"/>
+  <path d="M21.58 69.90 A84 84 0 0 1 47.14 34.72 L60.98 51.82 A62 62 0 0 0 42.12 77.78 Z" fill="#3A4B5E"/>
+  <path d="M54.25 29.55 A84 84 0 0 1 95.60 16.12 L96.76 38.08 A62 62 0 0 0 66.23 48.00 Z" fill="#3A4B5E"/>
+  <circle cx="100" cy="100" r="58" fill="url(#core)"/>
+  <circle cx="100" cy="100" r="58" fill="none" stroke="#BFE9F7" stroke-width="1.5" opacity=".8"/>
+  <path d="M 89 64 H 125 M 115 64 V 113 A 20 20 0 0 1 75 113" fill="none" stroke="#FF9900" stroke-width="11" stroke-linecap="square" filter="url(#g)"/>
+</svg>

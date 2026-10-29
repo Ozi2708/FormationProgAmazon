@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512">
+<defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <circle cx="100" cy="100" r="96" fill="#131921"/>
+  <path d="M103.84 12.08 A88 88 0 0 1 140.63 21.94 L132.32 37.91 A70 70 0 0 0 103.05 30.07 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M147.28 25.78 A88 88 0 0 1 174.22 52.72 L159.04 62.39 A70 70 0 0 0 137.61 40.96 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M178.06 59.37 A88 88 0 0 1 187.92 96.16 L169.93 96.95 A70 70 0 0 0 162.09 67.68 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M187.92 103.84 A88 88 0 0 1 178.06 140.63 L162.09 132.32 A70 70 0 0 0 169.93 103.05 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M174.22 147.28 A88 88 0 0 1 147.28 174.22 L137.61 159.04 A70 70 0 0 0 159.04 137.61 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M140.63 178.06 A88 88 0 0 1 103.84 187.92 L103.05 169.93 A70 70 0 0 0 132.32 162.09 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M96.16 187.92 A88 88 0 0 1 59.37 178.06 L67.68 162.09 A70 70 0 0 0 96.95 169.93 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M52.72 174.22 A88 88 0 0 1 25.78 147.28 L40.96 137.61 A70 70 0 0 0 62.39 159.04 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M21.94 140.63 A88 88 0 0 1 12.08 103.84 L30.07 103.05 A70 70 0 0 0 37.91 132.32 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M12.08 96.16 A88 88 0 0 1 21.94 59.37 L37.91 67.68 A70 70 0 0 0 30.07 96.95 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M25.78 52.72 A88 88 0 0 1 52.72 25.78 L62.39 40.96 A70 70 0 0 0 40.96 62.39 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <path d="M59.37 21.94 A88 88 0 0 1 96.16 12.08 L96.95 30.07 A70 70 0 0 0 67.68 37.91 Z" fill="none" stroke="#BFE9F7" stroke-width="1.6"/>
+  <circle cx="100" cy="100" r="62" fill="none" stroke="#00A8E1" stroke-width="2" filter="url(#g)"/>
+  <path d="M 89 64 H 125 M 115 64 V 110 Q 115 134 90 134 Q 74 134 66 124" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 66 124 Q 74 134 90 134" fill="none" stroke="#FF9900" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 59 115 L 72 120 L 60 129 Z" fill="#FF9900" stroke="#FF9900" stroke-width="3" stroke-linejoin="round"/>
+</svg>

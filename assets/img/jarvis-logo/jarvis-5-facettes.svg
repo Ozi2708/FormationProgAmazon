@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512">
+<defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <circle cx="100" cy="100" r="96" fill="#232F3E"/>
+  <circle cx="100" cy="100" r="90" fill="none" stroke="#8D99A6" stroke-width="1.5"/>
+  <path d="M103.00 14.05 A86 86 0 0 1 148.09 28.70 L133.55 50.26 A60 60 0 0 0 102.09 40.04 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M152.95 32.23 A86 86 0 0 1 180.81 70.59 L156.38 79.48 A60 60 0 0 0 136.94 52.72 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M182.67 76.30 A86 86 0 0 1 182.67 123.70 L157.68 116.54 A60 60 0 0 0 157.68 83.46 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M180.81 129.41 A86 86 0 0 1 152.95 167.77 L136.94 147.28 A60 60 0 0 0 156.38 120.52 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M148.09 171.30 A86 86 0 0 1 103.00 185.95 L102.09 159.96 A60 60 0 0 0 133.55 149.74 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M97.00 185.95 A86 86 0 0 1 51.91 171.30 L66.45 149.74 A60 60 0 0 0 97.91 159.96 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M47.05 167.77 A86 86 0 0 1 19.19 129.41 L43.62 120.52 A60 60 0 0 0 63.06 147.28 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M17.33 123.70 A86 86 0 0 1 17.33 76.30 L42.32 83.46 A60 60 0 0 0 42.32 116.54 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M19.19 70.59 A86 86 0 0 1 47.05 32.23 L63.06 52.72 A60 60 0 0 0 43.62 79.48 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <path d="M51.91 28.70 A86 86 0 0 1 97.00 14.05 L97.91 40.04 A60 60 0 0 0 66.45 50.26 Z" fill="#2E3D4F" stroke="#4A5D72" stroke-width="1"/>
+  <circle cx="100" cy="100" r="56" fill="#131921"/>
+  <path d="M 84 62 H 128 L 120 74 V 116 L 104 138 H 82 L 70 120 H 86 L 92 128 L 104 112 V 74 H 92 Z" fill="#FF9900" stroke="#FFC266" stroke-width="1.5" stroke-linejoin="round" filter="url(#g)"/>
+</svg>
